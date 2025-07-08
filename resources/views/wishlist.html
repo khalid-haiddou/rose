@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ma Liste de Souhaits - Cave & Cellier</title>
+    <style>
+        :root {
+            --navy: #000075;
+            --burgundy: #960018;
+            --dark: #121212;
+            --ivory: #FEFEFA;
+            --gold: #C4A267;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Cormorant Garamond', serif;
+            background-color: var(--ivory);
+            color: var(--dark);
+            background-image: linear-gradient(rgba(254, 254, 250, 0.92), rgba(254, 254, 250, 0.94)), 
+                              url('https://images.unsplash.com/photo-1510812431401-41e2f9c2c0b4?q=80&w=2000');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(0, 0, 117, 0.1);
+        }
+        
+        .page-header h2 {
+            font-size: 1.8rem;
+            color: var(--navy);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        
+        .wishlist-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        
+        .wishlist-empty {
+            text-align: center;
+            padding: 4rem 0;
+            grid-column: 1 / -1;
+        }
+        
+        .wishlist-empty h3 {
+            font-size: 1.5rem;
+            color: var(--navy);
+            margin-bottom: 1rem;
+        }
+        
+        .wishlist-empty p {
+            color: var(--dark);
+            margin-bottom: 2rem;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            background-color: var(--burgundy);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            letter-spacing: 0.5px;
+            font-weight: 500;
+            font-family: 'Cormorant Garamond', serif;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn:hover {
+            background-color: #7a0014;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(150, 0, 24, 0.2);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--burgundy);
+            color: var(--burgundy);
+        }
+        
+        .btn-outline:hover {
+            background-color: rgba(150, 0, 24, 0.05);
+        }
+        
+        .wishlist-item {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            border: 1px solid rgba(0, 0, 117, 0.1);
+        }
+        
+        .wishlist-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        }
+        
+        .wishlist-item-image {
+            height: 220px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .wishlist-item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .wishlist-item:hover .wishlist-item-image img {
+            transform: scale(1.05);
+        }
+        
+        .wishlist-item-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background-color: var(--gold);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .wishlist-item-remove {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background-color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .wishlist-item-remove:hover {
+            background-color: var(--burgundy);
+            color: white;
+        }
+        
+        .wishlist-item-details {
+            padding: 1.5rem;
+        }
+        
+        .wishlist-item-category {
+            color: var(--burgundy);
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .wishlist-item-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: var(--navy);
+        }
+        
+        .wishlist-item-price {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.25rem;
+        }
+        
+        .current-price {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--burgundy);
+        }
+        
+        .original-price {
+            font-size: 0.95rem;
+            text-decoration: line-through;
+            color: rgba(18, 18, 18, 0.6);
+        }
+        
+        .wishlist-item-actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+        
+        .wishlist-item-actions .btn {
+            flex: 1;
+            text-align: center;
+            padding: 10px;
+            font-size: 0.9rem;
+        }
+        
+        .wishlist-item-stock {
+            font-size: 0.85rem;
+            margin-top: 0.75rem;
+            color: var(--dark);
+        }
+        
+        .in-stock {
+            color: #28a745;
+        }
+        
+        .low-stock {
+            color: #ffc107;
+        }
+        
+        .out-of-stock {
+            color: #dc3545;
+        }
+        
+        /* Mobile styles */
+        @media (max-width: 768px) {
+            body {
+                padding: 1.5rem;
+            }
+            
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .wishlist-container {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            }
+            
+            .wishlist-item-actions {
+                flex-direction: column;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                background-image: linear-gradient(rgba(254, 254, 250, 0.96), rgba(254, 254, 250, 0.98)), 
+                                  url('https://images.unsplash.com/photo-1510812431401-41e2f9c2c0b4?q=80&w=1200');
+                padding: 1rem;
+            }
+            
+            .wishlist-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .wishlist-item-image {
+                height: 180px;
+            }
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .wishlist-item {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+        
+        .wishlist-item:nth-child(1) { animation-delay: 0.1s; }
+        .wishlist-item:nth-child(2) { animation-delay: 0.2s; }
+        .wishlist-item:nth-child(3) { animation-delay: 0.3s; }
+        .wishlist-item:nth-child(4) { animation-delay: 0.4s; }
+        .wishlist-item:nth-child(5) { animation-delay: 0.5s; }
+        .wishlist-item:nth-child(6) { animation-delay: 0.6s; }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="page-header">
+        <h2>Ma Liste de Souhaits</h2>
+        <div>
+            <a href="#" class="btn btn-outline">Continuer vos achats</a>
+        </div>
+    </div>
+    
+    <div class="wishlist-container">
+        <!-- Empty state example (comment out when showing products) -->
+        <!-- <div class="wishlist-empty">
+            <h3>Votre liste de souhaits est vide</h3>
+            <p>Explorez notre collection d'accessoires pour vin et ajoutez vos produits préférés à votre liste de souhaits pour les retrouver facilement plus tard.</p>
+            <a href="#" class="btn">Découvrir nos produits</a>
+        </div> -->
+        
+        <!-- Wishlist items -->
+        <div class="wishlist-item">
+            <div class="wishlist-item-image">
+                <img src="https://images.unsplash.com/photo-1594035910387-fea47794261f?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Cave à vin élégante">
+                <div class="wishlist-item-badge">-20%</div>
+                <div class="wishlist-item-remove">
+                    <i class="fas fa-times"></i>
+                </div>
+            </div>
+            <div class="wishlist-item-details">
+                <div class="wishlist-item-category">Cave à vin</div>
+                <h3 class="wishlist-item-title">Cave à vin élégante 12 bouteilles</h3>
+                <div class="wishlist-item-price">
+                    <span class="current-price">€399.00</span>
+                    <span class="original-price">€499.00</span>
+                </div>
+                <div class="wishlist-item-stock in-stock">
+                    <i class="fas fa-check-circle"></i> En stock
+                </div>
+                <div class="wishlist-item-actions">
+                    <a href="#" class="btn">Ajouter au panier</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="wishlist-item">
+            <div class="wishlist-item-image">
+                <img src="https://images.unsplash.com/photo-1568219656418-15c329312bf1?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Verre à dégustation">
+                <div class="wishlist-item-remove">
+                    <i class="fas fa-times"></i>
+                </div>
+            </div>
+            <div class="wishlist-item-details">
+                <div class="wishlist-item-category">Verres</div>
+                <h3 class="wishlist-item-title">Set de 6 verres à dégustation</h3>
+                <div class="wishlist-item-price">
+                    <span class="current-price">€129.00</span>
+                </div>
+                <div class="wishlist-item-stock in-stock">
+                    <i class="fas fa-check-circle"></i> En stock
+                </div>
+                <div class="wishlist-item-actions">
+                    <a href="#" class="btn">Ajouter au panier</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="wishlist-item">
+            <div class="wishlist-item-image">
+                <img src="https://images.unsplash.com/photo-1601584115197-04ecc0da31e8?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Souchettes à champagne">
+                <div class="wishlist-item-badge">Nouveau</div>
+                <div class="wishlist-item-remove">
+                    <i class="fas fa-times"></i>
+                </div>
+            </div>
+            <div class="wishlist-item-details">
+                <div class="wishlist-item-category">Accessoires</div>
+                <h3 class="wishlist-item-title">Souchettes à champagne en argent</h3>
+                <div class="wishlist-item-price">
+                    <span class="current-price">€79.00</span>
+                </div>
+                <div class="wishlist-item-stock low-stock">
+                    <i class="fas fa-exclamation-circle"></i> Stock limité
+                </div>
+                <div class="wishlist-item-actions">
+                    <a href="#" class="btn">Ajouter au panier</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

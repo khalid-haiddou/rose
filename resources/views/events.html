@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Événements - Rose & Bouchon</title>
+    <style>
+        :root {
+            --navy: #000075;
+            --burgundy: #960018;
+            --dark: #121212;
+            --ivory: #FEFEFA;
+            --gold: #C4A267;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Cormorant Garamond', serif;
+            background-color: var(--ivory);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-image: linear-gradient(rgba(254, 254, 250, 0.92), rgba(254, 254, 250, 0.94)), 
+                              url('https://images.unsplash.com/photo-1510812431401-41e2f9c2c0b4?q=80&w=2000');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: var(--dark);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 0 20px;
+        }
+        
+        .events-header {
+            width: 100%;
+            text-align: center;
+            margin: 3rem 0;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(150, 0, 24, 0.1);
+        }
+        
+        .events-header h1 {
+            color: var(--navy);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            font-size: 2.8rem;
+            margin-bottom: 0.5rem;
+            font-variant: small-caps;
+        }
+        
+        .events-header p {
+            color: var(--burgundy);
+            font-style: italic;
+            font-size: 1.2rem;
+            letter-spacing: 0.3px;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .event-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 4rem;
+        }
+        
+        .event-card {
+            background-color: var(--ivory);
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+            border-top: 4px solid var(--burgundy);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(150, 0, 24, 0.1);
+        }
+        
+        .event-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--navy), var(--burgundy));
+            z-index: 2;
+        }
+        
+        .event-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+        
+        .event-content {
+            padding: 2rem;
+        }
+        
+        .event-date {
+            display: inline-block;
+            background-color: var(--burgundy);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        
+        .event-title {
+            color: var(--navy);
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        
+        .event-description {
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+        }
+        
+        .event-details {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+        
+        .event-details i {
+            color: var(--burgundy);
+            margin-right: 0.5rem;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: var(--burgundy);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.05rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            letter-spacing: 0.5px;
+            font-weight: 500;
+            font-family: 'Cormorant Garamond', serif;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .btn:hover {
+            background-color: #7a0014;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(150, 0, 24, 0.2);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--burgundy);
+            color: var(--burgundy);
+        }
+        
+        .btn-outline:hover {
+            background-color: rgba(150, 0, 24, 0.05);
+        }
+        
+        .participation-form {
+            background-color: var(--ivory);
+            padding: 3rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+            border-top: 4px solid var(--navy);
+            margin: 4rem auto;
+            max-width: 800px;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(0, 0, 117, 0.1);
+        }
+        
+        .participation-form::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--burgundy), var(--navy));
+            z-index: 2;
+        }
+        
+        .participation-form h2 {
+            color: var(--navy);
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--navy);
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid rgba(0, 0, 117, 0.15);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background-color: rgba(255, 255, 255, 0.7);
+            font-family: 'Cormorant Garamond', serif;
+        }
+        
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--navy);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(0, 0, 117, 0.1);
+            background-color: white;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 1.5rem;
+        }
+        
+        .form-row .form-group {
+            flex: 1;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            margin-top: 1rem;
+        }
+        
+        @media (max-width: 1024px) {
+            .event-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .participation-form {
+                padding: 2rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .events-header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+            
+            .event-title {
+                font-size: 1.5rem;
+            }
+            
+            .participation-form {
+                padding: 1.5rem;
+            }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .event-card, .participation-form {
+            opacity: 0;
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+        
+        .event-card:nth-child(1) { animation-delay: 0.2s; }
+        .event-card:nth-child(2) { animation-delay: 0.4s; }
+        .participation-form { animation-delay: 0.6s; }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header class="events-header">
+            <h1>Nos Événements</h1>
+            <p>Découvrez nos ateliers et dégustations exclusives autour du vin</p>
+        </header>
+        
+        <div class="event-container">
+            <div class="event-card">
+                <img src="https://images.unsplash.com/photo-1558160074-4d7d8bdf4256?q=80&w=1000" alt="Atelier dégustation" class="event-image">
+                <div class="event-content">
+                    <span class="event-date">15 Juin 2024 | 18h-20h</span>
+                    <h3 class="event-title">Atelier Dégustation</h3>
+                    <p class="event-description">Apprenez à déguster comme un sommelier lors de cet atelier interactif. Nous explorerons les arômes, les textures et les accords mets-vins avec une sélection de grands crus.</p>
+                    <div class="event-details">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Notre boutique, 123 Avenue des Vignerons, Paris</span>
+                    </div>
+                    <div class="event-details">
+                        <i class="fas fa-euro-sign"></i>
+                        <span>85 Dhs par personne (inclut 4 dégustations)</span>
+                    </div>
+                    <a href="#register" class="btn">Réserver ma place</a>
+                </div>
+            </div>
+            
+            <div class="event-card">
+                <img src="https://images.unsplash.com/photo-1568219656418-15c329312bf1?q=80&w=1000" alt="Soirée vins rares" class="event-image">
+                <div class="event-content">
+                    <span class="event-date">22 Juin 2024 | 19h-22h</span>
+                    <h3 class="event-title">Soirée Vins Rares</h3>
+                    <p class="event-description">Une occasion unique de déguster des vins rares et vieillis provenant de caves privées. Chaque bouteille raconte une histoire que nos experts partageront avec vous.</p>
+                    <div class="event-details">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Château de la Vigne, Route des Terroirs</span>
+                    </div>
+                    <div class="event-details">
+                        <i class="fas fa-euro-sign"></i>
+                        <span>120 Dhs par personne (plateau fromages inclus)</span>
+                    </div>
+                    <a href="#register" class="btn">Réserver ma place</a>
+                </div>
+            </div>
+        </div>
+        
+        <form class="participation-form" id="register">
+            <h2>Participer à un événement</h2>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="event">Événement</label>
+                    <select id="event" required>
+                        <option value="">Sélectionnez un événement</option>
+                        <option value="degustation">Atelier Dégustation - 15 Juin</option>
+                        <option value="vins-rares">Soirée Vins Rares - 22 Juin</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="places">Nombre de places</label>
+                    <select id="places" required>
+                        <option value="1">1 personne</option>
+                        <option value="2">2 personnes</option>
+                        <option value="3">3 personnes</option>
+                        <option value="4">4 personnes</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="firstname">Prénom</label>
+                    <input type="text" id="firstname" required>
+                </div>
+                <div class="form-group">
+                    <label for="lastname">Nom</label>
+                    <input type="text" id="lastname" required>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="phone">Téléphone</label>
+                <input type="tel" id="phone" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="comments">Commentaires (allergies, préférences...)</label>
+                <textarea id="comments"></textarea>
+            </div>
+            
+            <button type="submit" class="btn submit-btn">Confirmer ma participation</button>
+        </form>
+    </div>
+</body>
+</html>

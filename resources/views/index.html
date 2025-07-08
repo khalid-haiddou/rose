@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accueil - Rose & Bouchon</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #000075;
+            --burgundy: #960018;
+            --dark: #121212;
+            --ivory: #FEFEFA;
+            --gold: #C4A267;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Cormorant Garamond', serif;
+            background-color: var(--ivory);
+            color: var(--dark);
+            overflow-x: hidden;
+        }
+        
+        /* Hero Section */
+        .hero-section {
+            height: 100vh;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
+                              url('https://images.unsplash.com/photo-1568219656418-15c329312bf1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--ivory);
+            position: relative;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            padding: 0 20px;
+            z-index: 2;
+            animation: fadeInUp 1s ease-out;
+        }
+        
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .hero-content p {
+            font-size: 1.5rem;
+            margin-bottom: 2.5rem;
+            line-height: 1.6;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+        
+        .btn-hero {
+            background-color: var(--burgundy);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            letter-spacing: 0.5px;
+            font-weight: 500;
+            box-shadow: 0 4px 15px rgba(150, 0, 24, 0.3);
+        }
+        
+        .btn-hero:hover {
+            background-color: #7a0014;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(150, 0, 24, 0.4);
+            color: white;
+        }
+        
+        /* Categories Section */
+        .categories-section {
+            padding: 5rem 0;
+            background-color: var(--ivory);
+            position: relative;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3.5rem;
+            position: relative;
+        }
+        
+        .section-title h2 {
+            font-size: 2.2rem;
+            font-weight: 600;
+            color: var(--navy);
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--navy), var(--burgundy));
+        }
+        
+        .section-title p {
+            color: var(--dark);
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto;
+            opacity: 0.8;
+        }
+        
+        .category-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.4s ease;
+            border: 1px solid rgba(0, 0, 117, 0.08);
+            height: 100%;
+        }
+        
+        .category-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .category-img {
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .category-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .category-card:hover .category-img img {
+            transform: scale(1.05);
+        }
+        
+        .category-body {
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .category-body h3 {
+            font-size: 1.4rem;
+            color: var(--navy);
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .category-body p {
+            color: var(--dark);
+            opacity: 0.8;
+            margin-bottom: 1.25rem;
+            font-size: 0.95rem;
+        }
+        
+        .category-link {
+            color: var(--burgundy);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            display: inline-flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        
+        .category-link:hover {
+            color: #7a0014;
+        }
+        
+        .category-link i {
+            margin-left: 5px;
+            transition: transform 0.3s ease;
+        }
+        
+        .category-link:hover i {
+            transform: translateX(3px);
+        }
+        
+        /* Featured Products */
+        .featured-section {
+            padding: 5rem 0;
+            background-color: rgba(196, 162, 103, 0.05);
+            position: relative;
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.4s ease;
+            border: 1px solid rgba(0, 0, 117, 0.08);
+            height: 100%;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .product-img {
+            height: 250px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .product-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .product-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: var(--burgundy);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .product-card:hover .product-img img {
+            transform: scale(1.05);
+        }
+        
+        .product-body {
+            padding: 1.5rem;
+        }
+        
+        .product-body h3 {
+            font-size: 1.3rem;
+            color: var(--navy);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .product-category {
+            color: var(--gold);
+            font-size: 0.85rem;
+            margin-bottom: 0.75rem;
+            display: block;
+        }
+        
+        .product-price {
+            font-size: 1.25rem;
+            color: var(--burgundy);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .product-rating {
+            color: var(--gold);
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .btn-product {
+            background-color: var(--burgundy);
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 4px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-block;
+            text-decoration: none;
+        }
+        
+        .btn-product:hover {
+            background-color: #7a0014;
+            color: white;
+        }
+        
+        /* About Section */
+        .about-section {
+            padding: 5rem 0;
+            background-color: var(--ivory);
+            position: relative;
+        }
+        
+        .about-content {
+            display: flex;
+            align-items: center;
+        }
+        
+        .about-img {
+            flex: 1;
+            padding-right: 3rem;
+        }
+        
+        .about-img img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .about-text {
+            flex: 1;
+        }
+        
+        .about-text h2 {
+            font-size: 2rem;
+            color: var(--navy);
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .about-text p {
+            color: var(--dark);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+        }
+        
+        .about-features {
+            margin-top: 2rem;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+        }
+        
+        .feature-icon {
+            background-color: rgba(150, 0, 24, 0.1);
+            color: var(--burgundy);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1.5rem;
+            flex-shrink: 0;
+            font-size: 1.2rem;
+        }
+        
+        .feature-content h4 {
+            font-size: 1.1rem;
+            color: var(--navy);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .feature-content p {
+            margin-bottom: 0;
+            font-size: 0.95rem;
+        }
+        
+        /* Testimonials */
+        .testimonials-section {
+            padding: 5rem 0;
+            background-color: rgba(0, 0, 117, 0.03);
+            position: relative;
+        }
+        
+        .testimonial-card {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin: 0 15px;
+            border: 1px solid rgba(0, 0, 117, 0.08);
+        }
+        
+        .testimonial-text {
+            font-style: italic;
+            color: var(--dark);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        
+        .testimonial-text::before {
+            content: '"';
+            font-size: 4rem;
+            color: rgba(150, 0, 24, 0.1);
+            position: absolute;
+            top: -20px;
+            left: -15px;
+            line-height: 1;
+            font-family: serif;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+        }
+        
+        .author-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 1rem;
+        }
+        
+        .author-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .author-info h5 {
+            font-size: 1.1rem;
+            color: var(--navy);
+            margin-bottom: 0.25rem;
+            font-weight: 600;
+        }
+        
+        .author-info p {
+            color: var(--dark);
+            opacity: 0.7;
+            font-size: 0.9rem;
+            margin-bottom: 0;
+        }
+        
+        /* Blog Section */
+        .blog-section {
+            padding: 5rem 0;
+            background-color: var(--ivory);
+            position: relative;
+        }
+        
+        .blog-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.4s ease;
+            border: 1px solid rgba(0, 0, 117, 0.08);
+            height: 100%;
+        }
+        
+        .blog-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .blog-img {
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .blog-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .blog-card:hover .blog-img img {
+            transform: scale(1.05);
+        }
+        
+        .blog-body {
+            padding: 1.5rem;
+        }
+        
+        .blog-date {
+            color: var(--gold);
+            font-size: 0.85rem;
+            margin-bottom: 0.75rem;
+            display: block;
+        }
+        
+        .blog-body h3 {
+            font-size: 1.3rem;
+            color: var(--navy);
+            margin-bottom: 1rem;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+        
+        .blog-body p {
+            color: var(--dark);
+            opacity: 0.8;
+            margin-bottom: 1.25rem;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        
+        .blog-link {
+            color: var(--burgundy);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            display: inline-flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        
+        .blog-link:hover {
+            color: #7a0014;
+        }
+        
+        .blog-link i {
+            margin-left: 5px;
+            transition: transform 0.3s ease;
+        }
+        
+        .blog-link:hover i {
+            transform: translateX(3px);
+        }
+        
+        /* Newsletter */
+        .newsletter-section {
+            padding: 5rem 0;
+            background-color: var(--navy);
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .newsletter-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(135deg, rgba(0, 0, 117, 0.9), rgba(150, 0, 24, 0.7));
+            z-index: 1;
+        }
+        
+        .newsletter-container {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .newsletter-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .newsletter-section p {
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            opacity: 0.9;
+            font-size: 1.05rem;
+        }
+        
+        .newsletter-form {
+            max-width: 500px;
+            margin: 0 auto;
+            display: flex;
+        }
+        
+        .newsletter-input {
+            flex: 1;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 30px 0 0 30px;
+            font-size: 1rem;
+            outline: none;
+            font-family: 'Cormorant Garamond', serif;
+        }
+        
+        .newsletter-btn {
+            background-color: var(--burgundy);
+            color: white;
+            border: none;
+            padding: 0 25px;
+            border-radius: 0 30px 30px 0;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 500;
+        }
+        
+        .newsletter-btn:hover {
+            background-color: #7a0014;
+        }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .animate {
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+        
+        .delay-1 {
+            animation-delay: 0.2s;
+        }
+        
+        .delay-2 {
+            animation-delay: 0.4s;
+        }
+        
+        .delay-3 {
+            animation-delay: 0.6s;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .hero-content h1 {
+                font-size: 2.8rem;
+            }
+            
+            .hero-content p {
+                font-size: 1.3rem;
+            }
+            
+            .about-content {
+                flex-direction: column;
+            }
+            
+            .about-img {
+                padding-right: 0;
+                margin-bottom: 2rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2.2rem;
+            }
+            
+            .hero-content p {
+                font-size: 1.1rem;
+            }
+            
+            .section-title h2 {
+                font-size: 1.8rem;
+            }
+            
+            .newsletter-form {
+                flex-direction: column;
+            }
+            
+            .newsletter-input {
+                border-radius: 30px;
+                margin-bottom: 10px;
+            }
+            
+            .newsletter-btn {
+                border-radius: 30px;
+                padding: 12px 20px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .hero-content h1 {
+                font-size: 1.8rem;
+            }
+            
+            .btn-hero {
+                padding: 10px 25px;
+                font-size: 1rem;
+            }
+            
+            .categories-section, 
+            .featured-section,
+            .about-section,
+            .testimonials-section,
+            .blog-section,
+            .newsletter-section {
+                padding: 3rem 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1>L'art de conserver et déguster le vin</h1>
+            <p>Découvrez notre collection exclusive d'accessoires pour cave à vin et dégustation</p>
+            <a href="#categories" class="btn-hero">Explorer la collection</a>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="categories-section" id="categories">
+        <div class="container">
+            <div class="section-title animate">
+                <h2>Nos Catégories</h2>
+                <p>Explorez notre sélection d'accessoires haut de gamme pour les amateurs de vin</p>
+            </div>
+            
+            <div class="row">
+                <!-- Category 1 -->
+                <div class="col-md-3 col-sm-6 animate delay-1">
+                    <div class="category-card">
+                        <div class="category-img">
+                            <img src="https://images.unsplash.com/photo-1566633806327-68e152aaf26d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Caves à vin">
+                        </div>
+                        <div class="category-body">
+                            <h3>Caves à vin</h3>
+                            <p>Des caves de qualité pour une conservation optimale</p>
+                            <a href="#" class="category-link">Voir les produits <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Category 2 -->
+                <div class="col-md-3 col-sm-6 animate delay-1">
+                    <div class="category-card">
+                        <div class="category-img">
+                            <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Verres à vin">
+                        </div>
+                        <div class="category-body">
+                            <h3>Verres à vin</h3>
+                            <p>Des verres adaptés à chaque type de vin</p>
+                            <a href="#" class="category-link">Voir les produits <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Category 3 -->
+                <div class="col-md-3 col-sm-6 animate delay-1">
+                    <div class="category-card">
+                        <div class="category-img">
+                            <img src="https://images.unsplash.com/photo-1600607688969-a5bfcd646154?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Accessoires">
+                        </div>
+                        <div class="category-body">
+                            <h3>Accessoires</h3>
+                            <p>Tout pour servir et déguster votre vin</p>
+                            <a href="#" class="category-link">Voir les produits <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Category 4 -->
+                <div class="col-md-3 col-sm-6 animate delay-1">
+                    <div class="category-card">
+                        <div class="category-img">
+                            <img src="https://images.unsplash.com/photo-1590079281206-9de0a8a8c541?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Décanteurs">
+                        </div>
+                        <div class="category-body">
+                            <h3>Décanteurs</h3>
+                            <p>Pour aérer vos vins et libérer leurs arômes</p>
+                            <a href="#" class="category-link">Voir les produits <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Category 5 -->
+                <div class="col-md-3 col-sm-6 animate delay-2">
+                    <div class="category-card">
+                        <div class="category-img">
+                            <img src="https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Thermomètres">
+                        </div>
+                        <div class="category-body">
+                            <h3>Thermomètres</h3>
+                            <p>Pour servir vos vins à la température idéale</p>
+                            <a href="#" class="category-link">Voir les produits <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Category 6 -->
+                <div class="col-md-3 col-sm-6 animate delay-2">
+                    <div class="category-card">
+                        <div class="category-img">
+                            <img src="https://images.unsplash.com/photo-1571115177098-24ec42ed204d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Ouvre-bouteilles">
+                        </div>
+                        <div class="category-body">
+                            <h3>Ouvre-bouteilles</h3>
+                            <p>Des outils élégants et fonctionnels</p>
+                            <a href="#" class="category-link">Voir les produits <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Category 7 -->
+                <div class="col-md-3 col-sm-6 animate delay-2">
+                    <div class="category-card">
+                        <div class="category-img">
+                            <img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Porte-bouteilles">
+                        </div>
+                        <div class="category-body">
+                            <h3>Porte-bouteilles</h3>
+                            <p>Présentez vos bouteilles avec élégance</p>
+                            <a href="#" class="category-link">Voir les produits <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Category 8 -->
+                <div class="col-md-3 col-sm-6 animate delay-2">
+                    <div class="category-card">
+                        <div class="category-img">
+                            <img src="https://images.unsplash.com/photo-1568219656418-15c329312bf1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Coffrets cadeaux">
+                        </div>
+                        <div class="category-body">
+                            <h3>Coffrets cadeaux</h3>
+                            <p>Idéal pour offrir à un amateur de vin</p>
+                            <a href="#" class="category-link">Voir les produits <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Products -->
+    <section class="featured-section">
+        <div class="container">
+            <div class="section-title animate">
+                <h2>Produits Phares</h2>
+                <p>Découvrez nos best-sellers et nouveautés</p>
+            </div>
+            
+            <div class="row">
+                <!-- Product 1 -->
+                <div class="col-lg-3 col-md-6 animate delay-1">
+                    <div class="product-card">
+                        <div class="product-img">
+                            <img src="https://images.unsplash.com/photo-1558160074-4d7d8bdf4256?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Cave à vin élégante">
+                            <span class="product-badge">Nouveau</span>
+                        </div>
+                        <div class="product-body">
+                            <span class="product-category">Caves à vin</span>
+                            <h3>Cave à vin élégante 12 bouteilles</h3>
+                            <div class="product-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                                <span>(24)</span>
+                            </div>
+                            <div class="product-price">€249.99</div>
+                            <a href="#" class="btn-product">Ajouter au panier</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 2 -->
+                <div class="col-lg-3 col-md-6 animate delay-1">
+                    <div class="product-card">
+                        <div class="product-img">
+                            <img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Verre à vin cristal">
+                            <span class="product-badge">Best-seller</span>
+                        </div>
+                        <div class="product-body">
+                            <span class="product-category">Verres à vin</span>
+                            <h3>Verre à vin en cristal - Lot de 6</h3>
+                            <div class="product-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                                <span>(56)</span>
+                            </div>
+                            <div class="product-price">€89.99</div>
+                            <a href="#" class="btn-product">Ajouter au panier</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 3 -->
+                <div class="col-lg-3 col-md-6 animate delay-2">
+                    <div class="product-card">
+                        <div class="product-img">
+                            <img src="https://images.unsplash.com/photo-1590079281206-9de0a8a8c541?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Décanteur en cristal">
+                        </div>
+                        <div class="product-body">
+                            <span class="product-category">Décanteurs</span>
+                            <h3>Décanteur en cristal soufflé à la main</h3>
+                            <div class="product-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <span>(42)</span>
+                            </div>
+                            <div class="product-price">€129.99</div>
+                            <a href="#" class="btn-product">Ajouter au panier</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 4 -->
+                <div class="col-lg-3 col-md-6 animate delay-2">
+                    <div class="product-card">
+                        <div class="product-img">
+                            <img src="https://images.unsplash.com/photo-1571115177098-24ec42ed204d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Ouvre-bouteille sommelier">
+                            <span class="product-badge">Promo</span>
+                        </div>
+                        <div class="product-body">
+                            <span class="product-category">Ouvre-bouteilles</span>
+                            <h3>Ouvre-bouteille sommelier professionnel</h3>
+                            <div class="product-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                                <span>(38)</span>
+                            </div>
+                            <div class="product-price">€34.99 <small class="text-muted"><del>€49.99</del></small></div>
+                            <a href="#" class="btn-product">Ajouter au panier</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-5 animate delay-3">
+                <a href="#" class="btn-hero">Voir tous les produits</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about-section">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-img animate">
+                    <img src="https://images.unsplash.com/photo-1566633806327-68e152aaf26d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="À propos de Rose & Bouchon">
+                </div>
+                <div class="about-text animate delay-1">
+                    <h2>Rose & Bouchon - L'excellence du service à vin</h2>
+                    <p>Fondée en 2010 par des passionnés d'œnologie, Rose & Bouchon s'est rapidement imposée comme une référence dans le domaine des accessoires haut de gamme pour la conservation et la dégustation du vin.</p>
+                    <p>Notre mission est de fournir à nos clients des produits d'exception qui allient esthétique, fonctionnalité et durabilité, tout en partageant notre expertise et notre passion pour le monde du vin.</p>
+                    
+                    <div class="about-features">
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-award"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h4>Qualité exceptionnelle</h4>
+                                <p>Des matériaux nobles et une fabrication artisanale pour des produits qui durent.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-shipping-fast"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h4>Livraison rapide</h4>
+                                <p>Expédition sous 24h et livraison offerte à partir de 100€ d'achat.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-headset"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h4>Service client premium</h4>
+                                <p>Une équipe d'experts à votre écoute pour vous conseiller au mieux.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials-section">
+        <div class="container">
+            <div class="section-title animate">
+                <h2>Témoignages</h2>
+                <p>Ce que nos clients disent de nous</p>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-12">
+                    <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            <!-- Testimonial 1 -->
+                            <div class="carousel-item active">
+                                <div class="testimonial-card">
+                                    <p class="testimonial-text">J'ai acheté une cave à vin chez Rose & Bouchon et je suis absolument ravi. La qualité est exceptionnelle et le service client a été impeccable. Je recommande vivement cette boutique à tous les amateurs de vin sérieux.</p>
+                                    <div class="testimonial-author">
+                                        <div class="author-img">
+                                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Pierre D.">
+                                        </div>
+                                        <div class="author-info">
+                                            <h5>Pierre D.</h5>
+                                            <p>Client depuis 2018</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Testimonial 2 -->
+                            <div class="carousel-item">
+                                <div class="testimonial-card">
+                                    <p class="testimonial-text">Les verres à vin que j'ai reçus sont magnifiques et d'une qualité bien supérieure à ce que j'avais auparavant. La livraison a été rapide et l'emballage soigné. Je reviendrai certainement pour d'autres achats.</p>
+                                    <div class="testimonial-author">
+                                        <div class="author-img">
+                                            <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Sophie L.">
+                                        </div>
+                                        <div class="author-info">
+                                            <h5>Sophie L.</h5>
+                                            <p>Client depuis 2020</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Testimonial 3 -->
+                            <div class="carousel-item">
+                                <div class="testimonial-card">
+                                    <p class="testimonial-text">En tant que restaurateur, je suis très exigeant sur la qualité des accessoires à vin. Rose & Bouchon a su me convaincre avec des produits professionnels et un service irréprochable. Un partenaire de confiance.</p>
+                                    <div class="testimonial-author">
+                                        <div class="author-img">
+                                            <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Antoine M.">
+                                        </div>
+                                        <div class="author-info">
+                                            <h5>Antoine M.</h5>
+                                            <p>Client depuis 2015</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="carousel-control-prev" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Section -->
+    <section class="blog-section">
+        <div class="container">
+            <div class="section-title animate">
+                <h2>Conseils & Actualités</h2>
+                <p>Découvrez nos articles sur l'univers du vin</p>
+            </div>
+            
+            <div class="row">
+                <!-- Blog 1 -->
+                <div class="col-lg-4 col-md-6 animate delay-1">
+                    <div class="blog-card">
+                        <div class="blog-img">
+                            <img src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Conserver son vin">
+                        </div>
+                        <div class="blog-body">
+                            <span class="blog-date">15 juin 2023</span>
+                            <h3>Comment bien conserver son vin à la maison</h3>
+                            <p>Découvrez nos conseils d'expert pour conserver vos bouteilles de vin dans les meilleures conditions, même sans cave professionnelle.</p>
+                            <a href="#" class="blog-link">Lire l'article <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Blog 2 -->
+                <div class="col-lg-4 col-md-6 animate delay-2">
+                    <div class="blog-card">
+                        <div class="blog-img">
+                            <img src="https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Choisir ses verres">
+                        </div>
+                        <div class="blog-body">
+                            <span class="blog-date">2 juin 2023</span>
+                            <h3>Guide complet pour choisir ses verres à vin</h3>
+                            <p>Quel verre pour quel vin ? Notre guide vous aide à sélectionner les verres adaptés à chaque type de vin pour une dégustation optimale.</p>
+                            <a href="#" class="blog-link">Lire l'article <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Blog 3 -->
+                <div class="col-lg-4 col-md-6 animate delay-3">
+                    <div class="blog-card">
+                        <div class="blog-img">
+                            <img src="https://images.unsplash.com/photo-1423483641154-5411ec9c0ddf?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Décantation du vin">
+                        </div>
+                        <div class="blog-body">
+                            <span class="blog-date">20 mai 2023</span>
+                            <h3>L'art de la décantation : pourquoi et comment faire</h3>
+                            <p>Tout ce que vous devez savoir sur la décantation du vin : les bénéfices, les techniques et les erreurs à éviter.</p>
+                            <a href="#" class="blog-link">Lire l'article <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-5 animate delay-3">
+                <a href="#" class="btn-hero">Voir tous les articles</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="newsletter-section">
+        <div class="container newsletter-container">
+            <div class="animate">
+                <h2>Abonnez-vous à notre newsletter</h2>
+                <p>Recevez nos conseils, offres exclusives et actualités directement dans votre boîte mail.</p>
+                
+                <form class="newsletter-form animate delay-1">
+                    <input type="email" class="newsletter-input" placeholder="Votre adresse email">
+                    <button type="submit" class="newsletter-btn">S'abonner</button>
+                </form>
+                
+                <small class="animate delay-2" style="display: block; margin-top: 1rem; opacity: 0.8;">Nous ne partagerons jamais votre email avec des tiers.</small>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script>
+        // Animation on scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const animateElements = document.querySelectorAll('.animate');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = 1;
+                        entry.target.style.animationPlayState = 'running';
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+            
+            animateElements.forEach(element => {
+                observer.observe(element);
+            });
+            
+            // Smooth scroll for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

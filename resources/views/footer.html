@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rose & Bouchon - Accessoires de Vin</title>
+    <style>
+        :root {
+            --navy: #000075;
+            --burgundy: #960018;
+            --dark: #121212;
+            --ivory: #FEFEFA;
+            --gold: #C4A267;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Cormorant Garamond', serif;
+            background-color: var(--ivory);
+            color: var(--dark);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        main {
+            flex: 1;
+        }
+        
+        .footer {
+            background-color: var(--navy);
+            color: var(--ivory);
+            padding: 60px 0 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .footer::before {
+            content: '🍷';
+            position: absolute;
+            bottom: -50px;
+            right: -50px;
+            font-size: 300px;
+            opacity: 0.05;
+            transform: rotate(15deg);
+        }
+        
+        .footer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 30px 40px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+        
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .footer-logo-icon {
+            font-size: 2rem;
+            color: var(--burgundy);
+            margin-right: 12px;
+        }
+        
+        .footer-logo-text {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--ivory);
+            letter-spacing: 0.5px;
+            font-variant: small-caps;
+        }
+        
+        .footer-about p {
+            line-height: 1.8;
+            margin-bottom: 20px;
+            font-size: 1.05rem;
+            opacity: 0.9;
+        }
+        
+        .footer-social {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .footer-social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--ivory);
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            background-color: rgba(254, 254, 250, 0.1);
+            text-decoration: none;
+        }
+        
+        .footer-social-link:hover {
+            background-color: var(--burgundy);
+            transform: translateY(-3px);
+        }
+        
+        .footer-heading {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 25px;
+            position: relative;
+            letter-spacing: 0.5px;
+        }
+        
+        .footer-heading::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--burgundy);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-link-item {
+            margin-bottom: 12px;
+        }
+        
+        .footer-link {
+            color: var(--ivory);
+            text-decoration: none;
+            font-size: 1.05rem;
+            transition: all 0.3s ease;
+            opacity: 0.9;
+            position: relative;
+            padding-left: 15px;
+        }
+        
+        .footer-link:hover {
+            color: var(--burgundy);
+            opacity: 1;
+            padding-left: 20px;
+        }
+        
+        .footer-link::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--burgundy);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-link:hover::before {
+            opacity: 1;
+            left: -5px;
+        }
+        
+        .footer-contact-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            font-size: 1.05rem;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+        
+        .footer-contact-icon {
+            color: var(--burgundy);
+            margin-right: 12px;
+            font-size: 1.1rem;
+            margin-top: 3px;
+        }
+        
+        .footer-newsletter p {
+            margin-bottom: 20px;
+            line-height: 1.8;
+            opacity: 0.9;
+        }
+        
+        .newsletter-form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .newsletter-input {
+            flex: 1;
+            min-width: 200px;
+            padding: 12px 15px;
+            border: none;
+            border-radius: 4px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1rem;
+            background-color: rgba(254, 254, 250, 0.1);
+            color: var(--ivory);
+            border: 1px solid rgba(254, 254, 250, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .newsletter-input:focus {
+            outline: none;
+            border-color: var(--burgundy);
+            background-color: rgba(254, 254, 250, 0.15);
+        }
+        
+        .newsletter-input::placeholder {
+            color: rgba(254, 254, 250, 0.7);
+            font-style: italic;
+        }
+        
+        .newsletter-btn {
+            padding: 12px 25px;
+            background-color: var(--burgundy);
+            color: var(--ivory);
+            border: none;
+            border-radius: 4px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.05rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+            font-weight: 500;
+        }
+        
+        .newsletter-btn:hover {
+            background-color: #7a0014;
+            transform: translateY(-2px);
+        }
+        
+        .footer-bottom {
+            background-color: rgba(0, 0, 0, 0.2);
+            padding: 20px 0;
+        }
+        
+        .footer-bottom-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 30px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .footer-copyright {
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+        
+        .footer-legal-links {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .footer-legal-link {
+            color: var(--ivory);
+            text-decoration: none;
+            font-size: 0.9rem;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+        
+        .footer-legal-link:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            .footer-container {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .footer-heading {
+                margin-bottom: 20px;
+            }
+            
+            .footer-bottom-container {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+            
+            .footer-legal-links {
+                gap: 15px;
+            }
+            
+            .footer::before {
+                font-size: 200px;
+                bottom: -30px;
+                right: -30px;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <main>
+        <!-- Your page content goes here -->
+    </main>
+    
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-about">
+                <div class="footer-logo">
+                    <span class="footer-logo-icon">🍷</span>
+                    <span class="footer-logo-text">Rose & Bouchon</span>
+                </div>
+                <p>Depuis 2010, nous créons des accessoires d'exception pour les amateurs de vin. Chaque pièce est conçue avec passion pour sublimer votre expérience œnologique.</p>
+                <div class="footer-social">
+                    <a href="#" class="footer-social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="footer-social-link" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="footer-social-link" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-links-container">
+                <h3 class="footer-heading">Liens rapides</h3>
+                <ul class="footer-links">
+                    <li class="footer-link-item"><a href="boutique.html" class="footer-link">Boutique</a></li>
+                    <li class="footer-link-item"><a href="collections.html" class="footer-link">Nouveautés</a></li>
+                    <li class="footer-link-item"><a href="blog.html" class="footer-link">Conseils œnologiques</a></li>
+                    <li class="footer-link-item"><a href="a-propos.html" class="footer-link">Notre histoire</a></li>
+                    <li class="footer-link-item"><a href="contact.html" class="footer-link">Nous contacter</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-contact">
+                <h3 class="footer-heading">Contact</h3>
+                <div class="footer-contact-item">
+                    <i class="fas fa-map-marker-alt footer-contact-icon"></i>
+                    <span>123 Avenue des Vignerons, 75000 Paris, France</span>
+                </div>
+                <div class="footer-contact-item">
+                    <i class="fas fa-phone-alt footer-contact-icon"></i>
+                    <span>+33 1 23 45 67 89</span>
+                </div>
+                <div class="footer-contact-item">
+                    <i class="fas fa-envelope footer-contact-icon"></i>
+                    <span>contact@roseetbouchon.com</span>
+                </div>
+                <div class="footer-contact-item">
+                    <i class="fas fa-clock footer-contact-icon"></i>
+                    <span>Lun-Ven: 10h-19h<br>Sam: 10h-18h</span>
+                </div>
+            </div>
+            
+            <div class="footer-newsletter">
+                <h3 class="footer-heading">Newsletter</h3>
+                <p>Abonnez-vous à notre newsletter pour recevoir nos conseils, nouveautés et offres exclusives.</p>
+                <form class="newsletter-form">
+                    <input type="email" class="newsletter-input" placeholder="Votre email" required>
+                    <button type="submit" class="newsletter-btn">S'abonner</button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <div class="footer-bottom-container">
+                <p class="footer-copyright">© 2024 Rose & Bouchon. Tous droits réservés.</p>
+                <div class="footer-legal-links">
+                    <a href="cgv.html" class="footer-legal-link">CGV</a>
+                    <a href="mentions-legales.html" class="footer-legal-link">Mentions légales</a>
+                    <a href="politique-confidentialite.html" class="footer-legal-link">Confidentialité</a>
+                    <a href="cookies.html" class="footer-legal-link">Cookies</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

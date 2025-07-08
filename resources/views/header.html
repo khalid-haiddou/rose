@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rose & Bouchon - Accessoires de Vin</title>
+    <style>
+        :root {
+            --navy: #000075;
+            --burgundy: #960018;
+            --dark: #121212;
+            --ivory: #FEFEFA;
+            --gold: #C4A267;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Cormorant Garamond', serif;
+            background-color: var(--ivory);
+            color: var(--dark);
+        }
+        
+        .header {
+            background-color: var(--ivory);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(150, 0, 24, 0.1);
+            padding: 15px 0;
+        }
+        
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+        
+        .logo-icon {
+            font-size: 2rem;
+            color: var(--burgundy);
+            margin-right: 12px;
+        }
+        
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--navy);
+            letter-spacing: 0.5px;
+            font-variant: small-caps;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            margin: 0 30px;
+        }
+        
+        .nav-item {
+            margin: 0 15px;
+            position: relative;
+        }
+        
+        .nav-link {
+            text-decoration: none;
+            color: var(--navy);
+            font-size: 1.1rem;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            transition: color 0.3s ease;
+            position: relative;
+            padding: 5px 0;
+        }
+        
+        .nav-link:hover {
+            color: var(--burgundy);
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background-color: var(--burgundy);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .search-box {
+            display: flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(0, 0, 117, 0.15);
+            border-radius: 30px;
+            padding: 8px 15px;
+            width: 220px;
+            transition: all 0.3s ease;
+            margin-right: 20px;
+        }
+        
+        .search-box:focus-within {
+            border-color: var(--navy);
+            box-shadow: 0 0 0 2px rgba(0, 0, 117, 0.1);
+            width: 250px;
+        }
+        
+        .search-input {
+            border: none;
+            background: transparent;
+            outline: none;
+            width: 100%;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1rem;
+            color: var(--dark);
+            padding: 0 10px;
+        }
+        
+        .search-input::placeholder {
+            color: rgba(18, 18, 18, 0.4);
+            font-style: italic;
+        }
+        
+        .search-icon {
+            color: var(--burgundy);
+            font-size: 1rem;
+        }
+        
+        .header-icons {
+            display: flex;
+            align-items: center;
+        }
+        
+        .header-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--navy);
+            font-size: 1.2rem;
+            margin-left: 15px;
+            transition: all 0.3s ease;
+            position: relative;
+            text-decoration: none;
+        }
+        
+        .header-icon:hover {
+            background-color: rgba(150, 0, 24, 0.1);
+            color: var(--burgundy);
+            transform: translateY(-2px);
+        }
+        
+        .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: var(--burgundy);
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--navy);
+            cursor: pointer;
+            z-index: 101;
+        }
+        
+        /* Enhanced Mobile Menu */
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 99;
+            transform: translateX(-100%);
+            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+        
+        .mobile-menu-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(rgba(0, 0, 75, 0.85), rgba(150, 0, 24, 0.85)), 
+                              url('https://images.unsplash.com/photo-1600788886242-5c96aabe3757?q=80&w=2000');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .mobile-menu-content {
+            position: relative;
+            z-index: 1;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            padding: 80px 30px 30px;
+        }
+        
+        .mobile-menu-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            color: var(--ivory);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        .mobile-menu-close:hover {
+            transform: rotate(90deg);
+        }
+        
+        .mobile-menu-items {
+            list-style: none;
+            margin-top: 2rem;
+        }
+        
+        .mobile-menu-item {
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: all 0.4s ease;
+        }
+        
+        .mobile-menu.active .mobile-menu-item {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .mobile-menu.active .mobile-menu-item:nth-child(1) { transition-delay: 0.1s; }
+        .mobile-menu.active .mobile-menu-item:nth-child(2) { transition-delay: 0.2s; }
+        .mobile-menu.active .mobile-menu-item:nth-child(3) { transition-delay: 0.3s; }
+        .mobile-menu.active .mobile-menu-item:nth-child(4) { transition-delay: 0.4s; }
+        .mobile-menu.active .mobile-menu-item:nth-child(5) { transition-delay: 0.5s; }
+        .mobile-menu.active .mobile-menu-item:nth-child(6) { transition-delay: 0.6s; }
+        
+        .mobile-menu-link {
+            text-decoration: none;
+            color: var(--ivory);
+            font-size: 1.5rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            position: relative;
+            padding-bottom: 8px;
+            display: inline-block;
+        }
+        
+        .mobile-menu-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--ivory);
+            transition: width 0.4s ease;
+        }
+        
+        .mobile-menu-link:hover::after {
+            width: 100%;
+        }
+        
+        .mobile-menu-footer {
+            margin-top: auto;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(254, 254, 250, 0.2);
+        }
+        
+        .mobile-menu-social {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .mobile-menu-social a {
+            color: var(--ivory);
+            font-size: 1.3rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .mobile-menu-social a:hover {
+            transform: translateY(-3px);
+        }
+        
+        @media (max-width: 1024px) {
+            .nav-menu {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+                margin-right: 15px;
+            }
+            
+            .search-box {
+                width: 180px;
+                margin-right: 10px;
+            }
+            
+            .search-box:focus-within {
+                width: 200px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-container {
+                padding: 0 15px;
+            }
+            
+            .logo-text {
+                font-size: 1.5rem;
+            }
+            
+            .logo-icon {
+                font-size: 1.7rem;
+            }
+            
+            .search-box {
+                display: none;
+            }
+            
+            .mobile-menu {
+                display: block;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header class="header">
+        <div class="header-container">
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <a href="index.html" class="logo">
+                <span class="logo-icon">🍷</span>
+                <span class="logo-text">Rose & Bouchon</span>
+            </a>
+            
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item"><a href="boutique.html" class="nav-link">Boutique</a></li>
+                    <li class="nav-item"><a href="collections.html" class="nav-link">Collections</a></li>
+                    <li class="nav-item"><a href="blog.html" class="nav-link">Conseils</a></li>
+                    <li class="nav-item"><a href="a-propos.html" class="nav-link">À propos</a></li>
+                    <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+                </ul>
+            </nav>
+            
+            <div class="search-box">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" class="search-input" placeholder="Rechercher...">
+            </div>
+            
+            <div class="header-icons">
+                <a href="mon-compte.html" class="header-icon" aria-label="Mon compte">
+                    <i class="far fa-user"></i>
+                </a>
+                <a href="panier.html" class="header-icon" aria-label="Panier">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="cart-count">3</span>
+                </a>
+            </div>
+        </div>
+        
+        <!-- Enhanced Mobile Menu -->
+        <div class="mobile-menu" id="mobileMenu">
+            <div class="mobile-menu-overlay"></div>
+            <div class="mobile-menu-content">
+                <button class="mobile-menu-close" id="mobileMenuClose">
+                    <i class="fas fa-times"></i>
+                </button>
+                <ul class="mobile-menu-items">
+                    <li class="mobile-menu-item"><a href="boutique.html" class="mobile-menu-link">Boutique</a></li>
+                    <li class="mobile-menu-item"><a href="collections.html" class="mobile-menu-link">Collections</a></li>
+                    <li class="mobile-menu-item"><a href="blog.html" class="mobile-menu-link">Conseils</a></li>
+                    <li class="mobile-menu-item"><a href="a-propos.html" class="mobile-menu-link">À propos</a></li>
+                    <li class="mobile-menu-item"><a href="contact.html" class="mobile-menu-link">Contact</a></li>
+                    <li class="mobile-menu-item"><a href="mon-compte.html" class="mobile-menu-link">Mon compte</a></li>
+                </ul>
+                
+                <div class="mobile-menu-footer">
+                    <p style="color: var(--ivory); margin-bottom: 1rem;">Suivez-nous</p>
+                    <div class="mobile-menu-social">
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const mobileMenuClose = document.getElementById('mobileMenuClose');
+            const mobileMenu = document.getElementById('mobileMenu');
+            
+            // Toggle mobile menu
+            mobileMenuBtn.addEventListener('click', function() {
+                mobileMenu.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+            
+            // Close mobile menu
+            mobileMenuClose.addEventListener('click', function() {
+                mobileMenu.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+            
+            // Close menu when clicking on a link
+            const mobileMenuLinks = document.querySelectorAll('.mobile-menu-link');
+            mobileMenuLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    mobileMenu.classList.remove('active');
+                    document.body.style.overflow = '';
+                });
+            });
+            
+            // Close menu when clicking outside
+            mobileMenu.addEventListener('click', function(e) {
+                if (e.target === mobileMenu) {
+                    mobileMenu.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
