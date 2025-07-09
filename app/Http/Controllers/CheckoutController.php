@@ -95,7 +95,8 @@ class CheckoutController extends Controller
             'city'      => 'required|string|max:255',
             'postcode'  => 'nullable|string|max:20',
             'payment_method' => 'required|in:COD,CMI',
-            'status'    => 'required|string'
+            'status'    => 'required|string',
+            'is_payed' => 'required|boolean'
         ]);
 
         $commande->update($validated);

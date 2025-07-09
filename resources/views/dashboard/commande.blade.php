@@ -604,136 +604,174 @@
     </div>
 
 <!-- Order Details Modal -->
-@foreach($commandes as $commande)
-<div class="modal" id="orderModal-{{ $commande->id }}">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3>Détails de la Commande <span>{{ $commande->order_number }}</span></h3>
-            <button class="close-modal" onclick="closeModal('orderModal-{{ $commande->id }}')">&times;</button>
-        </div>
-        
-        <div class="order-section">
-            <h4>Produits</h4>
-            <table class="order-products">
-    <thead>
-        <tr>
-            <th>Produit</th>
-            <th>Prix unitaire</th>
-            <th>Quantité</th>
-            <th>Total</th>
-        </tr>
-    </thead>
-    <tbody>
-        @forelse($commande->products as $product)
-    <tr>
-        <td>{{ $product->nom ?? 'N/A' }}</td>
-        <td>{{ number_format($product->pivot->price_ttc ?? 0, 2, ',', ' ') }} Dhs</td>
-        <td>{{ $product->pivot->quantity ?? 0 }}</td>
-        <td>{{ number_format(($product->pivot->price_ttc ?? 0) * ($product->pivot->quantity ?? 0), 2, ',', ' ') }} Dhs</td>
-    </tr>
-@empty
-    <tr><td colspan="4">Aucun produit trouvé pour cette commande</td></tr>
-@endforelse
-    </tbody>
-</table>
-        </div>
-        
-        <div class="order-details">
-            <div>
-                <div class="order-section">
-                    <h4>Informations Client</h4>
-                    <p><strong>Nom:</strong> {{ $commande->firstname }} {{ $commande->lastname }}</p>
-                    <p><strong>Email:</strong> {{ $commande->email }}</p>
-                    <p><strong>Téléphone:</strong> {{ $commande->phone }}</p>
-                </div>
+        @foreach($commandes as $commande)
+        <div class="modal" id="orderModal-{{ $commande->id }}">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3>Détails de la Commande <span>{{ $commande->order_number }}</span></h3>
+                            <button class="close-modal" onclick="closeModal('orderModal-{{ $commande->id }}')">&times;</button>
+                        </div>
+                        
+                        <div class="order-section">
+                            <h4>Produits</h4>
+                            <table class="order-products">
+                                <thead>
+                                    <tr>
+                                        <th>Image</th>
+                                        <th>Produit</th>
+                                        <th>Prix unitaire</th>
+                                        <th>Quantité</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @forelse($commande->products as $product)
+                                        <tr>
+                                            <td>
+                                                @if ($product->image)
+                                                    <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->nom }}" style="width: 60px; height: auto;">
+                                                @else
+                                                    <span>—</span>
+                                                @endif
+                                            </td>
+                                            <td>{{ $product->nom ?? 'N/A' }}</td>
+                                            <td>{{ number_format($product->pivot->price_ttc ?? 0, 2, ',', ' ') }} Dhs</td>
+                                            <td>{{ $product->pivot->quantity ?? 0 }}</td>
+                                            <td>{{ number_format(($product->pivot->price_ttc ?? 0) * ($product->pivot->quantity ?? 0), 2, ',', ' ') }} Dhs</td>
+                                        </tr>
+                                    @empty
+                                        <tr><td colspan="5">Aucun produit trouvé pour cette commande</td></tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
+
+                        </div>
                 
-                <div class="order-section">
-                    <h4>Adresse de Livraison</h4>
-                    <p>{{ $commande->address }}, {{ $commande->city }} {{ $commande->postcode }}</p>
-                </div>
-            </div>
-            
-            <div>
-                <div class="order-section">
-                    <h4>Résumé de la Commande</h4>
-                    <div class="order-summary">
-                        <div class="summary-row">
-                            <span>Sous-total:</span>
-                            <span>{{ number_format($commande->total - $commande->shipping_price, 2, ',', ' ') }} Dhs</span>
+                <div class="order-details">
+                    <div>
+                        <div class="order-section">
+                            <h4>Informations Client</h4>
+                            <p><strong>Nom:</strong> {{ $commande->firstname }} {{ $commande->lastname }}</p>
+                            <p><strong>Email:</strong> {{ $commande->email }}</p>
+                            <p><strong>Téléphone:</strong> {{ $commande->phone }}</p>
                         </div>
-                        <div class="summary-row">
-                            <span>Livraison:</span>
-                            <span>{{ number_format($commande->shipping_price, 2, ',', ' ') }} Dhs</span>
+                        
+                        <div class="order-section">
+                            <h4>Adresse de Livraison</h4>
+                            <p>{{ $commande->address }}, {{ $commande->city }} {{ $commande->postcode }}</p>
                         </div>
-                        <div class="summary-row">
-                            <span>Remise:</span>
-                            <span>0.00 Dhs</span>
+                    </div>
+                    
+                    <div>
+                        <div class="order-section">
+                            <h4>Résumé de la Commande</h4>
+                            <div class="order-summary">
+                                <div class="summary-row">
+                                    <span>Sous-total:</span>
+                                    <span>{{ number_format($commande->total - $commande->shipping_price, 2, ',', ' ') }} Dhs</span>
+                                </div>
+                                <div class="summary-row">
+                                    <span>Livraison:</span>
+                                    <span>{{ number_format($commande->shipping_price, 2, ',', ' ') }} Dhs</span>
+                                </div>
+                                <div class="summary-row">
+                                    <span>Remise:</span>
+                                    <span>0.00 Dhs</span>
+                                </div>
+                                <div class="summary-row summary-total">
+                                    <span>Total:</span>
+                                    <span>{{ number_format($commande->total, 2, ',', ' ') }} Dhs</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="summary-row summary-total">
-                            <span>Total:</span>
-                            <span>{{ number_format($commande->total, 2, ',', ' ') }} Dhs</span>
+                        
+                        <div class="order-section">
+                            <h4>Statut de la Commande</h4>
+                            <p><strong>Statut:</strong> 
+                                <span class="status {{ strtolower(str_replace(' ', '-', $commande->status)) }}">
+                                    {{ ucfirst($commande->status) }}
+                                </span>
+                            </p>
+                            <p><strong>Paiement:</strong> {{ $commande->is_payed ? 'Payé' : 'Non payé' }}</p>
+                            <p><strong>Date:</strong> {{ $commande->created_at->format('d/m/Y') }}</p>
                         </div>
                     </div>
                 </div>
                 
-                <div class="order-section">
-                    <h4>Statut de la Commande</h4>
-                    <p><strong>Statut:</strong> 
-                        <span class="status {{ strtolower(str_replace(' ', '-', $commande->status)) }}">
-                            {{ ucfirst($commande->status) }}
-                        </span>
-                    </p>
-                    <p><strong>Paiement:</strong> {{ $commande->is_payed ? 'Payé' : 'Non payé' }}</p>
-                    <p><strong>Date:</strong> {{ $commande->created_at->format('d/m/Y') }}</p>
+                <div class="modal-actions">
+                    <button class="btn btn-edit" onclick="window.print()">
+                        <i class="fas fa-print"></i> Imprimer
+                    </button>
+                    <button class="btn btn-primary" onclick="showStatusOptions('{{ $commande->id }}')">
+                        <i class="fas fa-sync-alt"></i> Mettre à jour le statut
+                    </button>
                 </div>
             </div>
         </div>
-        
-        <div class="modal-actions">
-            <button class="btn btn-edit" onclick="window.print()">
-                <i class="fas fa-print"></i> Imprimer
-            </button>
-            <button class="btn btn-primary" onclick="showStatusOptions('{{ $commande->id }}')">
-                <i class="fas fa-sync-alt"></i> Mettre à jour le statut
-            </button>
-        </div>
-    </div>
-</div>
-@endforeach
+        @endforeach
 
     <!-- Status Update Modal -->
-    <div class="modal" id="statusModal">
-        <div class="modal-content" style="max-width: 500px;">
-            <div class="modal-header">
-                <h3>Mettre à jour le statut</h3>
-                <button class="close-modal" onclick="closeStatusModal()">&times;</button>
-            </div>
-            
-            <div class="order-section">
-                <p>Choisissez le nouveau statut pour la commande <strong id="statusOrderNumber"></strong></p>
-                <select id="statusSelect" class="filter-select" style="width: 100%; margin-top: 1rem;">
-                    <option value="en-attente">En attente</option>
-                    <option value="confirmee">Confirmée</option>
-                    <option value="en-preparation">En préparation</option>
-                    <option value="en-cours-de-livraison">En cours de livraison</option>
-                    <option value="livree">Livrée</option>
-                    <option value="echec-de-la-livraison">Échec de la livraison</option>
-                    <option value="retournee">Retournée</option>
-                </select>
-            </div>
-            
-            <div class="modal-actions">
-                <button class="btn btn-edit" onclick="closeStatusModal()">
-                    Annuler
-                </button>
-                <button class="btn btn-primary" onclick="updateStatus()">
-                    Mettre à jour
-                </button>
-            </div>
+        <div class="modal" id="statusModal">
+            <form method="POST" id="statusForm">
+                @csrf
+                @method('PUT')
+
+                <div class="modal-content" style="max-width: 500px;">
+                    <div class="modal-header">
+                        <h3>Mettre à jour le statut</h3>
+                        <button class="close-modal" type="button" onclick="closeStatusModal()">&times;</button>
+                    </div>
+                    
+                    <div class="order-section">
+                        <p>Choisissez le nouveau statut pour la commande <strong id="statusOrderNumber"></strong></p>
+                        
+                        <select name="status" id="statusSelect" class="filter-select" style="width: 100%; margin-top: 1rem;">
+                            <option value="En attente">En attente</option>
+                            <option value="Confirmée">Confirmée</option>
+                            <option value="En préparation">En préparation</option>
+                            <option value="En cours de livraison">En cours de livraison</option>
+                            <option value="Livrée">Livrée</option>
+                            <option value="Échec de la livraison">Échec de la livraison</option>
+                            <option value="Retournée">Retournée</option>
+                        </select>
+
+                        <div style="margin-top: 1.5rem;">
+                            <label for="paymentStatus">Statut de paiement</label>
+                            <select name="is_payed" id="paymentStatus" class="filter-select" style="width: 100%; margin-top: 0.5rem;">
+                                <option value="1">Payé</option>
+                                <option value="0">Non payé</option>
+                            </select>
+                        </div>
+
+                        <div style="margin-top: 1rem;">
+                            <label for="orderAddress">Adresse</label>
+                            <input type="text" name="address" id="orderAddress" class="filter-select" style="width: 100%; margin-top: 0.5rem;" placeholder="Entrez l'adresse de livraison">
+                        </div>
+
+                        <div style="margin-top: 1rem;">
+                            <label for="orderCity">Ville</label>
+                            <input type="text" name="city" id="orderCity" class="filter-select" style="width: 100%; margin-top: 0.5rem;" placeholder="Entrez la ville de livraison">
+                        </div>
+                    </div>
+
+                    <div class="modal-actions">
+                        <button type="button" class="btn btn-edit" onclick="closeStatusModal()">
+                            Annuler
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            Mettre à jour
+                        </button>
+                    </div>
+                </div>
+            </form>
         </div>
-    </div>
+
 
 <script>
+    // Inject commandes from Laravel
+    const commandes = @json($commandes->keyBy('id'));
+    const csrfToken = '{{ csrf_token() }}';
+
     // Menu toggle functionality
     document.getElementById('menuToggle').addEventListener('click', function() {
         document.querySelector('.sidebar').classList.toggle('active');
@@ -753,8 +791,30 @@
 
     function showStatusOptions(orderId) {
         currentOrderId = orderId;
+
+        const commande = commandes[orderId];
+        if (!commande) {
+            alert("Commande introuvable");
+            return;
+        }
+
+        // Fill order number
         const orderNumber = document.querySelector(`tr[data-order-id="${orderId}"] td:first-child`).textContent;
         document.getElementById("statusOrderNumber").textContent = orderNumber;
+
+        // Fill status
+        const statusSelect = document.getElementById("statusSelect");
+        const statusSlug = commande.status?.toLowerCase().replace(/\s/g, '-') || "en-attente";
+        statusSelect.value = statusSlug;
+
+        // Fill payment status
+        document.getElementById("paymentStatus").value = commande.is_payed ? "paye" : "non-paye";
+
+        // Fill address and city
+        document.getElementById("orderAddress").value = commande.address || "";
+        document.getElementById("orderCity").value = commande.city || "";
+
+        // Show modal
         document.getElementById("statusModal").style.display = "block";
     }
 
@@ -762,6 +822,44 @@
         document.getElementById("statusModal").style.display = "none";
     }
 
+    function updateStatus() {
+        if (!currentOrderId) return;
+
+        const statusMap = {
+            'en-attente': 'En attente',
+            'confirmee': 'Confirmée',
+            'en-preparation': 'En préparation',
+            'en-cours-de-livraison': 'En cours de livraison',
+            'livree': 'Livrée',
+            'echec-de-la-livraison': 'Échec de la livraison',
+            'retournee': 'Retournée'
+        };
+
+        const newStatus = statusMap[document.getElementById("statusSelect").value] || "En attente";
+        const isPayed = document.getElementById("paymentStatus").value === "paye" ? 1 : 0;
+        const address = document.getElementById("orderAddress").value;
+        const city = document.getElementById("orderCity").value;
+
+        // Create and submit form manually
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = `/dashboard/commandes/${currentOrderId}`;
+
+        // Add hidden inputs
+        form.innerHTML = `
+            <input type="hidden" name="_token" value="${csrfToken}">
+            <input type="hidden" name="_method" value="PUT">
+            <input type="hidden" name="status" value="${newStatus}">
+            <input type="hidden" name="is_payed" value="${isPayed}">
+            <input type="hidden" name="address" value="${address}">
+            <input type="hidden" name="city" value="${city}">
+        `;
+
+        document.body.appendChild(form);
+        form.submit();
+    }
 </script>
+
+
 </body>
 </html>

@@ -52,12 +52,4 @@ Route::view('/merci', 'merci')->name('merci');
 //admin commandes route 
 Route::get('/dashboard/commandes', [CheckoutController::class, 'index'])->name('dashboard.commandes');
 Route::put('/dashboard/commandes/{id}', [CheckoutController::class, 'update'])->name('dashboard.commandes.update');
-Route::put('/dashboard/commandes/{commande}/status', [App\Http\Controllers\CheckoutController::class, 'updateStatus'])
-    ->name('dashboard.commandes.updateStatus');
-
-
-
-
-
-
 
