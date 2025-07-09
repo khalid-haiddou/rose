@@ -35,5 +35,12 @@ class CommandeController extends Controller
 
         return redirect()->route('dashboard.commandes')->with('success', 'Commande mise à jour avec succès.');
     }
+    public function destroy($id)
+    {
+        $commande = Commande::findOrFail($id);
+        $commande->delete();
+
+        return redirect()->route('dashboard.commandes')->with('success', 'Commande supprimée avec succès.');
+    }
 
 }

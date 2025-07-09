@@ -53,3 +53,4 @@ Route::view('/merci', 'merci')->name('merci');
 //admin commandes route 
 Route::get('/dashboard/commandes', [CommandeController::class, 'index'])->name('dashboard.commandes');
 Route::put('/dashboard/commandes/{id}', [CommandeController::class, 'update'])->name('dashboard.commandes.update');
+Route::delete('/dashboard/commandes/{id}', [CommandeController::class, 'destroy'])->name('dashboard.commandes.destroy');

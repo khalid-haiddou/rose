@@ -591,9 +591,13 @@
                                     <button class="btn btn-sm btn-primary" onclick="showStatusOptions('{{ $commande->id }}')">
                                         <i class="fas fa-sync-alt"></i>
                                     </button>
-                                    <button class="btn btn-sm btn-danger">
-                                        <i class="fas fa-times"></i>
-                                    </button>
+                                    <form action="{{ route('dashboard.commandes.destroy', $commande->id) }}" method="POST" style="display: inline;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette commande ?')">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </form>
                                 </div>
                             </td>
                         </tr>
