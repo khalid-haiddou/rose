@@ -266,6 +266,10 @@
             background-color: rgba(220, 53, 69, 0.1);
             color: #dc3545;
         }
+        .status.annulee {
+            background-color: rgba(220, 53, 69, 0.1);
+            color: #dc3545;
+        }
         
         .status.retournee {
             background-color: rgba(108, 117, 125, 0.1);
@@ -726,13 +730,14 @@
                         <p>Choisissez le nouveau statut pour la commande <strong id="statusOrderNumber"></strong></p>
                         
                         <select name="status" id="statusSelect" class="filter-select" style="width: 100%; margin-top: 1rem;">
-                            <option value="En attente">En attente</option>
-                            <option value="Confirmee">Confirmée</option>
-                            <option value="En préparation">En préparation</option>
-                            <option value="En cours de livraison">En cours de livraison</option>
-                            <option value="Livrée">Livrée</option>
-                            <option value="Échec de la livraison">Échec de la livraison</option>
-                            <option value="Retournée">Retournée</option>
+                            <option value="en-attente">En attente</option>
+                            <option value="confirmee">Confirmée</option>
+                            <option value="en-preparation">En préparation</option>
+                            <option value="en-cours-de-livraison">En cours de livraison</option>
+                            <option value="livree">Livrée</option>
+                            <option value="echec-de-la-livraison">Échec de la livraison</option>
+                            <option value="retournee">Retournée</option>
+                            <option value="annulee">annulée</option>
                         </select>
 
                         <div style="margin-top: 1.5rem;">
@@ -808,7 +813,8 @@
         statusSelect.value = statusSlug;
 
         // Fill payment status
-        document.getElementById("paymentStatus").value = commande.is_payed ? "paye" : "non-paye";
+        document.getElementById("paymentStatus").value = commande.is_payed ? "1" : "0";
+
 
         // Fill address and city
         document.getElementById("orderAddress").value = commande.address || "";

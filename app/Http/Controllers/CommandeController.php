@@ -20,15 +20,20 @@ class CommandeController extends Controller
     {
         $commande = Commande::findOrFail($id);
 
+        // Validate only fields that are provided
         $validated = $request->validate([
-            'status'    => 'required|string',
-            'is_payed'  => 'required|boolean',
-            'address'   => 'required|string|max:255',
-            'city'      => 'required|string|max:255',
+            'status'    => 'nullable|string|in:en-attente,confirmee,en-preparation,en-cours-de-livraison,livree,echec-de-la-livraison,retournee,annulee',
+            'is_payed'  => 'nullable|boolean',
+            'address'   => 'nullable|string|max:255',
+            'city'      => 'nullable|string|max:255',
         ]);
 
-        $commande->update($validated);
+        // Filter out null values so only submitted fields are updated
+        $filtered = array_filter($validated, fn($value) => !is_null($value));
+
+        $commande->update($filtered);
 
         return redirect()->route('dashboard.commandes')->with('success', 'Commande mise à jour avec succès.');
     }
+
 }
