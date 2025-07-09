@@ -248,16 +248,19 @@
         .stock-high {
             color: #28a745;
             font-weight: 500;
+            text-align: center;
         }
         
         .stock-low {
             color: #ffc107;
             font-weight: 500;
+            text-align: center;
         }
         
         .stock-out {
             color: #dc3545;
             font-weight: 500;
+            text-align: center;
         }
         
         .search-filter {
@@ -291,6 +294,11 @@
             font-weight: 500;
         }
         
+        .alert-success {
+            background-color: rgba(40, 167, 69, 0.1);
+            color: #28a745;
+        }
+        
         .alert-warning {
             background-color: rgba(255, 193, 7, 0.1);
             color: #ffc107;
@@ -312,6 +320,12 @@
             padding: 0.35rem 0.5rem;
             border: 1px solid rgba(0, 0, 0, 0.1);
             border-radius: 4px;
+            text-align: center;
+        }
+        
+        /* Center the stock numbers */
+        td:nth-child(4),
+        td:nth-child(5) {
             text-align: center;
         }
         
@@ -461,14 +475,11 @@
                         <td>Verres à vin</td>
                         <td class="stock-high">45</td>
                         <td>5</td>
-                        <td><span class="stock-alert">Stock suffisant</span></td>
+                        <td><span class="stock-alert alert-success">Stock suffisant</span></td>
                         <td>
-                            <div class="stock-form">
-                                <input type="number" class="stock-input" value="45">
-                                <button class="btn btn-sm btn-edit">
-                                    <i class="fas fa-save"></i>
-                                </button>
-                            </div>
+                            <button class="btn btn-sm btn-edit">
+                                <i class="fas fa-sync-alt"></i>
+                            </button>
                         </td>
                     </tr>
                     <tr>
@@ -484,12 +495,9 @@
                         <td>5</td>
                         <td><span class="stock-alert alert-warning">Stock faible</span></td>
                         <td>
-                            <div class="stock-form">
-                                <input type="number" class="stock-input" value="3">
-                                <button class="btn btn-sm btn-edit">
-                                    <i class="fas fa-save"></i>
-                                </button>
-                            </div>
+                            <button class="btn btn-sm btn-edit">
+                                <i class="fas fa-sync-alt"></i>
+                            </button>
                         </td>
                     </tr>
                     <tr>
@@ -505,12 +513,9 @@
                         <td>5</td>
                         <td><span class="stock-alert alert-danger">Rupture de stock</span></td>
                         <td>
-                            <div class="stock-form">
-                                <input type="number" class="stock-input" value="0">
-                                <button class="btn btn-sm btn-edit">
-                                    <i class="fas fa-save"></i>
-                                </button>
-                            </div>
+                            <button class="btn btn-sm btn-edit">
+                                <i class="fas fa-sync-alt"></i>
+                            </button>
                         </td>
                     </tr>
                     <tr>
@@ -524,14 +529,11 @@
                         <td>Caves à vin</td>
                         <td class="stock-high">8</td>
                         <td>2</td>
-                        <td><span class="stock-alert">Stock suffisant</span></td>
+                        <td><span class="stock-alert alert-success">Stock suffisant</span></td>
                         <td>
-                            <div class="stock-form">
-                                <input type="number" class="stock-input" value="8">
-                                <button class="btn btn-sm btn-edit">
-                                    <i class="fas fa-save"></i>
-                                </button>
-                            </div>
+                            <button class="btn btn-sm btn-edit">
+                                <i class="fas fa-sync-alt"></i>
+                            </button>
                         </td>
                     </tr>
                     <tr>
@@ -545,14 +547,11 @@
                         <td>Ouvre-bouteilles</td>
                         <td class="stock-high">22</td>
                         <td>5</td>
-                        <td><span class="stock-alert">Stock suffisant</span></td>
+                        <td><span class="stock-alert alert-success">Stock suffisant</span></td>
                         <td>
-                            <div class="stock-form">
-                                <input type="number" class="stock-input" value="22">
-                                <button class="btn btn-sm btn-edit">
-                                    <i class="fas fa-save"></i>
-                                </button>
-                            </div>
+                            <button class="btn btn-sm btn-edit">
+                                <i class="fas fa-sync-alt"></i>
+                            </button>
                         </td>
                     </tr>
                 </tbody>
