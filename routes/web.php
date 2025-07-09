@@ -7,6 +7,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\CommandeController;
 Route::get('/', function () {
     return view('index');
 });
@@ -50,6 +51,5 @@ Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.s
 Route::view('/merci', 'merci')->name('merci');
 
 //admin commandes route 
-Route::get('/dashboard/commandes', [CheckoutController::class, 'index'])->name('dashboard.commandes');
-Route::put('/dashboard/commandes/{id}', [CheckoutController::class, 'update'])->name('dashboard.commandes.update');
-
+Route::get('/dashboard/commandes', [CommandeController::class, 'index'])->name('dashboard.commandes');
+Route::put('/dashboard/commandes/{id}', [CommandeController::class, 'update'])->name('dashboard.commandes.update');

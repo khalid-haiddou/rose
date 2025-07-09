@@ -73,35 +73,8 @@ class CheckoutController extends Controller
 }
 
 
-    public function index()
-{
-    $commandes = Commande::with(['products' => function($query) {
-        $query->withPivot('quantity', 'price_ttc'); // Add this to include pivot data
-    }])->latest()->get();
+    
 
-    return view('dashboard.commande', compact('commandes'));
-}
-
-    public function update(Request $request, $id)
-    {
-        $commande = \App\Models\Commande::findOrFail($id);
-
-        $validated = $request->validate([
-            'firstname' => 'required|string|max:255',
-            'lastname'  => 'required|string|max:255',
-            'email'     => 'required|email',
-            'phone'     => 'required|string|max:20',
-            'address'   => 'required|string|max:255',
-            'city'      => 'required|string|max:255',
-            'postcode'  => 'nullable|string|max:20',
-            'payment_method' => 'required|in:COD,CMI',
-            'status'    => 'required|string',
-            'is_payed' => 'required|boolean'
-        ]);
-
-        $commande->update($validated);
-
-        return redirect()->route('dashboard.commandes')->with('success', 'Commande mise à jour avec succès.');
-    }
+    
     
 }

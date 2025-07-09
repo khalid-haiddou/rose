@@ -727,7 +727,7 @@
                         
                         <select name="status" id="statusSelect" class="filter-select" style="width: 100%; margin-top: 1rem;">
                             <option value="En attente">En attente</option>
-                            <option value="Confirmée">Confirmée</option>
+                            <option value="Confirmee">Confirmée</option>
                             <option value="En préparation">En préparation</option>
                             <option value="En cours de livraison">En cours de livraison</option>
                             <option value="Livrée">Livrée</option>
@@ -814,6 +814,9 @@
         document.getElementById("orderAddress").value = commande.address || "";
         document.getElementById("orderCity").value = commande.city || "";
 
+        // ✅ Set the form action dynamically
+        document.getElementById("statusForm").action = `/dashboard/commandes/${orderId}`;
+
         // Show modal
         document.getElementById("statusModal").style.display = "block";
     }
@@ -859,6 +862,8 @@
         form.submit();
     }
 </script>
+
+
 
 
 </body>
