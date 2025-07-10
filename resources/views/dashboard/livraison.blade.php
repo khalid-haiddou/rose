@@ -500,81 +500,30 @@
                     </tr>
                 </thead>
                 <tbody>
+                @foreach ($commandes as $commande)
                     <tr>
-                        <td>#DL-1287</td>
-                        <td>#1287</td>
-                        <td>Jean Dupont</td>
-                        <td>Chronopost</td>
-                        <td><span class="status in-transit">En cours</span></td>
+                        <td>{{ $commande->delivery_number ?? '—' }}</td>
+                        <td>#{{ $commande->order_number }}</td>
+                        <td>{{ $commande->firstname }} {{ $commande->lastname }}</td>
+                        <td>{{ $commande->shipping_method ?? '—' }}</td>
                         <td>
+                            @php
+                                $status = $commande->status;
+                                $statusClass = match ($status) {
+                                    'en-preparation' => 'pending',
+                                    'en-cours-de-livraison' => 'in-transit',
+                                    'livree' => 'delivered',
+                                    'echec-de-la-livraison' => 'failed',
+                                    default => '',
+                                };
+                            @endphp
+                            <span class="status {{ $statusClass }}">{{ ucfirst(str_replace('-', ' ', $status)) }}</span>
+                        </td>
+                        <td>
+                            {{-- You can generate progress dynamically later --}}
                             <div class="delivery-progress">
                                 <div class="progress-steps">
-                                    <div class="progress-bar" style="width: 66%;"></div>
-                                    <div class="step completed">
-                                        <i class="fas fa-check" style="font-size: 0.6rem;"></i>
-                                        <span class="step-label">Préparée</span>
-                                    </div>
-                                    <div class="step active">
-                                        <i class="fas fa-truck" style="font-size: 0.6rem;"></i>
-                                        <span class="step-label">En transit</span>
-                                    </div>
-                                    <div class="step">
-                                        <i class="fas fa-home" style="font-size: 0.6rem;"></i>
-                                        <span class="step-label">Livrée</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="action-btns">
-                                <button class="btn btn-sm btn-edit">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>#DL-1286</td>
-                        <td>#1286</td>
-                        <td>Marie Lambert</td>
-                        <td>Colissimo</td>
-                        <td><span class="status delivered">Livrée</span></td>
-                        <td>
-                            <div class="delivery-progress">
-                                <div class="progress-steps">
-                                    <div class="progress-bar" style="width: 100%;"></div>
-                                    <div class="step completed">
-                                        <i class="fas fa-check" style="font-size: 0.6rem;"></i>
-                                        <span class="step-label">Préparée</span>
-                                    </div>
-                                    <div class="step completed">
-                                        <i class="fas fa-truck" style="font-size: 0.6rem;"></i>
-                                        <span class="step-label">En transit</span>
-                                    </div>
-                                    <div class="step completed">
-                                        <i class="fas fa-home" style="font-size: 0.6rem;"></i>
-                                        <span class="step-label">Livrée</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="action-btns">
-                                <button class="btn btn-sm btn-edit">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>#DL-1285</td>
-                        <td>#1285</td>
-                        <td>Pierre Moreau</td>
-                        <td>UPS</td>
-                        <td><span class="status pending">En préparation</span></td>
-                        <td>
-                            <div class="delivery-progress">
-                                <div class="progress-steps">
+                                    {{-- Example for now --}}
                                     <div class="progress-bar" style="width: 0%;"></div>
                                     <div class="step active">
                                         <i class="fas fa-box" style="font-size: 0.6rem;"></i>
@@ -599,73 +548,9 @@
                             </div>
                         </td>
                     </tr>
-                    <tr>
-                        <td>#DL-1284</td>
-                        <td>#1284</td>
-                        <td>Sophie Martin</td>
-                        <td>DHL</td>
-                        <td><span class="status in-transit">En cours</span></td>
-                        <td>
-                            <div class="delivery-progress">
-                                <div class="progress-steps">
-                                    <div class="progress-bar" style="width: 33%;"></div>
-                                    <div class="step completed">
-                                        <i class="fas fa-check" style="font-size: 0.6rem;"></i>
-                                        <span class="step-label">Préparée</span>
-                                    </div>
-                                    <div class="step active">
-                                        <i class="fas fa-truck" style="font-size: 0.6rem;"></i>
-                                        <span class="step-label">En transit</span>
-                                    </div>
-                                    <div class="step">
-                                        <i class="fas fa-home" style="font-size: 0.6rem;"></i>
-                                        <span class="step-label">Livrée</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="action-btns">
-                                <button class="btn btn-sm btn-edit">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>#DL-1283</td>
-                        <td>#1283</td>
-                        <td>Thomas Leroy</td>
-                        <td>Chronopost</td>
-                        <td><span class="status failed">Échouée</span></td>
-                        <td>
-                            <div class="delivery-progress">
-                                <div class="progress-steps">
-                                    <div class="progress-bar" style="width: 66%;"></div>
-                                    <div class="step completed">
-                                        <i class="fas fa-check" style="font-size: 0.6rem;"></i>
-                                        <span class="step-label">Préparée</span>
-                                    </div>
-                                    <div class="step completed">
-                                        <i class="fas fa-truck" style="font-size: 0.6rem;"></i>
-                                        <span class="step-label">En transit</span>
-                                    </div>
-                                    <div class="step" style="border-color: #dc3545; color: #dc3545;">
-                                        <i class="fas fa-times" style="font-size: 0.6rem;"></i>
-                                        <span class="step-label">Échouée</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="action-btns">
-                                <button class="btn btn-sm btn-edit">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
+                @endforeach
                 </tbody>
+
             </table>
         </div>
     </div>

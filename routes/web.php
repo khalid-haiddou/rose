@@ -9,7 +9,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CommandeController;
 use App\Http\Controllers\StockController;
-
+use App\Http\Controllers\DeliveryController;
 
 Route::get('/', function () {
     return view('index');
@@ -59,3 +59,4 @@ Route::put('/dashboard/commandes/{id}', [CommandeController::class, 'update'])->
 Route::delete('/dashboard/commandes/{id}', [CommandeController::class, 'destroy'])->name('dashboard.commandes.destroy');
 Route::get('/dashboard/stock', [StockController::class, 'index'])->name('stock.index');
 Route::put('/dashboard/stock/{id}', [StockController::class, 'update'])->name('stock.update');
+Route::get('/dashboard/livraisons', [DeliveryController::class, 'index'])->name('livraisons.index');
