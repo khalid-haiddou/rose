@@ -11,12 +11,27 @@ class CheckoutController extends Controller
     public function show()
     {
         $cart = session()->get('cart', []);
+        $errors = [];
+
+        foreach ($cart as $item) {
+            $product = Product::find($item['product']->id);
+
+            if (!$product || $product->stock < $item['quantity']) {
+                $errors[] = "Le produit « {$item['product']->nom} » n'a plus assez de stock. Stock disponible : {$product->stock}";
+            }
+        }
+
+        if (!empty($errors)) {
+            return redirect()->route('cart.index')->withErrors($errors);
+        }
+
         $subtotal = collect($cart)->sum(fn($item) => $item['product']->prix_ttc * $item['quantity']);
         $shipping = $subtotal >= 499 ? 0 : 40;
         $total = $subtotal + $shipping;
 
         return view('checkout', compact('cart', 'subtotal', 'shipping', 'total'));
     }
+
 
     public function store(Request $request)
     {

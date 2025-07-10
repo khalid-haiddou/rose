@@ -450,6 +450,15 @@
         
         <div class="cart-container">
             <div class="cart-items">
+                @if ($errors->any())
+                    <div  style="margin-bottom: 1rem; color:red">
+                        <ul style="margin: 0;">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 @forelse ($cart as $item)
                     <div class="cart-item">
                         <div class="item-image">
