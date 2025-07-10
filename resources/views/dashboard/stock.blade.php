@@ -329,6 +329,95 @@
             text-align: center;
         }
         
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .modal-header h3 {
+            color: var(--navy);
+            font-size: 1.5rem;
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--dark);
+        }
+        
+        .modal-product-info {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .modal-product-img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 4px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        
+        .modal-product-name {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: var(--dark);
+        }
+        
+        .modal-form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .modal-form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--navy);
+        }
+        
+        .modal-form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+        
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+        }
+        
         /* Mobile Responsiveness */
         @media (max-width: 992px) {
             .sidebar {
@@ -373,6 +462,17 @@
             .action-btns {
                 flex-direction: column;
             }
+            
+            .modal-content {
+                padding: 1.5rem;
+                margin: 0 1rem;
+            }
+            
+            .modal-product-info {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
         }
         
         /* Menu Toggle Button */
@@ -409,7 +509,6 @@
             <li><a href="#"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
         </ul>
     </div>
-
     <!-- Main Content -->
     <div class="main-content">
         <div class="header">
@@ -485,9 +584,14 @@
                             <td>{{ $threshold }}</td>
                             <td><span class="stock-alert {{ $alertClass }}">{{ $alertText }}</span></td>
                             <td>
-                                <button class="btn btn-sm btn-edit">
+                                <button class="btn btn-sm btn-edit update-stock-btn"
+                                        data-product-id="{{ $product->id }}"
+                                        data-product-name="{{ $product->nom }}"
+                                        data-product-image="{{ $product->image ? asset('storage/' . $product->image) : 'https://via.placeholder.com/60' }}"
+                                        data-current-stock="{{ $product->stock }}">
                                     <i class="fas fa-sync-alt"></i>
                                 </button>
+
                             </td>
                         </tr>
                     @endforeach
@@ -496,11 +600,79 @@
         </div>
     </div>
 
+    <!-- Update Stock Modal -->
+    
+    <div class="modal" id="updateStockModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Mise à jour du stock</h3>
+                <button class="close-modal" id="closeModal">&times;</button>
+            </div>
+
+            <form id="updateStockForm" method="POST">
+                @csrf
+                @method('PUT')
+
+                <div class="modal-product-info">
+                    <img id="modalProductImage" class="modal-product-img" src="" alt="Product Image">
+                    <div>
+                        <h4 id="modalProductName" class="modal-product-name"></h4>
+                        <p>Stock actuel: <span id="modalCurrentStock"></span></p>
+                    </div>
+                </div>
+
+                <div class="modal-form-group">
+                    <label for="newStockQuantity">Nouvelle quantité</label>
+                    <input type="number" id="newStockQuantity" name="stock" min="0" required>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-edit" id="cancelUpdate">Annuler</button>
+                    <button type="submit" class="btn btn-primary">Mettre à jour</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script>
-        // Toggle sidebar on mobile
-        document.getElementById('menuToggle').addEventListener('click', function() {
-            document.querySelector('.sidebar').classList.toggle('active');
+    const modal = document.getElementById('updateStockModal');
+    const closeModal = document.getElementById('closeModal');
+    const cancelBtn = document.getElementById('cancelUpdate');
+    const updateBtns = document.querySelectorAll('.update-stock-btn');
+
+    updateBtns.forEach(btn => {
+        btn.addEventListener('click', function () {
+            const productId = this.dataset.productId;
+            const productName = this.dataset.productName;
+            const productImage = this.dataset.productImage;
+            const currentStock = this.dataset.currentStock;
+
+            document.getElementById('modalProductName').textContent = productName;
+            document.getElementById('modalProductImage').src = productImage;
+            document.getElementById('modalProductImage').alt = productName;
+            document.getElementById('modalCurrentStock').textContent = currentStock;
+            document.getElementById('newStockQuantity').value = currentStock;
+
+            // Set the form action
+            document.getElementById('updateStockForm').action = `/dashboard/stock/${productId}`;
+
+            modal.style.display = 'flex';
         });
-    </script>
+    });
+
+    function closeStockModal() {
+        modal.style.display = 'none';
+    }
+
+    closeModal.addEventListener('click', closeStockModal);
+    cancelBtn.addEventListener('click', closeStockModal);
+
+    window.addEventListener('click', function (event) {
+        if (event.target === modal) {
+            closeStockModal();
+        }
+    });
+</script>
+
 </body>
 </html>

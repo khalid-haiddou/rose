@@ -58,3 +58,4 @@ Route::get('/dashboard/commandes', [CommandeController::class, 'index'])->name('
 Route::put('/dashboard/commandes/{id}', [CommandeController::class, 'update'])->name('dashboard.commandes.update');
 Route::delete('/dashboard/commandes/{id}', [CommandeController::class, 'destroy'])->name('dashboard.commandes.destroy');
 Route::get('/dashboard/stock', [StockController::class, 'index'])->name('stock.index');
+Route::put('/dashboard/stock/{id}', [StockController::class, 'update'])->name('stock.update');
