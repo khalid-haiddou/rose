@@ -8,6 +8,9 @@ use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CommandeController;
+use App\Http\Controllers\StockController;
+
+
 Route::get('/', function () {
     return view('index');
 });
@@ -54,3 +57,4 @@ Route::view('/merci', 'merci')->name('merci');
 Route::get('/dashboard/commandes', [CommandeController::class, 'index'])->name('dashboard.commandes');
 Route::put('/dashboard/commandes/{id}', [CommandeController::class, 'update'])->name('dashboard.commandes.update');
 Route::delete('/dashboard/commandes/{id}', [CommandeController::class, 'destroy'])->name('dashboard.commandes.destroy');
+Route::get('/dashboard/stock', [StockController::class, 'index'])->name('stock.index');

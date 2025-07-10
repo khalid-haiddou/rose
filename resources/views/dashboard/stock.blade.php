@@ -464,97 +464,35 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>
-                            <div style="display: flex; align-items: center; gap: 1rem;">
-                                <img src="https://via.placeholder.com/60" class="product-img" alt="Verre à vin">
-                                <span>Verre à vin rouge grand ballon</span>
-                            </div>
-                        </td>
-                        <td>PROD-001</td>
-                        <td>Verres à vin</td>
-                        <td class="stock-high">45</td>
-                        <td>5</td>
-                        <td><span class="stock-alert alert-success">Stock suffisant</span></td>
-                        <td>
-                            <button class="btn btn-sm btn-edit">
-                                <i class="fas fa-sync-alt"></i>
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div style="display: flex; align-items: center; gap: 1rem;">
-                                <img src="https://via.placeholder.com/60" class="product-img" alt="Thermomètre">
-                                <span>Thermomètre à vin numérique</span>
-                            </div>
-                        </td>
-                        <td>PROD-002</td>
-                        <td>Accessoires de dégustation</td>
-                        <td class="stock-low">3</td>
-                        <td>5</td>
-                        <td><span class="stock-alert alert-warning">Stock faible</span></td>
-                        <td>
-                            <button class="btn btn-sm btn-edit">
-                                <i class="fas fa-sync-alt"></i>
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div style="display: flex; align-items: center; gap: 1rem;">
-                                <img src="https://via.placeholder.com/60" class="product-img" alt="Sous-verre">
-                                <span>Sous-verre en liège (lot de 6)</span>
-                            </div>
-                        </td>
-                        <td>PROD-003</td>
-                        <td>Accessoires de dégustation</td>
-                        <td class="stock-out">0</td>
-                        <td>5</td>
-                        <td><span class="stock-alert alert-danger">Rupture de stock</span></td>
-                        <td>
-                            <button class="btn btn-sm btn-edit">
-                                <i class="fas fa-sync-alt"></i>
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div style="display: flex; align-items: center; gap: 1rem;">
-                                <img src="https://via.placeholder.com/60" class="product-img" alt="Cave">
-                                <span>Cave à vin 12 bouteilles</span>
-                            </div>
-                        </td>
-                        <td>PROD-004</td>
-                        <td>Caves à vin</td>
-                        <td class="stock-high">8</td>
-                        <td>2</td>
-                        <td><span class="stock-alert alert-success">Stock suffisant</span></td>
-                        <td>
-                            <button class="btn btn-sm btn-edit">
-                                <i class="fas fa-sync-alt"></i>
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div style="display: flex; align-items: center; gap: 1rem;">
-                                <img src="https://via.placeholder.com/60" class="product-img" alt="Ouvre-bouteille">
-                                <span>Ouvre-bouteille sommelier</span>
-                            </div>
-                        </td>
-                        <td>PROD-005</td>
-                        <td>Ouvre-bouteilles</td>
-                        <td class="stock-high">22</td>
-                        <td>5</td>
-                        <td><span class="stock-alert alert-success">Stock suffisant</span></td>
-                        <td>
-                            <button class="btn btn-sm btn-edit">
-                                <i class="fas fa-sync-alt"></i>
-                            </button>
-                        </td>
-                    </tr>
+                    @foreach ($products as $product)
+                        @php
+                            $stock = $product->stock;
+                            $threshold = 5;
+                            $stockClass = $stock == 0 ? 'stock-out' : ($stock <= $threshold ? 'stock-low' : 'stock-high');
+                            $alertText = $stock == 0 ? 'Rupture de stock' : ($stock <= $threshold ? 'Stock faible' : 'Stock suffisant');
+                            $alertClass = $stock == 0 ? 'alert-danger' : ($stock <= $threshold ? 'alert-warning' : 'alert-success');
+                        @endphp
+                        <tr>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 1rem;">
+                                    <img src="{{ $product->image ? asset('storage/' . $product->image) : 'https://via.placeholder.com/60' }}" class="product-img" alt="{{ $product->nom }}">
+                                    <span>{{ $product->nom }}</span>
+                                </div>
+                            </td>
+                            <td>{{ $product->reference ?? 'N/A' }}</td>
+                            <td>{{ $product->subcategory->nom ?? $product->category->nom ?? 'N/A' }}</td>
+                            <td class="{{ $stockClass }}">{{ $stock }}</td>
+                            <td>{{ $threshold }}</td>
+                            <td><span class="stock-alert {{ $alertClass }}">{{ $alertText }}</span></td>
+                            <td>
+                                <button class="btn btn-sm btn-edit">
+                                    <i class="fas fa-sync-alt"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    @endforeach
                 </tbody>
+
             </table>
         </div>
     </div>
