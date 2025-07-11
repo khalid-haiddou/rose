@@ -602,9 +602,6 @@
         <div class="delivery-management">
             <div class="section-header">
                 <h3>Suivi des Livraisons</h3>
-                <button class="btn btn-primary">
-                    <i class="fas fa-plus"></i> Nouvelle Expédition
-                </button>
             </div>
             
             <table>
