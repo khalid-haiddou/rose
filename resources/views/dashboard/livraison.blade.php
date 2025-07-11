@@ -235,26 +235,57 @@
             border-radius: 20px;
             font-size: 0.8rem;
             font-weight: 500;
+            display: inline-block;
+            min-width: 120px;
+            text-align: center;
         }
         
-        .status.pending {
-            background-color: rgba(255, 193, 7, 0.1);
-            color: #ffc107;
+        .status.en-attente {
+            background-color: rgba(255, 193, 7, 0.15);
+            color: #ff9800;
+            border: 1px solid rgba(255, 193, 7, 0.3);
         }
         
-        .status.in-transit {
-            background-color: rgba(13, 110, 253, 0.1);
+        .status.confirmee {
+            background-color: rgba(33, 150, 243, 0.15);
+            color: #2196f3;
+            border: 1px solid rgba(33, 150, 243, 0.3);
+        }
+        
+        .status.en-preparation {
+            background-color: rgba(156, 39, 176, 0.15);
+            color: #9c27b0;
+            border: 1px solid rgba(156, 39, 176, 0.3);
+        }
+        
+        .status.en-cours-de-livraison, .status.en-transit, .status.en_transit {
+            background-color: rgba(13, 110, 253, 0.15);
             color: #0d6efd;
+            border: 1px solid rgba(13, 110, 253, 0.3);
         }
         
-        .status.delivered {
-            background-color: rgba(25, 135, 84, 0.1);
+        .status.livree {
+            background-color: rgba(25, 135, 84, 0.15);
             color: #198754;
+            border: 1px solid rgba(25, 135, 84, 0.3);
         }
         
-        .status.failed {
-            background-color: rgba(220, 53, 69, 0.1);
+        .status.echec-de-la-livraison {
+            background-color: rgba(220, 53, 69, 0.15);
             color: #dc3545;
+            border: 1px solid rgba(220, 53, 69, 0.3);
+        }
+        
+        .status.retournee {
+            background-color: rgba(111, 66, 193, 0.15);
+            color: #6f42c1;
+            border: 1px solid rgba(111, 66, 193, 0.3);
+        }
+        
+        .status.annulee {
+            background-color: rgba(108, 117, 125, 0.15);
+            color: #6c757d;
+            border: 1px solid rgba(108, 117, 125, 0.3);
         }
         
         .action-btns {
@@ -286,73 +317,162 @@
             background-color: rgba(32, 201, 151, 0.2);
         }
         
-        /* Delivery Progress */
-        .delivery-progress {
+        /* Beautiful Tracking Info Style */
+        .tracking-info {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            min-width: 180px;
+        }
+        
+        .tracking-number {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--navy);
+            padding: 6px 10px;
+            border-radius: 6px;
+            background: linear-gradient(135deg, rgba(0,0,117,0.03) 0%, rgba(150,0,24,0.03) 100%);
+            border: 1px solid rgba(0,0,117,0.08);
         }
         
-        .progress-steps {
-            flex: 1;
+        .tracking-number i {
+            color: var(--gold);
+            font-size: 1rem;
+            width: 18px;
+            text-align: center;
+        }
+        
+        .tracking-date {
             display: flex;
-            justify-content: space-between;
-            position: relative;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8rem;
+            color: #666;
+            padding: 6px 10px;
+            border-radius: 6px;
+            background: linear-gradient(135deg, rgba(196,162,103,0.03) 0%, rgba(254,254,250,0.03) 100%);
+            border: 1px solid rgba(196,162,103,0.08);
         }
         
-        .progress-steps::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background-color: rgba(0, 0, 0, 0.1);
-            z-index: 1;
+        .tracking-date i {
+            color: var(--gold);
+            font-size: 0.9rem;
+            width: 18px;
+            text-align: center;
         }
         
-        .progress-bar {
-            position: absolute;
-            top: 50%;
-            left: 0;
-            height: 2px;
-            background-color: var(--gold);
-            z-index: 2;
-            transition: width 0.3s ease;
+        .tracking-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border: 1px solid rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
         }
         
-        .step {
+        .tracking-status i {
+            font-size: 1.1rem;
             width: 24px;
             height: 24px;
-            border-radius: 50%;
-            background-color: white;
-            border: 2px solid rgba(0, 0, 0, 0.1);
             display: flex;
             align-items: center;
             justify-content: center;
-            position: relative;
-            z-index: 3;
+            border-radius: 50%;
+            transition: all 0.3s ease;
         }
         
-        .step.active {
-            border-color: var(--gold);
-            background-color: var(--gold);
-            color: white;
+        /* Beautiful Status Icons */
+        .tracking-status.en-attente {
+            color: #ff9800;
+            background: linear-gradient(135deg, rgba(255,193,7,0.1) 0%, rgba(255,255,255,0.8) 100%);
+            border: 1px solid rgba(255,193,7,0.2);
+        }
+        .tracking-status.en-attente i {
+            background-color: rgba(255,193,7,0.15);
+            color: #ff9800;
         }
         
-        .step.completed {
-            border-color: var(--gold);
-            background-color: var(--gold);
-            color: white;
+        .tracking-status.confirmee {
+            color: #2196f3;
+            background: linear-gradient(135deg, rgba(33,150,243,0.1) 0%, rgba(255,255,255,0.8) 100%);
+            border: 1px solid rgba(33,150,243,0.2);
+        }
+        .tracking-status.confirmee i {
+            background-color: rgba(33,150,243,0.15);
+            color: #2196f3;
         }
         
-        .step-label {
-            position: absolute;
-            top: 100%;
-            margin-top: 0.5rem;
-            font-size: 0.7rem;
-            white-space: nowrap;
-            color: rgba(0, 0, 0, 0.6);
+        .tracking-status.en-preparation {
+            color: #9c27b0;
+            background: linear-gradient(135deg, rgba(156,39,176,0.1) 0%, rgba(255,255,255,0.8) 100%);
+            border: 1px solid rgba(156,39,176,0.2);
+        }
+        .tracking-status.en-preparation i {
+            background-color: rgba(156,39,176,0.15);
+            color: #9c27b0;
+        }
+        
+        /* Enhanced En Transit/En Cours de Livraison Status */
+        .tracking-status.en-cours-de-livraison,
+        .tracking-status.en-transit,
+        .tracking-status.en_transit {
+            color: #0d6efd;
+            background: linear-gradient(135deg, rgba(13,110,253,0.1) 0%, rgba(255,255,255,0.8) 100%);
+            border: 1px solid rgba(13,110,253,0.2);
+        }
+        .tracking-status.en-cours-de-livraison i,
+        .tracking-status.en-transit i,
+        .tracking-status.en_transit i {
+            background-color: rgba(13,110,253,0.15);
+            color: #0d6efd;
+        }
+        
+        .tracking-status.livree {
+            color: #198754;
+            background: linear-gradient(135deg, rgba(25,135,84,0.1) 0%, rgba(255,255,255,0.8) 100%);
+            border: 1px solid rgba(25,135,84,0.2);
+        }
+        .tracking-status.livree i {
+            background-color: rgba(25,135,84,0.15);
+            color: #198754;
+        }
+        
+        .tracking-status.echec-de-la-livraison {
+            color: #dc3545;
+            background: linear-gradient(135deg, rgba(220,53,69,0.1) 0%, rgba(255,255,255,0.8) 100%);
+            border: 1px solid rgba(220,53,69,0.2);
+        }
+        .tracking-status.echec-de-la-livraison i {
+            background-color: rgba(220,53,69,0.15);
+            color: #dc3545;
+        }
+        
+        .tracking-status.retournee {
+            color: #6f42c1;
+            background: linear-gradient(135deg, rgba(111,66,193,0.1) 0%, rgba(255,255,255,0.8) 100%);
+            border: 1px solid rgba(111,66,193,0.2);
+        }
+        .tracking-status.retournee i {
+            background-color: rgba(111,66,193,0.15);
+            color: #6f42c1;
+        }
+        
+        .tracking-status.annulee {
+            color: #6c757d;
+            background: linear-gradient(135deg, rgba(108,117,125,0.1) 0%, rgba(255,255,255,0.8) 100%);
+            border: 1px solid rgba(108,117,125,0.2);
+        }
+        .tracking-status.annulee i {
+            background-color: rgba(108,117,125,0.15);
+            color: #6c757d;
         }
         
         /* Mobile Responsiveness */
@@ -400,14 +520,9 @@
                 flex-direction: column;
             }
             
-            .delivery-progress {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 0.5rem;
-            }
-            
-            .progress-steps {
-                width: 100%;
+            table {
+                display: block;
+                overflow-x: auto;
             }
         }
         
@@ -464,10 +579,15 @@
             <input type="text" class="search-box" placeholder="Rechercher une livraison...">
             <select class="filter-select">
                 <option value="">Tous les statuts</option>
-                <option value="pending">En préparation</option>
-                <option value="in-transit">En cours</option>
-                <option value="delivered">Livrée</option>
-                <option value="failed">Échouée</option>
+                <option value="en-attente">En attente</option>
+                <option value="confirmee">Confirmée</option>
+                <option value="en-preparation">En préparation</option>
+                <option value="en-cours-de-livraison">En cours de livraison</option>
+                <option value="en-transit">En transit</option>
+                <option value="livree">Livrée</option>
+                <option value="echec-de-la-livraison">Échec de la livraison</option>
+                <option value="retournee">Retournée</option>
+                <option value="annulee">Annulée</option>
             </select>
             <select class="filter-select">
                 <option value="">Tous les transporteurs</option>
@@ -509,35 +629,61 @@
                         <td>
                             @php
                                 $status = $commande->status;
-                                $statusClass = match ($status) {
-                                    'en-preparation' => 'pending',
-                                    'en-cours-de-livraison' => 'in-transit',
-                                    'livree' => 'delivered',
-                                    'echec-de-la-livraison' => 'failed',
-                                    default => '',
-                                };
+                                $statusClass = str_replace('_', '-', $status);
+                                $statusLabel = ucfirst(str_replace(['-', '_'], ' ', $status));
                             @endphp
-                            <span class="status {{ $statusClass }}">{{ ucfirst(str_replace('-', ' ', $status)) }}</span>
+                            <span class="status {{ $statusClass }}">{{ $statusLabel }}</span>
                         </td>
                         <td>
-                            {{-- You can generate progress dynamically later --}}
-                            <div class="delivery-progress">
-                                <div class="progress-steps">
-                                    {{-- Example for now --}}
-                                    <div class="progress-bar" style="width: 0%;"></div>
-                                    <div class="step active">
-                                        <i class="fas fa-box" style="font-size: 0.6rem;"></i>
-                                        <span class="step-label">Préparée</span>
-                                    </div>
-                                    <div class="step">
-                                        <i class="fas fa-truck" style="font-size: 0.6rem;"></i>
-                                        <span class="step-label">En transit</span>
-                                    </div>
-                                    <div class="step">
-                                        <i class="fas fa-home" style="font-size: 0.6rem;"></i>
-                                        <span class="step-label">Livrée</span>
-                                    </div>
-                                </div>
+                            <div class="tracking-info">
+                                @if($commande->tracking_number)
+                                    <span class="tracking-number">
+                                        <i class="fas fa-shipping-fast"></i> {{ $commande->tracking_number }}
+                                    </span>
+                                @endif
+                                @if($commande->shipping_date)
+                                    <span class="tracking-date">
+                                        <i class="far fa-calendar-check"></i> {{ date('d/m/Y', strtotime($commande->shipping_date)) }}
+                                    </span>
+                                @endif
+                                <span class="tracking-status {{ $statusClass }}">
+                                    @switch(str_replace('_', '-', $status))
+                                        @case('en-attente')
+                                            <i class="fas fa-hourglass-half"></i> 
+                                            <span>En attente</span>
+                                            @break
+                                        @case('confirmee')
+                                            <i class="fas fa-clipboard-check"></i> 
+                                            <span>Confirmée</span>
+                                            @break
+                                        @case('en-preparation')
+                                            <i class="fas fa-boxes"></i> 
+                                            <span>En préparation</span>
+                                            @break
+                                        @case('en-cours-de-livraison')
+                                        @case('en-transit')
+                                        @case('en_transit')
+                                            <i class="fas fa-truck-fast"></i> 
+                                            <span>En transit</span>
+                                            @break
+                                        @case('livree')
+                                            <i class="fas fa-check-double"></i> 
+                                            <span>Livrée</span>
+                                            @break
+                                        @case('echec-de-la-livraison')
+                                            <i class="fas fa-exclamation-triangle"></i> 
+                                            <span>Échec</span>
+                                            @break
+                                        @case('retournee')
+                                            <i class="fas fa-rotate-left"></i> 
+                                            <span>Retour</span>
+                                            @break
+                                        @case('annulee')
+                                            <i class="fas fa-times-circle"></i> 
+                                            <span>Annulée</span>
+                                            @break
+                                    @endswitch
+                                </span>
                             </div>
                         </td>
                         <td>
@@ -545,6 +691,11 @@
                                 <button class="btn btn-sm btn-edit">
                                     <i class="fas fa-edit"></i>
                                 </button>
+                                @if($commande->tracking_number)
+                                    <button class="btn btn-sm btn-track">
+                                        <i class="fas fa-map-marked-alt"></i> Suivre
+                                    </button>
+                                @endif
                             </div>
                         </td>
                     </tr>

@@ -22,7 +22,7 @@ class CommandeController extends Controller
 
         // Validate only fields that are provided
         $validated = $request->validate([
-            'status'    => 'nullable|string|in:en-attente,confirmee,en-preparation,en-cours-de-livraison,livree,echec-de-la-livraison,retournee,annulee',
+            'status'    => 'nullable|string|in:en-attente,confirmee,en-preparation,en-cours-de-livraison,livree,echec-de-la-livraison,retournee,annulee,en-transit',
             'is_payed'  => 'nullable|boolean',
             'address'   => 'nullable|string|max:255',
             'city'      => 'nullable|string|max:255',

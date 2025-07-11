@@ -256,6 +256,10 @@
             background-color: rgba(111, 66, 193, 0.1);
             color: #6f42c1;
         }
+        .status.en-transit {
+            background-color: rgba(12, 68, 255, 0.1);  /* Orange background */
+            color: #0700cf;  /* Orange text */
+        }
         
         .status.livree {
             background-color: rgba(25, 135, 84, 0.1);
@@ -611,7 +615,7 @@
         </div>
     </div>
 
-<!-- Order Details Modal -->
+        <!-- Order Details Modal -->
         @foreach($commandes as $commande)
         <div class="modal" id="orderModal-{{ $commande->id }}">
                     <div class="modal-content">
@@ -742,6 +746,7 @@
                             <option value="echec-de-la-livraison">Échec de la livraison</option>
                             <option value="retournee">Retournée</option>
                             <option value="annulee">annulée</option>
+                            <option value="en-transit">en transit</option>
                         </select>
 
                         <div style="margin-top: 1.5rem;">
@@ -845,7 +850,8 @@
             'en-cours-de-livraison': 'En cours de livraison',
             'livree': 'Livrée',
             'echec-de-la-livraison': 'Échec de la livraison',
-            'retournee': 'Retournée'
+            'retournee': 'Retournée',
+            'en-transit': 'En transit'
         };
 
         const newStatus = statusMap[document.getElementById("statusSelect").value] || "En attente";
@@ -872,9 +878,6 @@
         form.submit();
     }
 </script>
-
-
-
 
 </body>
 </html>
