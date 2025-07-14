@@ -101,6 +101,4 @@ class CheckoutController extends Controller
             ->with('order_email', $validated['email']);
     }
 
-
-    
 }
