@@ -18,9 +18,8 @@ class CommandeController extends Controller
     }
     public function update(Request $request, $id)
     {
-        $commande = Commande::findOrFail($id);
+        $commande = Commande::with('products')->findOrFail($id);
 
-        // Validate only fields that are provided
         $validated = $request->validate([
             'status'    => 'nullable|string|in:en-attente,confirmee,en-preparation,en-cours-de-livraison,livree,echec-de-la-livraison,retournee,annulee,en-transit',
             'is_payed'  => 'nullable|boolean',
@@ -28,10 +27,24 @@ class CommandeController extends Controller
             'city'      => 'nullable|string|max:255',
         ]);
 
-        // Filter out null values so only submitted fields are updated
+        $oldStatus = $commande->status;
+
+        // Filter only the provided fields
         $filtered = array_filter($validated, fn($value) => !is_null($value));
 
         $commande->update($filtered);
+
+        // 👉 If the status changed to 'annulee' or 'retournee', restore stock
+        if (
+            isset($validated['status']) &&
+            in_array($validated['status'], ['annulee', 'retournee']) &&
+            $oldStatus !== $validated['status']
+        ) {
+            foreach ($commande->products as $product) {
+                $product->stock += $product->pivot->quantity;
+                $product->save();
+            }
+        }
 
         return redirect()->route('dashboard.commandes')->with('success', 'Commande mise à jour avec succès.');
     }
