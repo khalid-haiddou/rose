@@ -406,67 +406,54 @@
 
         
         <!-- Recent Orders -->
-        <div class="recent-orders">
-            <div class="section-header">
-                <h3>Commandes Récentes</h3>
-                <a href="#">Voir Tout <i class="fas fa-chevron-right"></i></a>
-            </div>
-            
-            <table>
-                <thead>
-                    <tr>
-                        <th>N° Commande</th>
-                        <th>Client</th>
-                        <th>Date</th>
-                        <th>Montant</th>
-                        <th>Statut</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>#1254</td>
-                        <td>Jean Dupont</td>
-                        <td>12/06/2023</td>
-                        <td>145€</td>
-                        <td><span class="status completed">Complétée</span></td>
-                        <td><a href="#"><i class="fas fa-eye"></i></a></td>
-                    </tr>
-                    <tr>
-                        <td>#1253</td>
-                        <td>Marie Lambert</td>
-                        <td>12/06/2023</td>
-                        <td>89€</td>
-                        <td><span class="status shipped">Expédiée</span></td>
-                        <td><a href="#"><i class="fas fa-eye"></i></a></td>
-                    </tr>
-                    <tr>
-                        <td>#1252</td>
-                        <td>Pierre Moreau</td>
-                        <td>11/06/2023</td>
-                        <td>210€</td>
-                        <td><span class="status pending">En Attente</span></td>
-                        <td><a href="#"><i class="fas fa-eye"></i></a></td>
-                    </tr>
-                    <tr>
-                        <td>#1251</td>
-                        <td>Sophie Martin</td>
-                        <td>11/06/2023</td>
-                        <td>176€</td>
-                        <td><span class="status shipped">Expédiée</span></td>
-                        <td><a href="#"><i class="fas fa-eye"></i></a></td>
-                    </tr>
-                    <tr>
-                        <td>#1250</td>
-                        <td>Thomas Leroy</td>
-                        <td>10/06/2023</td>
-                        <td>95€</td>
-                        <td><span class="status completed">Complétée</span></td>
-                        <td><a href="#"><i class="fas fa-eye"></i></a></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+<div class="recent-orders">
+    <div class="section-header">
+        <h3>Commandes Récentes</h3>
+        <a href="{{ route('dashboard.commandes') }}">Voir Tout <i class="fas fa-chevron-right"></i></a>
+    </div>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>N° Commande</th>
+                <th>Client</th>
+                <th>Date</th>
+                <th>Montant</th>
+                <th>Statut</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse($recentCommandes as $commande)
+                <tr>
+                    <td>#{{ $commande->order_number }}</td>
+                    <td>{{ $commande->firstname }} {{ $commande->lastname }}</td>
+                    <td>{{ $commande->created_at->format('d/m/Y') }}</td>
+                    <td>{{ number_format($commande->total, 2, ',', ' ') }} Dhs</td>
+                    <td>
+                        @php
+                            $statusClass = match($commande->status) {
+                                'livree' => 'completed',
+                                'en-cours-de-livraison', 'en-transit' => 'shipped',
+                                'en-attente' => 'pending',
+                                default => 'pending'
+                            };
+                        @endphp
+                        <span class="status {{ $statusClass }}">
+                            {{ ucfirst(str_replace(['-', '_'], ' ', $commande->status)) }}
+                        </span>
+                    </td>
+                    <td>
+                        <a href="{{ route('dashboard.commandes') }}"><i class="fas fa-eye"></i></a>
+                    </td>
+                </tr>
+            @empty
+                <tr><td colspan="6">Aucune commande récente.</td></tr>
+            @endforelse
+        </tbody>
+    </table>
+</div>
+
     </div>
 
     <script>

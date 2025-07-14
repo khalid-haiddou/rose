@@ -43,25 +43,28 @@ class CommandeController extends Controller
         return redirect()->route('dashboard.commandes')->with('success', 'Commande supprimée avec succès.');
     }
     public function dashboard()
-{
-    $today = now()->startOfDay();
+    {
+        $today = now()->startOfDay();
 
-    $commandesTodayCount = Commande::whereDate('created_at', $today)->count();
+        $commandesTodayCount = Commande::whereDate('created_at', $today)->count();
+        $productsInStock = \App\Models\Product::where('stock', '>', 0)->count();
+        $outOfStock = \App\Models\Product::where('stock', '=', 0)->count();
+        $deliveriesInProgress = Commande::whereIn('status', ['en-preparation', 'en-cours-de-livraison', 'en-transit'])->count();
+        $deliveriesDone = Commande::where('status', 'livree')->count();
 
-    $productsInStock = \App\Models\Product::where('stock', '>', 0)->count();
-    $outOfStock = \App\Models\Product::where('stock', '=', 0)->count();
+        // ✅ Fetch 5 latest commandes
+        $recentCommandes = Commande::latest()->take(9)->get();
 
-    $deliveriesInProgress = Commande::whereIn('status', ['en-preparation', 'en-cours-de-livraison', 'en-transit'])->count();
-    $deliveriesDone = Commande::where('status', 'livree')->count();
+        return view('dashboard.dashboard', compact(
+            'commandesTodayCount',
+            'productsInStock',
+            'outOfStock',
+            'deliveriesInProgress',
+            'deliveriesDone',
+            'recentCommandes'
+        ));
+    }
 
-    return view('dashboard.dashboard', [
-        'commandesTodayCount'   => $commandesTodayCount,
-        'productsInStock'       => $productsInStock,
-        'outOfStock'            => $outOfStock,
-        'deliveriesInProgress'  => $deliveriesInProgress,
-        'deliveriesDone'        => $deliveriesDone,
-    ]);
-}
 
 
 }
