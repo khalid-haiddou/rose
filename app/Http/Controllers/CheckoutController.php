@@ -36,16 +36,16 @@ class CheckoutController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'firstname' => 'required|string|max:255',
-            'lastname'  => 'required|string|max:255',
-            'email'     => 'required|email',
-            'phone'     => 'required|string|max:20',
-            'address'   => 'required|string|max:255',
-            'city'      => 'required|string|max:255',
-            'postcode'  => 'nullable|string|max:20',
-            'shipping_method' => 'required|string',
-            'payment_method'  => 'required|in:COD,CMI',
-            'terms'     => 'accepted',
+            'firstname'         => 'required|string|max:255',
+            'lastname'          => 'required|string|max:255',
+            'email'             => 'required|email',
+            'phone'             => 'required|string|max:20',
+            'address'           => 'required|string|max:255',
+            'city'              => 'required|string|max:255',
+            'postcode'          => 'nullable|string|max:20',
+            'shipping_method'   => 'required|string',
+            'payment_method'    => 'required|in:COD,CMI',
+            'terms'             => 'accepted',
         ]);
 
         $cart = session()->get('cart', []);
@@ -53,13 +53,12 @@ class CheckoutController extends Controller
             return redirect()->route('cart.index')->with('error', 'Votre panier est vide.');
         }
 
-        // ✅ Check if all items have sufficient stock
+        // ✅ Stock verification before processing
         foreach ($cart as $item) {
-            $product = $item['product'];
-            $quantity = $item['quantity'];
+            $product = Product::find($item['product']->id);
 
-            if ($product->stock < $quantity) {
-                return redirect()->route('cart.index')->with('error', "Le produit \"{$product->nom}\" n'a plus assez de stock. Stock disponible : {$product->stock}");
+            if (!$product || $product->stock < $item['quantity']) {
+                return redirect()->route('cart.index')->with('error', "Le produit « {$item['product']->nom} » n'a plus assez de stock. Stock disponible : {$product->stock}");
             }
         }
 
@@ -81,17 +80,16 @@ class CheckoutController extends Controller
             'is_payed'         => $validated['payment_method'] === 'CMI',
         ]);
 
+        // ✅ Attach products and update stock
         foreach ($cart as $item) {
-            $product = $item['product'];
+            $product = Product::find($item['product']->id);
             $quantity = $item['quantity'];
 
-            // Attach product with pivot data
             $commande->products()->attach($product->id, [
-                'quantity'   => $quantity,
-                'price_ttc'  => $product->prix_ttc,
+                'quantity'  => $quantity,
+                'price_ttc' => $product->prix_ttc,
             ]);
 
-            // ✅ Decrease product stock
             $product->decrement('stock', $quantity);
         }
 
@@ -102,6 +100,7 @@ class CheckoutController extends Controller
             ->with('order_number', $orderNumber)
             ->with('order_email', $validated['email']);
     }
+
 
     
 }
