@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suivi de commande - Rose & Bouchon</title>
+    <style>
+        :root {
+            --navy: #000075;
+            --burgundy: #960018;
+            --dark: #121212;
+            --ivory: #FEFEFA;
+            --gold: #C4A267;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Cormorant Garamond', serif;
+            background-color: var(--ivory);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: var(--dark);
+            background-image: linear-gradient(rgba(254, 254, 250, 0.96), rgba(254, 254, 250, 0.98));
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        
+        .tracking-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .tracking-header h1 {
+            color: var(--navy);
+            font-weight: 600;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-variant: small-caps;
+        }
+        
+        .tracking-header p {
+            color: var(--burgundy);
+            font-style: italic;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .search-box {
+            background-color: white;
+            padding: 2.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+            text-align: center;
+            border: 1px solid rgba(150, 0, 24, 0.1);
+        }
+        
+        .search-box h2 {
+            color: var(--navy);
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .search-form {
+            display: flex;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid rgba(150, 0, 24, 0.3);
+            border-right: none;
+            border-radius: 4px 0 0 4px;
+            font-family: inherit;
+            font-size: 1rem;
+            color: var(--dark);
+            outline: none;
+            transition: all 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: var(--burgundy);
+        }
+        
+        .search-btn {
+            background: linear-gradient(135deg, var(--navy), var(--burgundy));
+            color: white;
+            border: none;
+            padding: 0 25px;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .search-btn:hover {
+            opacity: 0.9;
+        }
+        
+        .order-details {
+            background-color: white;
+            padding: 2.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+            border: 1px solid rgba(150, 0, 24, 0.1);
+            display: none; /* Hidden by default */
+        }
+        
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(150, 0, 24, 0.1);
+        }
+        
+        .order-header h2 {
+            color: var(--navy);
+            font-size: 1.5rem;
+        }
+        
+        .order-status {
+            background-color: rgba(150, 0, 24, 0.1);
+            color: var(--burgundy);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .order-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .info-card {
+            padding: 1rem;
+            border-radius: 6px;
+            background-color: rgba(196, 162, 103, 0.05);
+            border-left: 3px solid var(--gold);
+        }
+        
+        .info-card h3 {
+            color: var(--navy);
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .info-card p {
+            color: var(--dark);
+            font-size: 0.95rem;
+        }
+        
+        .order-timeline {
+            margin: 2rem 0;
+        }
+        
+        .timeline-step {
+            display: flex;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        
+        .timeline-step.completed .step-icon {
+            background-color: var(--burgundy);
+            color: white;
+        }
+        
+        .timeline-step.active .step-icon {
+            background: linear-gradient(135deg, var(--navy), var(--burgundy));
+            color: white;
+        }
+        
+        .timeline-step.pending .step-icon {
+            background-color: var(--ivory);
+            color: var(--dark);
+            border: 1px solid rgba(150, 0, 24, 0.3);
+        }
+        
+        .step-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+        
+        .step-content {
+            flex: 1;
+        }
+        
+        .step-title {
+            font-weight: 500;
+            color: var(--navy);
+            margin-bottom: 0.3rem;
+        }
+        
+        .step-date {
+            color: var(--burgundy);
+            font-size: 0.85rem;
+            font-style: italic;
+        }
+        
+        .order-products {
+            margin-top: 2rem;
+        }
+        
+        .order-products h3 {
+            color: var(--navy);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(150, 0, 24, 0.1);
+        }
+        
+        .product-item {
+            display: flex;
+            padding: 1rem 0;
+            border-bottom: 1px dashed rgba(150, 0, 24, 0.1);
+        }
+        
+        .product-image {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-right: 1.5rem;
+            border: 1px solid rgba(150, 0, 24, 0.1);
+        }
+        
+        .product-details {
+            flex: 1;
+        }
+        
+        .product-name {
+            font-weight: 500;
+            color: var(--navy);
+            margin-bottom: 0.5rem;
+        }
+        
+        .product-price {
+            color: var(--burgundy);
+            font-size: 0.95rem;
+        }
+        
+        .help-section {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(150, 0, 24, 0.1);
+        }
+        
+        .help-section p {
+            margin-bottom: 1.5rem;
+        }
+        
+        .contact-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--navy), var(--burgundy));
+            color: white;
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .contact-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 30px 15px;
+            }
+            
+            .tracking-header h1 {
+                font-size: 2rem;
+            }
+            
+            .search-form {
+                flex-direction: column;
+            }
+            
+            .search-input {
+                border-right: 1px solid rgba(150, 0, 24, 0.3);
+                border-radius: 4px;
+                margin-bottom: 10px;
+            }
+            
+            .search-btn {
+                border-radius: 4px;
+                padding: 12px;
+            }
+            
+            .order-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .order-status {
+                margin-top: 1rem;
+            }
+            
+            .product-item {
+                flex-direction: column;
+            }
+            
+            .product-image {
+                margin-bottom: 1rem;
+                margin-right: 0;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header class="tracking-header">
+            <h1>Suivi de commande</h1>
+            <p>Entrez votre numéro de commande pour suivre son statut et son expédition</p>
+        </header>
+        
+        <div class="search-box">
+            <h2>Rechercher une commande</h2>
+            <form class="search-form" id="orderSearchForm">
+                <input type="text" class="search-input" placeholder="Ex: RB2023-12345" required>
+                <button type="submit" class="search-btn">Rechercher</button>
+            </form>
+        </div>
+        
+        <div class="order-details" id="orderDetails">
+            <div class="order-header">
+                <h2>Commande #RB2023-45879</h2>
+                <div class="order-status">En préparation</div>
+            </div>
+            
+            <div class="order-info">
+                <div class="info-card">
+                    <h3>Date de commande</h3>
+                    <p>14 juillet 2023</p>
+                </div>
+                
+                <div class="info-card">
+                    <h3>Total</h3>
+                    <p>147,50 €</p>
+                </div>
+                
+                <div class="info-card">
+                    <h3>Méthode de paiement</h3>
+                    <p>Carte bancaire</p>
+                </div>
+                
+                <div class="info-card">
+                    <h3>Livraison</h3>
+                    <p>Colissimo - 8X123456789FR</p>
+                </div>
+            </div>
+            
+            <div class="order-timeline">
+                <div class="timeline-step completed">
+                    <div class="step-icon">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <div class="step-content">
+                        <div class="step-title">Commande confirmée</div>
+                        <div class="step-date">14 juillet 2023 - 10:15</div>
+                    </div>
+                </div>
+                
+                <div class="timeline-step active">
+                    <div class="step-icon">
+                        <i class="fas fa-box-open"></i>
+                    </div>
+                    <div class="step-content">
+                        <div class="step-title">En préparation</div>
+                        <div class="step-date">En cours</div>
+                    </div>
+                </div>
+                
+                <div class="timeline-step pending">
+                    <div class="step-icon">
+                        <i class="fas fa-shipping-fast"></i>
+                    </div>
+                    <div class="step-content">
+                        <div class="step-title">Expédiée</div>
+                    </div>
+                </div>
+                
+                <div class="timeline-step pending">
+                    <div class="step-icon">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <div class="step-content">
+                        <div class="step-title">Livrée</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="order-products">
+                <h3>Articles commandés</h3>
+                
+                <div class="product-item">
+                    <img src="https://images.unsplash.com/photo-1558160074-4d7d8bdf4256?q=80&w=200" alt="Cave à vin" class="product-image">
+                    <div class="product-details">
+                        <div class="product-name">Cave à vin élégante - Chêne massif</div>
+                        <div class="product-price">89,90 €</div>
+                        <div>Quantité : 1</div>
+                    </div>
+                </div>
+                
+                <div class="product-item">
+                    <img src="https://images.unsplash.com/photo-1608270586620-248524c67de9?q=80&w=200" alt="Verres à vin" class="product-image">
+                    <div class="product-details">
+                        <div class="product-name">Set de 2 verres à dégustation premium</div>
+                        <div class="product-price">57,60 €</div>
+                        <div>Quantité : 1</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="help-section">
+                <p>Si vous avez des questions concernant votre commande, notre équipe se tient à votre disposition.</p>
+                <a href="/contact" class="contact-btn">Nous contacter</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simple JavaScript to show the order details when form is submitted
+        document.getElementById('orderSearchForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            document.getElementById('orderDetails').style.display = 'block';
+            
+            // In a real implementation, you would fetch order details from your backend here
+            // and update the page content dynamically
+        });
+    </script>
+</body>
+</html>
