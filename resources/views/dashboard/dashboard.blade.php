@@ -381,16 +381,17 @@
                     <h3>Commandes Aujourd'hui</h3>
                     <i class="fas fa-shopping-basket"></i>
                 </div>
-                <div class="card-value">24</div>
-                <div class="card-description">+12% depuis hier</div>
+                <div class="card-value">{{ $commandesTodayCount }}</div>
+                <div class="card-description">—</div> {{-- Optional: Add growth calc --}}
             </div>
+
             <div class="card">
                 <div class="card-header">
                     <h3>Produits en Stock</h3>
                     <i class="fas fa-box-open"></i>
                 </div>
-                <div class="card-value">156</div>
-                <div class="card-description">12 en rupture</div>
+                <div class="card-value">{{ $productsInStock }}</div>
+                <div class="card-description">{{ $outOfStock }} en rupture</div>
             </div>
             
             <div class="card">
@@ -398,10 +399,11 @@
                     <h3>Livraisons en Cours</h3>
                     <i class="fas fa-truck"></i>
                 </div>
-                <div class="card-value">8</div>
-                <div class="card-description">2 en retard</div>
+                <div class="card-value">{{ $deliveriesInProgress }}</div>
+                <div class="card-description">{{ $deliveriesDone }} livrées</div>
             </div>
         </div>
+
         
         <!-- Recent Orders -->
         <div class="recent-orders">

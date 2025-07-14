@@ -60,3 +60,5 @@ Route::delete('/dashboard/commandes/{id}', [CommandeController::class, 'destroy'
 Route::get('/dashboard/stock', [StockController::class, 'index'])->name('stock.index');
 Route::put('/dashboard/stock/{id}', [StockController::class, 'update'])->name('stock.update');
 Route::get('/dashboard/livraisons', [DeliveryController::class, 'index'])->name('livraisons.index');
+Route::put('/dashboard/livraison/{commande}/update-delivery-number', [\App\Http\Controllers\DeliveryController::class, 'updateDeliveryNumber'])->name('livraison.updateDeliveryNumber');
+Route::get('/dashboard', [CommandeController::class, 'dashboard'])->name('dashboard');

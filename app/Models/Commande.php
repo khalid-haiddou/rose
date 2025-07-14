@@ -12,7 +12,7 @@ class Commande extends Model
         'order_number', // add this
         'firstname', 'lastname', 'email', 'phone', 'address',
         'city', 'postcode', 'shipping_method', 'shipping_price',
-        'total', 'status', 'payment_method', 'is_payed'
+        'total', 'status', 'payment_method', 'is_payed','delivery_number'
     ];
 
 

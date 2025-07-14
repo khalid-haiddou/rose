@@ -475,6 +475,110 @@
             color: #6c757d;
         }
         
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            animation: modalFadeIn 0.3s ease;
+        }
+        
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        
+        .modal-header h3 {
+            font-size: 1.5rem;
+            color: var(--navy);
+            font-weight: 500;
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+            transition: color 0.3s ease;
+        }
+        
+        .close-modal:hover {
+            color: var(--burgundy);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--navy);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--gold);
+        }
+        
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .btn-secondary {
+            background-color: rgba(0, 0, 0, 0.05);
+            color: var(--dark);
+        }
+        
+        .btn-secondary:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+        
         /* Mobile Responsiveness */
         @media (max-width: 992px) {
             .sidebar {
@@ -523,6 +627,11 @@
             table {
                 display: block;
                 overflow-x: auto;
+            }
+            
+            .modal-content {
+                margin: 1rem;
+                padding: 1.5rem;
             }
         }
         
@@ -685,9 +794,12 @@
                         </td>
                         <td>
                             <div class="action-btns">
-                                <button class="btn btn-sm btn-edit">
+                                <button class="btn btn-sm btn-edit"
+                                    onclick="openEditModal({{ $commande->id }}, '{{ $commande->delivery_number }}', '{{ $commande->order_number }}', '{{ $commande->status }}')">
                                     <i class="fas fa-edit"></i>
                                 </button>
+
+
                                 @if($commande->tracking_number)
                                     <button class="btn btn-sm btn-track">
                                         <i class="fas fa-map-marked-alt"></i> Suivre
@@ -702,11 +814,96 @@
         </div>
     </div>
 
-    <script>
-        // Toggle sidebar on mobile
-        document.getElementById('menuToggle').addEventListener('click', function() {
-            document.querySelector('.sidebar').classList.toggle('active');
-        });
-    </script>
+    <!-- Edit Delivery Modal -->
+<div class="modal" id="editDeliveryModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Mettre à jour la livraison</h3>
+            <button class="close-modal" onclick="closeModal()">&times;</button>
+        </div>
+
+        <form method="POST" action="{{ route('livraison.updateDeliveryNumber', ['commande' => '__ID__']) }}" id="deliveryUpdateForm">
+            @csrf
+            @method('PUT')
+
+            <input type="hidden" id="commandeId">
+
+            <!-- Order Number (readonly) -->
+            <div class="form-group">
+                <label for="orderNumber">Numéro de commande</label>
+                <input type="text" class="form-control" id="orderNumber" readonly>
+            </div>
+
+            <!-- Delivery Number -->
+            <div class="form-group">
+                <label for="deliveryNumber">Numéro de livraison *</label>
+                <input type="text" class="form-control" id="deliveryNumber" name="delivery_number" required>
+            </div>
+
+            <!-- Status Dropdown -->
+            <div class="form-group">
+                <label for="status">Statut de la commande</label>
+                <select name="status" id="status" class="form-control" required>
+                    <option value="confirmee">Confirmée</option>
+                    <option value="en-preparation">En préparation</option>
+                    <option value="en-cours-de-livraison">En cours de livraison</option>
+                    <option value="livree">Livrée</option>
+                    <option value="echec-de-la-livraison">Échec de la livraison</option>
+                    <option value="retournee">Retournée</option>
+                    <option value="annulee">annulée</option>
+                    <option value="en-transit">en transit</option>
+                </select>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeModal()">Annuler</button>
+                <button type="submit" class="btn btn-primary">Enregistrer</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+<script>
+    // Toggle sidebar
+    document.getElementById('menuToggle').addEventListener('click', function () {
+        document.querySelector('.sidebar').classList.toggle('active');
+    });
+
+    // Show modal and populate fields
+    function openEditModal(commandeId, deliveryNumber, orderNumber, currentStatus = '') {
+        const modal = document.getElementById('editDeliveryModal');
+        document.getElementById('commandeId').value = commandeId;
+        document.getElementById('orderNumber').value = orderNumber;
+        document.getElementById('deliveryNumber').value = deliveryNumber ?? '';
+
+        // Set current status if provided
+        if (document.getElementById('status')) {
+            document.getElementById('status').value = currentStatus;
+        }
+
+        const form = document.getElementById('deliveryUpdateForm');
+        const routeTemplate = "{{ route('livraison.updateDeliveryNumber', ['commande' => '__ID__']) }}";
+        form.action = routeTemplate.replace('__ID__', commandeId);
+
+        modal.style.display = 'flex';
+    }
+
+    function closeModal() {
+        document.getElementById('editDeliveryModal').style.display = 'none';
+    }
+
+    // Close modal when clicking outside
+    window.addEventListener('click', function (event) {
+        const modal = document.getElementById('editDeliveryModal');
+        if (event.target === modal) {
+            closeModal();
+        }
+    });
+</script>
+
+
+
 </body>
 </html>
