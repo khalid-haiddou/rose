@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programme Fidélité - Rose & Bouchon</title>
+    <style>
+        :root {
+            --navy: #000075;
+            --burgundy: #960018;
+            --dark: #121212;
+            --ivory: #FEFEFA;
+            --gold: #C4A267;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Cormorant Garamond', serif;
+            background-color: var(--ivory);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-image: linear-gradient(rgba(254, 254, 250, 0.92), rgba(254, 254, 250, 0.94)), 
+                              url('https://images.unsplash.com/photo-1510812431401-41e2f9c2c0b4?q=80&w=2000');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            padding: 20px;
+            color: var(--dark);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        
+        .account-header {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(150, 0, 24, 0.1);
+        }
+        
+        .account-header h1 {
+            color: var(--navy);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            font-size: 2.8rem;
+            margin-bottom: 0.5rem;
+            font-variant: small-caps;
+        }
+        
+        .account-header p {
+            color: var(--burgundy);
+            font-style: italic;
+            font-size: 1.2rem;
+            letter-spacing: 0.3px;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .account-section {
+            background-color: var(--ivory);
+            padding: 3rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+            border-top: 4px solid var(--burgundy);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(150, 0, 24, 0.1);
+            margin-bottom: 3rem;
+        }
+        
+        .account-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--navy), var(--burgundy));
+            z-index: 2;
+        }
+        
+        .account-section::after {
+            content: '🍷';
+            position: absolute;
+            bottom: -30px;
+            right: -30px;
+            font-size: 180px;
+            opacity: 0.03;
+            z-index: 0;
+            transform: rotate(15deg);
+        }
+        
+        .account-section h2 {
+            color: var(--navy);
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(0, 0, 117, 0.1);
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            position: relative;
+        }
+        
+        .account-section h2::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100px;
+            height: 2px;
+            background: var(--burgundy);
+        }
+        
+        .account-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        
+        @media (max-width: 768px) {
+            .account-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                margin: 1.5rem 0;
+            }
+        }
+        
+        .account-sidebar {
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(150, 0, 24, 0.1);
+            height: fit-content;
+        }
+        
+        .account-sidebar h3 {
+            color: var(--navy);
+            font-size: 1.4rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(0, 0, 117, 0.1);
+        }
+        
+        .account-menu {
+            list-style: none;
+        }
+        
+        .account-menu li {
+            margin-bottom: 0.75rem;
+        }
+        
+        .account-menu a {
+            display: flex;
+            align-items: center;
+            color: var(--dark);
+            text-decoration: none;
+            padding: 0.5rem 0;
+            transition: all 0.3s ease;
+        }
+        
+        .account-menu a:hover {
+            color: var(--burgundy);
+            transform: translateX(5px);
+        }
+        
+        .account-menu a i {
+            margin-right: 0.75rem;
+            width: 20px;
+            text-align: center;
+            color: var(--burgundy);
+        }
+        
+        .account-menu a.active {
+            color: var(--burgundy);
+            font-weight: 600;
+        }
+        
+        .account-content {
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(150, 0, 24, 0.1);
+        }
+        
+        /* Loyalty Program Card */
+        .loyalty-card {
+            background: linear-gradient(135deg, rgba(196, 162, 103, 0.1), rgba(150, 0, 24, 0.1));
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(196, 162, 103, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .loyalty-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1514933651103-005eec06c04b?q=80&w=1000') center/cover;
+            opacity: 0.05;
+            z-index: 0;
+        }
+
+        .loyalty-card h3 {
+            color: var(--navy);
+            font-size: 1.6rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .loyalty-card h3 i {
+            margin-right: 0.75rem;
+            color: var(--burgundy);
+            font-size: 1.8rem;
+        }
+
+        .loyalty-points {
+            display: flex;
+            align-items: baseline;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .points-count {
+            font-size: 3rem;
+            font-weight: 600;
+            color: var(--burgundy);
+            margin-right: 1rem;
+        }
+
+        .points-label {
+            font-size: 1.2rem;
+            color: var(--dark);
+            opacity: 0.8;
+        }
+
+        .progress-container {
+            width: 100%;
+            background-color: rgba(150, 0, 24, 0.1);
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            height: 12px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--gold), var(--burgundy));
+            border-radius: 20px;
+            width: 65%;
+            transition: width 0.5s ease;
+        }
+
+        .progress-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--dark);
+        }
+
+        .loyalty-explanation {
+            background-color: rgba(255, 255, 255, 0.6);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(150, 0, 24, 0.1);
+        }
+
+        .loyalty-explanation p {
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .loyalty-benefits {
+            margin-top: 2rem;
+        }
+
+        .loyalty-benefits h4 {
+            color: var(--navy);
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .loyalty-benefits h4::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 2px;
+            background: var(--burgundy);
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .benefit-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(150, 0, 24, 0.1);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        .benefit-icon {
+            font-size: 2rem;
+            color: var(--burgundy);
+            margin-bottom: 1rem;
+        }
+
+        .benefit-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--navy);
+            margin-bottom: 0.5rem;
+        }
+
+        .benefit-description {
+            font-size: 0.95rem;
+            color: var(--dark);
+            line-height: 1.5;
+        }
+
+        .next-reward {
+            background-color: rgba(150, 0, 24, 0.05);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            border: 1px solid rgba(150, 0, 24, 0.1);
+            text-align: center;
+        }
+
+        .next-reward h4 {
+            color: var(--navy);
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .next-reward p {
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .reward-progress {
+            font-weight: 600;
+            color: var(--burgundy);
+        }
+
+        .how-it-works {
+            margin-top: 3rem;
+        }
+
+        .how-it-works h3 {
+            color: var(--navy);
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .how-it-works h3::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 2px;
+            background: var(--burgundy);
+        }
+
+        .steps {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+            position: relative;
+        }
+
+        .steps::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: rgba(150, 0, 24, 0.2);
+            z-index: 0;
+        }
+
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+            flex: 1;
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--burgundy);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .step.active .step-number {
+            background-color: var(--gold);
+        }
+
+        .step-title {
+            font-weight: 600;
+            color: var(--navy);
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+
+        .step-description {
+            font-size: 0.9rem;
+            color: var(--dark);
+            text-align: center;
+            padding: 0 1rem;
+            line-height: 1.5;
+        }
+
+        /* Enhanced Mobile Responsiveness */
+        @media (max-width: 768px) {
+            body {
+                padding: 12px;
+                background-image: linear-gradient(rgba(254, 254, 250, 0.96), rgba(254, 254, 250, 0.98)), 
+                                  url('https://images.unsplash.com/photo-1510812431401-41e2f9c2c0b4?q=80&w=1200');
+            }
+            
+            .account-header {
+                margin-bottom: 1.5rem;
+            }
+            
+            .account-header h1 {
+                font-size: 2rem;
+            }
+            
+            .account-header p {
+                font-size: 0.95rem;
+                padding: 0 10px;
+            }
+            
+            .account-section {
+                padding: 1.5rem;
+                margin-bottom: 1.5rem;
+            }
+            
+            .account-section h2 {
+                font-size: 1.4rem;
+            }
+            
+            .account-section::after {
+                font-size: 120px;
+                bottom: -15px;
+                right: -15px;
+            }
+            
+            .account-sidebar,
+            .account-content {
+                padding: 1.5rem;
+            }
+            
+            .loyalty-points {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            
+            .points-count {
+                margin-right: 0;
+                margin-bottom: 0.5rem;
+                font-size: 2.5rem;
+            }
+            
+            .steps {
+                flex-direction: column;
+                gap: 2rem;
+            }
+            
+            .steps::before {
+                display: none;
+            }
+            
+            .step {
+                flex-direction: row;
+                align-items: flex-start;
+                gap: 1rem;
+                text-align: left;
+            }
+            
+            .step-number {
+                margin-bottom: 0;
+                flex-shrink: 0;
+            }
+            
+            .step-title,
+            .step-description {
+                text-align: left;
+                padding: 0;
+            }
+        }
+
+        /* Small mobile devices */
+        @media (max-width: 480px) {
+            .account-header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .account-section {
+                padding: 1rem;
+            }
+            
+            .account-sidebar,
+            .account-content {
+                padding: 1rem;
+            }
+            
+            .loyalty-card {
+                padding: 1.5rem;
+            }
+            
+            .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .benefit-card {
+                padding: 1rem;
+            }
+        }
+        
+        /* Animation for subtle interactivity */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .account-header {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+        
+        .account-section {
+            opacity: 0;
+            animation: fadeIn 0.6s ease-out 0.2s forwards;
+        }
+        
+        .account-sidebar {
+            opacity: 0;
+            animation: fadeIn 0.6s ease-out 0.3s forwards;
+        }
+        
+        .loyalty-card {
+            opacity: 0;
+            animation: fadeIn 0.6s ease-out 0.4s forwards;
+        }
+        
+        .loyalty-benefits, .how-it-works {
+            opacity: 0;
+            animation: fadeIn 0.6s ease-out 0.5s forwards;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header class="account-header">
+            <h1>Programme Fidélité</h1>
+            <p>Découvrez tous les avantages de notre programme fidélité et cumulez des crédits sur vos achats</p>
+        </header>
+        
+        <section class="account-section">
+            <div class="account-grid">
+                <aside class="account-sidebar">
+                    <h3>Mon Profil</h3>
+                    <ul class="account-menu">
+                        <li><a href="#"><i class="fas fa-user"></i> Tableau de bord</a></li>
+                        <li><a href="#"><i class="fas fa-box-open"></i> Mes commandes</a></li>
+                        <li><a href="#"><i class="fas fa-heart"></i> Ma liste de souhaits</a></li>
+                        <li><a href="#" class="active"><i class="fas fa-percentage"></i> Fidélité</a></li>
+                        <li><a href="#"><i class="fas fa-cog"></i> Paramètres</a></li>
+                        <li><a href="#"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
+                    </ul>
+                </aside>
+                
+                <main class="account-content">
+                    <div class="loyalty-card">
+                        <h3><i class="fas fa-crown"></i> Votre statut fidélité</h3>
+                        <div class="loyalty-points">
+                            <span class="points-count">85,50 €</span>
+                            <span class="points-label">crédit disponible</span>
+                        </div>
+                        
+                        <div class="progress-labels">
+                            <span>Amateur</span>
+                            <span>Connaisseur (100€)</span>
+                            <span>Expert (200€)</span>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width: 42.5%"></div>
+                        </div>
+                        
+                        <div class="loyalty-explanation">
+                            <p>Notre programme fidélité vous offre <strong>10% de crédit</strong> sur chaque achat, utilisable sur vos prochaines commandes. Plus vous achetez, plus vous montez en niveau et plus vos avantages augmentent !</p>
+                        </div>
+                        
+                        <div class="next-reward">
+                            <h4><i class="fas fa-gift"></i> Votre prochaine récompense</h4>
+                            <p>À <span class="reward-progress">14,50 €</span> du niveau "Connaisseur", vous débloquerez :</p>
+                            <p>Livraison gratuite sur toutes vos commandes et invitations exclusives à nos dégustations privées.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="loyalty-benefits">
+                        <h4>Vos avantages fidélité</h4>
+                        <div class="benefits-grid">
+                            <div class="benefit-card">
+                                <div class="benefit-icon">
+                                    <i class="fas fa-percentage"></i>
+                                </div>
+                                <h5 class="benefit-title">10% de crédit</h5>
+                                <p class="benefit-description">10% du montant de chaque commande est crédité sur votre compte fidélité, utilisable sur vos prochains achats.</p>
+                            </div>
+                            
+                            <div class="benefit-card">
+                                <div class="benefit-icon">
+                                    <i class="fas fa-shipping-fast"></i>
+                                </div>
+                                <h5 class="benefit-title">Livraison offerte</h5>
+                                <p class="benefit-description">Livraison gratuite dès 50€ d'achat (au lieu de 100€) pour les membres du programme fidélité.</p>
+                            </div>
+                            
+                            <div class="benefit-card">
+                                <div class="benefit-icon">
+                                    <i class="fas fa-gift"></i>
+                                </div>
+                                <h5 class="benefit-title">Cadeaux exclusifs</h5>
+                                <p class="benefit-description">Recevez des cadeaux surprises en fonction de votre niveau et de vos achats.</p>
+                            </div>
+                            
+                            <div class="benefit-card">
+                                <div class="benefit-icon">
+                                    <i class="fas fa-wine-glass-alt"></i>
+                                </div>
+                                <h5 class="benefit-title">Invitations VIP</h5>
+                                <p class="benefit-description">Accès prioritaire à nos dégustations et événements privés réservés à nos meilleurs clients.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="how-it-works">
+                        <h3>Comment ça marche ?</h3>
+                        <div class="steps">
+                            <div class="step active">
+                                <div class="step-number">1</div>
+                                <div class="step-content">
+                                    <h5 class="step-title">Achetez</h5>
+                                    <p class="step-description">Effectuez vos achats comme d'habitude sur notre site.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="step">
+                                <div class="step-number">2</div>
+                                <div class="step-content">
+                                    <h5 class="step-title">Cumulez</h5>
+                                    <p class="step-description">10% du montant de chaque commande est crédité sur votre compte fidélité.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="step">
+                                <div class="step-number">3</div>
+                                <div class="step-content">
+                                    <h5 class="step-title">Utilisez</h5>
+                                    <p class="step-description">Utilisez votre crédit sur vos prochaines commandes sans minimum d'achat.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="step">
+                                <div class="step-number">4</div>
+                                <div class="step-content">
+                                    <h5 class="step-title">Montez en niveau</h5>
+                                    <p class="step-description">Débloquez des avantages supplémentaires en atteignant les paliers de 100€ et 200€ de crédit cumulé.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </section>
+    </div>
+</body>
+</html>
