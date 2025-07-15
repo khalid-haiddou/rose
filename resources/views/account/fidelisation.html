@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Programme Fidélité - Rose & Bouchon</title>
+    <title>Fidélité - Rose & Bouchon</title>
     <style>
         :root {
             --navy: #000075;
@@ -196,11 +196,11 @@
             border: 1px solid rgba(150, 0, 24, 0.1);
         }
         
-        /* Loyalty Program Card */
+        /* Loyalty Program Styles */
         .loyalty-card {
             background: linear-gradient(135deg, rgba(196, 162, 103, 0.1), rgba(150, 0, 24, 0.1));
             border-radius: 8px;
-            padding: 2rem;
+            padding: 1.5rem;
             margin-bottom: 2rem;
             border: 1px solid rgba(196, 162, 103, 0.3);
             position: relative;
@@ -221,69 +221,41 @@
 
         .loyalty-card h3 {
             color: var(--navy);
-            font-size: 1.6rem;
+            font-size: 1.4rem;
             margin-bottom: 1.5rem;
             position: relative;
-            display: flex;
-            align-items: center;
         }
 
         .loyalty-card h3 i {
             margin-right: 0.75rem;
             color: var(--burgundy);
-            font-size: 1.8rem;
         }
 
         .loyalty-points {
             display: flex;
             align-items: baseline;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             position: relative;
         }
 
         .points-count {
-            font-size: 3rem;
+            font-size: 2.5rem;
             font-weight: 600;
             color: var(--burgundy);
             margin-right: 1rem;
         }
 
         .points-label {
-            font-size: 1.2rem;
+            font-size: 1rem;
             color: var(--dark);
             opacity: 0.8;
-        }
-
-        .progress-container {
-            width: 100%;
-            background-color: rgba(150, 0, 24, 0.1);
-            border-radius: 20px;
-            margin-bottom: 2rem;
-            height: 12px;
-            overflow: hidden;
-        }
-
-        .progress-bar {
-            height: 100%;
-            background: linear-gradient(90deg, var(--gold), var(--burgundy));
-            border-radius: 20px;
-            width: 65%;
-            transition: width 0.5s ease;
-        }
-
-        .progress-labels {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 0.5rem;
-            font-size: 0.9rem;
-            color: var(--dark);
         }
 
         .loyalty-explanation {
             background-color: rgba(255, 255, 255, 0.6);
             padding: 1.5rem;
             border-radius: 8px;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             border: 1px solid rgba(150, 0, 24, 0.1);
         }
 
@@ -291,180 +263,91 @@
             margin-bottom: 1.5rem;
             text-align: center;
             font-size: 1.1rem;
-            line-height: 1.6;
+        }
+
+        .example-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+        .example-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            padding: 1rem;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 8px;
+            border: 1px solid rgba(150, 0, 24, 0.1);
+        }
+
+        .example-label {
+            font-size: 0.9rem;
+            color: var(--dark);
+            opacity: 0.8;
+        }
+
+        .example-amount {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--burgundy);
+            margin-top: 0.3rem;
+        }
+
+        .example-arrow {
+            color: var(--burgundy);
+            font-size: 1.2rem;
         }
 
         .loyalty-benefits {
-            margin-top: 2rem;
+            margin-top: 1.5rem;
         }
 
         .loyalty-benefits h4 {
             color: var(--navy);
-            font-size: 1.3rem;
-            margin-bottom: 1.5rem;
-            text-align: center;
-            position: relative;
-        }
-
-        .loyalty-benefits h4::after {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 2px;
-            background: var(--burgundy);
-        }
-
-        .benefits-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1.5rem;
-        }
-
-        .benefit-card {
-            background-color: white;
-            border-radius: 8px;
-            padding: 1.5rem;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
-            border: 1px solid rgba(150, 0, 24, 0.1);
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-
-        .benefit-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-        }
-
-        .benefit-icon {
-            font-size: 2rem;
-            color: var(--burgundy);
-            margin-bottom: 1rem;
-        }
-
-        .benefit-title {
             font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--navy);
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.75rem;
+            text-align: center;
         }
 
-        .benefit-description {
-            font-size: 0.95rem;
-            color: var(--dark);
+        .benefits-list {
+            list-style-type: none;
+        }
+
+        .benefits-list li {
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: flex-start;
             line-height: 1.5;
         }
 
-        .next-reward {
+        .benefits-list li::before {
+            content: '•';
+            color: var(--burgundy);
+            font-weight: bold;
+            margin-right: 0.5rem;
+            flex-shrink: 0;
+        }
+
+        .next-order-info {
+            margin-top: 1.5rem;
+            padding: 1rem;
             background-color: rgba(150, 0, 24, 0.05);
             border-radius: 8px;
-            padding: 1.5rem;
-            margin-top: 2rem;
             border: 1px solid rgba(150, 0, 24, 0.1);
             text-align: center;
+            font-size: 0.95rem;
         }
 
-        .next-reward h4 {
-            color: var(--navy);
-            font-size: 1.2rem;
-            margin-bottom: 1rem;
-        }
-
-        .next-reward p {
-            margin-bottom: 1rem;
-            line-height: 1.6;
-        }
-
-        .reward-progress {
-            font-weight: 600;
+        .next-order-info i {
             color: var(--burgundy);
+            margin-right: 0.5rem;
         }
-
-        .how-it-works {
-            margin-top: 3rem;
-        }
-
-        .how-it-works h3 {
-            color: var(--navy);
-            font-size: 1.5rem;
-            margin-bottom: 1.5rem;
-            text-align: center;
-            position: relative;
-        }
-
-        .how-it-works h3::after {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 2px;
-            background: var(--burgundy);
-        }
-
-        .steps {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 2rem;
-            position: relative;
-        }
-
-        .steps::before {
-            content: '';
-            position: absolute;
-            top: 20px;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background-color: rgba(150, 0, 24, 0.2);
-            z-index: 0;
-        }
-
-        .step {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: relative;
-            z-index: 1;
-            flex: 1;
-        }
-
-        .step-number {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: var(--burgundy);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            margin-bottom: 1rem;
-        }
-
-        .step.active .step-number {
-            background-color: var(--gold);
-        }
-
-        .step-title {
-            font-weight: 600;
-            color: var(--navy);
-            margin-bottom: 0.5rem;
-            text-align: center;
-        }
-
-        .step-description {
-            font-size: 0.9rem;
-            color: var(--dark);
-            text-align: center;
-            padding: 0 1rem;
-            line-height: 1.5;
-        }
-
+        
         /* Enhanced Mobile Responsiveness */
         @media (max-width: 768px) {
             body {
@@ -515,34 +398,32 @@
             .points-count {
                 margin-right: 0;
                 margin-bottom: 0.5rem;
-                font-size: 2.5rem;
+                font-size: 2rem;
             }
             
-            .steps {
-                flex-direction: column;
-                gap: 2rem;
+            .loyalty-explanation {
+                padding: 1rem;
             }
             
-            .steps::before {
-                display: none;
+            .loyalty-explanation p {
+                font-size: 1rem;
             }
             
-            .step {
-                flex-direction: row;
-                align-items: flex-start;
-                gap: 1rem;
-                text-align: left;
+            .example-item {
+                padding: 0.75rem;
             }
             
-            .step-number {
-                margin-bottom: 0;
-                flex-shrink: 0;
+            .example-amount {
+                font-size: 1.3rem;
             }
             
-            .step-title,
-            .step-description {
-                text-align: left;
-                padding: 0;
+            .benefits-list li {
+                font-size: 0.95rem;
+            }
+            
+            .next-order-info {
+                font-size: 0.9rem;
+                padding: 0.75rem;
             }
         }
 
@@ -562,14 +443,6 @@
             }
             
             .loyalty-card {
-                padding: 1.5rem;
-            }
-            
-            .benefits-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .benefit-card {
                 padding: 1rem;
             }
         }
@@ -598,11 +471,6 @@
             opacity: 0;
             animation: fadeIn 0.6s ease-out 0.4s forwards;
         }
-        
-        .loyalty-benefits, .how-it-works {
-            opacity: 0;
-            animation: fadeIn 0.6s ease-out 0.5s forwards;
-        }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -611,7 +479,7 @@
     <div class="container">
         <header class="account-header">
             <h1>Programme Fidélité</h1>
-            <p>Découvrez tous les avantages de notre programme fidélité et cumulez des crédits sur vos achats</p>
+            <p>Découvrez tous les avantages de notre programme fidélité</p>
         </header>
         
         <section class="account-section">
@@ -630,103 +498,42 @@
                 
                 <main class="account-content">
                     <div class="loyalty-card">
-                        <h3><i class="fas fa-crown"></i> Votre statut fidélité</h3>
+                        <h3><i class="fas fa-percentage"></i> Votre crédit fidélité</h3>
                         <div class="loyalty-points">
                             <span class="points-count">85,50 €</span>
                             <span class="points-label">crédit disponible</span>
                         </div>
                         
-                        <div class="progress-labels">
-                            <span>Amateur</span>
-                            <span>Connaisseur (100€)</span>
-                            <span>Expert (200€)</span>
-                        </div>
-                        <div class="progress-container">
-                            <div class="progress-bar" style="width: 42.5%"></div>
-                        </div>
-                        
                         <div class="loyalty-explanation">
-                            <p>Notre programme fidélité vous offre <strong>10% de crédit</strong> sur chaque achat, utilisable sur vos prochaines commandes. Plus vous achetez, plus vous montez en niveau et plus vos avantages augmentent !</p>
+                            <p>Notre programme fidélité vous offre <strong>10% de crédit</strong> sur chaque achat, utilisable sur votre prochaine commande.</p>
+                            <div class="example-box">
+                                <div class="example-item">
+                                    <span class="example-label">Vous dépensez</span>
+                                    <span class="example-amount">100 €</span>
+                                </div>
+                                <div class="example-arrow">
+                                    <i class="fas fa-arrow-down"></i>
+                                </div>
+                                <div class="example-item">
+                                    <span class="example-label">Vous gagnez</span>
+                                    <span class="example-amount">10 €</span>
+                                </div>
+                            </div>
                         </div>
                         
-                        <div class="next-reward">
-                            <h4><i class="fas fa-gift"></i> Votre prochaine récompense</h4>
-                            <p>À <span class="reward-progress">14,50 €</span> du niveau "Connaisseur", vous débloquerez :</p>
-                            <p>Livraison gratuite sur toutes vos commandes et invitations exclusives à nos dégustations privées.</p>
+                        <div class="loyalty-benefits">
+                            <h4>Comment ça marche :</h4>
+                            <ul class="benefits-list">
+                                <li>10% du montant de chaque commande est crédité sur votre compte</li>
+                                <li>Votre crédit est disponible immédiatement après validation de la commande</li>
+                                <li>Utilisable sur tout achat ultérieur sans minimum d'achat</li>
+                                <li>Pas de date d'expiration - votre crédit reste valable indéfiniment</li>
+                                <li>Combinable avec les offres promotionnelles</li>
+                            </ul>
                         </div>
-                    </div>
-                    
-                    <div class="loyalty-benefits">
-                        <h4>Vos avantages fidélité</h4>
-                        <div class="benefits-grid">
-                            <div class="benefit-card">
-                                <div class="benefit-icon">
-                                    <i class="fas fa-percentage"></i>
-                                </div>
-                                <h5 class="benefit-title">10% de crédit</h5>
-                                <p class="benefit-description">10% du montant de chaque commande est crédité sur votre compte fidélité, utilisable sur vos prochains achats.</p>
-                            </div>
-                            
-                            <div class="benefit-card">
-                                <div class="benefit-icon">
-                                    <i class="fas fa-shipping-fast"></i>
-                                </div>
-                                <h5 class="benefit-title">Livraison offerte</h5>
-                                <p class="benefit-description">Livraison gratuite dès 50€ d'achat (au lieu de 100€) pour les membres du programme fidélité.</p>
-                            </div>
-                            
-                            <div class="benefit-card">
-                                <div class="benefit-icon">
-                                    <i class="fas fa-gift"></i>
-                                </div>
-                                <h5 class="benefit-title">Cadeaux exclusifs</h5>
-                                <p class="benefit-description">Recevez des cadeaux surprises en fonction de votre niveau et de vos achats.</p>
-                            </div>
-                            
-                            <div class="benefit-card">
-                                <div class="benefit-icon">
-                                    <i class="fas fa-wine-glass-alt"></i>
-                                </div>
-                                <h5 class="benefit-title">Invitations VIP</h5>
-                                <p class="benefit-description">Accès prioritaire à nos dégustations et événements privés réservés à nos meilleurs clients.</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="how-it-works">
-                        <h3>Comment ça marche ?</h3>
-                        <div class="steps">
-                            <div class="step active">
-                                <div class="step-number">1</div>
-                                <div class="step-content">
-                                    <h5 class="step-title">Achetez</h5>
-                                    <p class="step-description">Effectuez vos achats comme d'habitude sur notre site.</p>
-                                </div>
-                            </div>
-                            
-                            <div class="step">
-                                <div class="step-number">2</div>
-                                <div class="step-content">
-                                    <h5 class="step-title">Cumulez</h5>
-                                    <p class="step-description">10% du montant de chaque commande est crédité sur votre compte fidélité.</p>
-                                </div>
-                            </div>
-                            
-                            <div class="step">
-                                <div class="step-number">3</div>
-                                <div class="step-content">
-                                    <h5 class="step-title">Utilisez</h5>
-                                    <p class="step-description">Utilisez votre crédit sur vos prochaines commandes sans minimum d'achat.</p>
-                                </div>
-                            </div>
-                            
-                            <div class="step">
-                                <div class="step-number">4</div>
-                                <div class="step-content">
-                                    <h5 class="step-title">Montez en niveau</h5>
-                                    <p class="step-description">Débloquez des avantages supplémentaires en atteignant les paliers de 100€ et 200€ de crédit cumulé.</p>
-                                </div>
-                            </div>
+                        
+                        <div class="next-order-info">
+                            <i class="fas fa-info-circle"></i> Votre prochaine commande sera éligible à une réduction de <strong>85,50 €</strong>
                         </div>
                     </div>
                 </main>
