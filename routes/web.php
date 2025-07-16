@@ -10,6 +10,7 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CommandeController;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\DeliveryController;
+use App\Http\Controllers\AccountController;
 
 Route::get('/', function () {
     return view('index');
@@ -48,7 +49,7 @@ Route::post('/panier/remove/{product}', [CartController::class, 'remove'])->name
 Route::post('/cart/ajax-update/{id}', [CartController::class, 'ajaxUpdate'])->name('cart.ajax.update');
 
 //checkout
-Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
+
 Route::get('/checkout', [CheckoutController::class, 'show'])->name('checkout');
 Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
 Route::view('/merci', 'merci')->name('merci');
@@ -62,3 +63,13 @@ Route::put('/dashboard/stock/{id}', [StockController::class, 'update'])->name('s
 Route::get('/dashboard/livraisons', [DeliveryController::class, 'index'])->name('livraisons.index');
 Route::put('/dashboard/livraison/{commande}/update-delivery-number', [\App\Http\Controllers\DeliveryController::class, 'updateDeliveryNumber'])->name('livraison.updateDeliveryNumber');
 Route::get('/dashboard', [CommandeController::class, 'dashboard'])->name('dashboard');
+
+Route::get('/mon-compte', [AccountController::class, 'index'])->name('account')->middleware('auth');
+Route::middleware('auth')->group(function () {
+    Route::get('/mon-compte/fidelisation', [AccountController::class, 'fidelisation'])->name('account.fidelisation');
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/mon-compte/commandes', [App\Http\Controllers\AccountController::class, 'mesCommandes'])->name('account.commandes.index');
+    Route::get('/mon-compte/commandes/{id}', [App\Http\Controllers\AccountController::class, 'showCommande'])->name('account.commandes.show');
+});

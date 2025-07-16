@@ -401,6 +401,82 @@
             color: var(--burgundy);
             font-weight: 600;
         }
+
+        .wallet-notice {
+            background-color: rgba(196, 162, 103, 0.1);
+            border-left: 3px solid var(--gold);
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .wallet-notice strong {
+            color: var(--gold);
+        }
+
+        .cashback-apply {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            align-items: stretch;
+        }
+
+        .cashback-input {
+            flex: 1;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cashback-input input {
+            width: 100%;
+            padding: 15px 18px;
+            border: 1px solid rgba(0, 0, 117, 0.15);
+            border-radius: 8px;
+            font-size: 1rem;
+            background-color: rgba(255, 255, 255, 0.7);
+            font-family: 'Cormorant Garamond', serif;
+            height: 100%;
+            box-sizing: border-box;
+        }
+
+        .cashback-input input:focus {
+            border-color: var(--navy);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(0, 0, 117, 0.1);
+            background-color: white;
+        }
+
+        .apply-btn {
+            padding: 0 1.5rem;
+            background-color: var(--gold);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 500;
+            white-space: nowrap;
+            height: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .apply-btn:hover {
+            background-color: #b38c4a;
+        }
+
+        .cashback-available {
+            font-size: 0.9rem;
+            color: var(--gold);
+            margin-top: 0.5rem;
+            text-align: right;
+            font-style: italic;
+        }
         
         /* Mobile-specific enhancements */
         @media (max-width: 768px) {
@@ -441,6 +517,20 @@
                 flex: 1;
                 min-width: 100%;
             }
+
+            .cashback-apply {
+                flex-direction: column;
+            }
+
+            .cashback-input input {
+                padding: 14px 16px;
+            }
+            
+            .apply-btn {
+                padding: 14px;
+                width: 100%;
+                font-size: 0.95rem;
+            }
         }
         
         /* Animation for subtle interactivity */
@@ -476,6 +566,8 @@
         
         <form class="checkout-form" action="{{ route('checkout.store') }}" method="POST">
             @csrf
+
+            {{-- Informations personnelles --}}
             <section class="form-section">
                 <h2>Informations personnelles</h2>
                 <div class="form-row">
@@ -500,6 +592,7 @@
                 </div>
             </section>
 
+            {{-- Adresse de livraison --}}
             <section class="form-section">
                 <h2>Adresse de livraison</h2>
                 <div class="form-group">
@@ -518,6 +611,7 @@
                 </div>
             </section>
 
+            {{-- Méthode de livraison --}}
             <section class="form-section">
                 <h2>Méthode de livraison</h2>
                 <div class="shipping-methods">
@@ -532,6 +626,7 @@
                 </div>
             </section>
 
+            {{-- Méthode de paiement --}}
             <section class="form-section">
                 <h2>Méthode de paiement</h2>
                 <div class="payment-methods">
@@ -552,8 +647,23 @@
                 </div>
             </section>
 
+            {{-- Résumé de commande --}}
             <aside class="order-summary">
                 <h2>Votre commande</h2>
+
+                @if(auth()->check() && $fidelityCredit > 0)
+                <div class="cashback-apply">
+                    <div class="cashback-input">
+                        <label for="cashback">Utiliser mon crédit fidélité</label>
+                        <div style="display: flex; gap: 10px; align-items: center;">
+                            <input type="number" min="0" step="0.01" id="cashback" name="cashback" placeholder="0.00" value="0" style="max-width: 120px;">
+                            <button type="button" class="apply-btn">Appliquer</button>
+                        </div>
+                        <small class="cashback-available">Solde disponible : {{ number_format($fidelityCredit, 2, ',', ' ') }} Dhs</small>
+                    </div>
+                </div>
+                @endif
+
                 <div class="order-items">
                     @foreach($cart as $item)
                         <div class="order-item">
@@ -572,27 +682,72 @@
                 <div class="order-totals">
                     <div class="total-row">
                         <span class="total-label">Sous-total</span>
-                        <span class="total-value">{{ number_format($subtotal, 2, ',', ' ') }} Dhs</span>
+                        <span class="total-value" id="subtotal">{{ number_format($subtotal, 2, ',', ' ') }} Dhs</span>
                     </div>
                     <div class="total-row">
                         <span class="total-label">Livraison</span>
-                        <span class="total-value">{{ $shipping > 0 ? number_format($shipping, 2, ',', ' ') . ' Dhs' : 'Gratuite' }}</span>
+                        <span class="total-value" id="shipping">{{ $shipping > 0 ? number_format($shipping, 2, ',', ' ') . ' Dhs' : 'Gratuite' }}</span>
+                    </div>
+                    <div class="total-row">
+                        <span class="total-label">Remise fidélité</span>
+                        <span class="total-value" id="cashback-discount">-0,00 Dhs</span>
                     </div>
                     <div class="total-row grand-total">
                         <span class="total-label">Total</span>
-                        <span class="total-value">{{ number_format($total, 2, ',', ' ') }} Dhs</span>
+                        <span class="total-value" id="grand-total">{{ number_format($total, 2, ',', ' ') }} Dhs</span>
                     </div>
                 </div>
 
                 <div class="terms-checkbox">
                     <input type="checkbox" id="terms" name="terms" required>
-                    <label for="terms">Je reconnais avoir lu et accepté les <a href="#">conditions générales de vente</a> et la <a href="#">politique de confidentialité</a>.</label>
+                    <label for="terms">J'accepte les <a href="#">conditions générales de vente</a> et la <a href="#">politique de confidentialité</a>.</label>
                 </div>
 
                 <button type="submit" class="btn">Passer la commande</button>
             </aside>
         </form>
 
+
     </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const applyBtn = document.querySelector('.apply-btn');
+            const cashbackInput = document.getElementById('cashback');
+            const cashbackAvailable = {{ $fidelityCredit ?? 0 }};
+            const subtotal = {{ $subtotal }};
+            const shipping = {{ $shipping }};
+
+            if (!applyBtn || !cashbackInput) return;
+
+            applyBtn.addEventListener('click', () => {
+                let cashbackValue = parseFloat(cashbackInput.value) || 0;
+
+                if (cashbackValue < 0) {
+                    alert("Veuillez entrer un montant positif.");
+                    cashbackInput.value = 0;
+                    cashbackValue = 0;
+                }
+
+                if (cashbackValue > cashbackAvailable) {
+                    alert(`Votre solde disponible est de {{ number_format($fidelityCredit, 2, ',', ' ') }} Dhs`);
+                    cashbackValue = cashbackAvailable;
+                    cashbackInput.value = cashbackAvailable.toFixed(2);
+                }
+
+                if (cashbackValue > subtotal) {
+                    alert("Le cashback ne peut pas dépasser le montant total des produits.");
+                    cashbackValue = subtotal;
+                    cashbackInput.value = subtotal.toFixed(2);
+                }
+
+                const total = subtotal + shipping - cashbackValue;
+
+                document.getElementById('cashback-discount').textContent = '-' + cashbackValue.toFixed(2).replace('.', ',') + ' Dhs';
+                document.getElementById('grand-total').textContent = total.toFixed(2).replace('.', ',') + ' Dhs';
+            });
+        });
+    </script>
+
 </body>
 </html>

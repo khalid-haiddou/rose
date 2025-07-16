@@ -25,10 +25,10 @@ class Commande extends Model
 
     
     public function products()
-{
-    return $this->belongsToMany(Product::class)
-                ->withPivot('quantity', 'price_ttc')
-                ->withTimestamps();
-}
+    {
+        return $this->belongsToMany(Product::class)
+            ->withPivot('quantity', 'price_ttc')
+            ->withTimestamps();
+    }
 
 }

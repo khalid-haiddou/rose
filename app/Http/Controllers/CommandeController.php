@@ -29,12 +29,12 @@ class CommandeController extends Controller
 
         $oldStatus = $commande->status;
 
-        // Filter only the provided fields
+        // Ne mettre à jour que les champs non nuls
         $filtered = array_filter($validated, fn($value) => !is_null($value));
 
         $commande->update($filtered);
 
-        // 👉 If the status changed to 'annulee' or 'retournee', restore stock
+        // ✅ Restauration du stock si commande annulée ou retournée
         if (
             isset($validated['status']) &&
             in_array($validated['status'], ['annulee', 'retournee']) &&
@@ -46,8 +46,31 @@ class CommandeController extends Controller
             }
         }
 
+        // ✅ Ajout du crédit fidélité si commande livrée (et pas encore créditée)
+        if (
+            isset($validated['status']) &&
+            $validated['status'] === 'livree' &&
+            $oldStatus !== 'livree' &&
+            $commande->fidelity_earned == 0
+        ) {
+            $productTotal = $commande->products->sum(function ($product) {
+                return $product->pivot->quantity * $product->pivot->price_ttc;
+            });
+
+            $earned = round($productTotal * 0.10, 2); // 10% du montant des produits
+
+            $commande->fidelity_earned = $earned;
+            $commande->save();
+
+            $user = \App\Models\User::where('email', $commande->email)->first();
+            if ($user) {
+                $user->increment('fidelity_credit', $earned);
+            }
+        }
+
         return redirect()->route('dashboard.commandes')->with('success', 'Commande mise à jour avec succès.');
     }
+
     public function destroy($id)
     {
         $commande = Commande::findOrFail($id);

@@ -629,34 +629,41 @@
                 
                 <main class="account-content">
                     <div class="welcome-message">
-                        <h2>Bienvenue, Sophie</h2>
-                        <p>Depuis votre compte, vous pouvez consulter vos commandes récentes, gérer vos adresses de livraison et de facturation, ainsi que suivre votre crédit fidélité.</p>
+                        @auth
+                            <div class="welcome-message">
+                                <h2>Bienvenue, {{ Auth::user()->prenom }}</h2>
+                                <p>Depuis votre compte, vous pouvez consulter vos commandes récentes, gérer vos adresses de livraison et de facturation, ainsi que suivre votre crédit fidélité.</p>
+                            </div>
+                        @endauth
                     </div>
                     
                     <div class="loyalty-card">
                         <h3><i class="fas fa-percentage"></i> Programme Fidélité</h3>
+
                         <div class="loyalty-points">
-                            <span class="points-count">85,50 €</span>
+                            <span class="points-count">
+                                {{ number_format(Auth::user()->fidelity_credit, 2, ',', ' ') }} Dhs
+                            </span>
                             <span class="points-label">crédit disponible</span>
                         </div>
-                        
+
                         <div class="loyalty-explanation">
                             <p>Notre programme fidélité vous offre <strong>10% de crédit</strong> sur chaque achat, utilisable sur votre prochaine commande.</p>
                             <div class="example-box">
                                 <div class="example-item">
                                     <span class="example-label">Vous dépensez</span>
-                                    <span class="example-amount">100 €</span>
+                                    <span class="example-amount">100 Dhs</span>
                                 </div>
                                 <div class="example-arrow">
                                     <i class="fas fa-arrow-down"></i>
                                 </div>
                                 <div class="example-item">
                                     <span class="example-label">Vous gagnez</span>
-                                    <span class="example-amount">10 €</span>
+                                    <span class="example-amount">10 Dhs</span>
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="loyalty-benefits">
                             <h4>Comment ça marche :</h4>
                             <ul class="benefits-list">
@@ -667,50 +674,54 @@
                                 <li>Combinable avec les offres promotionnelles</li>
                             </ul>
                         </div>
-                        
+
                         <div class="next-order-info">
-                            <i class="fas fa-info-circle"></i> Votre prochaine commande sera éligible à une réduction de <strong>85,50 €</strong>
+                            <i class="fas fa-info-circle"></i> Votre prochaine commande sera éligible à une réduction de
+                            <strong>{{ number_format(Auth::user()->fidelity_credit, 2, ',', ' ') }} Dhs</strong>
                         </div>
                     </div>
+
                     
                     <div class="orders-section">
-                        <h3>Mes commandes récentes</h3>
-                        <table class="orders-table">
-                            <thead>
-                                <tr>
-                                    <th>Commande</th>
-                                    <th>Date</th>
-                                    <th>Montant</th>
-                                    <th>Crédit gagné</th>
-                                    <th>Statut</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><a href="#" class="order-number">#RB-2023-0042</a></td>
-                                    <td>15 mars 2023</td>
-                                    <td>189,50 €</td>
-                                    <td>+18,95 €</td>
-                                    <td><span class="order-status status-delivered">Livrée</span></td>
-                                </tr>
-                                <tr>
-                                    <td><a href="#" class="order-number">#RB-2023-0038</a></td>
-                                    <td>2 mars 2023</td>
-                                    <td>245,00 €</td>
-                                    <td>+24,50 €</td>
-                                    <td><span class="order-status status-delivered">Livrée</span></td>
-                                </tr>
-                                <tr>
-                                    <td><a href="#" class="order-number">#RB-2023-0035</a></td>
-                                    <td>22 février 2023</td>
-                                    <td>127,80 €</td>
-                                    <td>+12,78 €</td>
-                                    <td><span class="order-status status-delivered">Livrée</span></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <a href="#" class="view-all">Voir toutes mes commandes <i class="fas fa-chevron-right"></i></a>
-                    </div>
+    <h3>Mes commandes récentes</h3>
+    <table class="orders-table">
+        <thead>
+            <tr>
+                <th>Commande</th>
+                <th>Date</th>
+                <th>Montant</th>
+                <th>Crédit gagné</th>
+                <th>Statut</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse($recentOrders as $order)
+                <tr>
+                    <td><a href="#" class="order-number">#{{ $order->order_number }}</a></td>
+                    <td>{{ \Carbon\Carbon::parse($order->created_at)->locale('fr_FR')->isoFormat('D MMMM YYYY') }}</td>
+                    <td>{{ number_format($order->total, 2, ',', ' ') }} Dhs</td>
+                    <td>+{{ number_format($order->fidelity_earned, 2, ',', ' ') }} Dhs</td>
+                    <td>
+                        <span class="order-status status-{{ Str::slug($order->status) }}">
+                            {{ ucfirst(str_replace('-', ' ', $order->status)) }}
+                        </span>
+                    </td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="5">Aucune commande récente.</td>
+                </tr>
+            @endforelse
+        </tbody>
+    </table>
+
+    @if($recentOrders->count() > 0)
+        <a href="" class="view-all">
+            Voir toutes mes commandes <i class="fas fa-chevron-right"></i>
+        </a>
+    @endif
+</div>
+
                 </main>
             </div>
         </section>

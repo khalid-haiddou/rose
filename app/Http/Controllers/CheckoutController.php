@@ -31,9 +31,11 @@ class CheckoutController extends Controller
         $shipping = $subtotal >= 499 ? 0 : 40;
         $total = $subtotal + $shipping;
 
-        return view('checkout', compact('cart', 'subtotal', 'shipping', 'total'));
-    }
+        // ✅ Récupérer le crédit fidélité si l'utilisateur est connecté
+        $fidelityCredit = auth()->check() ? auth()->user()->fidelity_credit : 0;
 
+        return view('checkout', compact('cart', 'subtotal', 'shipping', 'total', 'fidelityCredit'));
+    }
 
     public function store(Request $request)
 {
@@ -48,6 +50,7 @@ class CheckoutController extends Controller
         'shipping_method'   => 'required|string',
         'payment_method'    => 'required|in:COD,CMI',
         'terms'             => 'accepted',
+        'cashback'          => 'nullable|numeric|min:0'
     ]);
 
     $cart = session()->get('cart', []);
@@ -66,23 +69,36 @@ class CheckoutController extends Controller
 
     $subtotal = collect($cart)->sum(fn($item) => $item['product']->prix_ttc * $item['quantity']);
     $shipping = $subtotal >= 499 ? 0 : 40;
-    $total = $subtotal + $shipping;
 
+    // 🎯 Récupérer l'utilisateur connecté
+    $user = auth()->user();
+    $availableCredit = $user?->fidelity_credit ?? 0;
+
+    // 🎯 Cashback demandé dans le formulaire
+    $requestedCashback = (float) $request->input('cashback', 0);
+    $cashbackUsed = min($requestedCashback, $availableCredit, $subtotal); // Jamais plus que le subtotal
+
+    $total = $subtotal + $shipping - $cashbackUsed;
+
+    // 🧾 Générer un numéro de commande unique
     $year = now()->year;
     do {
         $random = str_pad(random_int(1, 9999), 4, '0', STR_PAD_LEFT);
         $orderNumber = "RB-$year-$random";
     } while (Commande::where('order_number', $orderNumber)->exists());
 
+    // 📝 Créer la commande
     $commande = Commande::create([
         'order_number'     => $orderNumber,
         ...$validated,
         'shipping_price'   => $shipping,
         'total'            => $total,
         'is_payed'         => $validated['payment_method'] === 'CMI',
+        'fidelity_used'    => $cashbackUsed,
+        'fidelity_earned'  => 0, // sera mis à jour lors de la livraison
     ]);
 
-    // ✅ Attach products and update stock
+    // 📦 Lier les produits et mettre à jour le stock
     foreach ($cart as $item) {
         $product = Product::find($item['product']->id);
         $quantity = $item['quantity'];
@@ -95,9 +111,15 @@ class CheckoutController extends Controller
         $product->decrement('stock', $quantity);
     }
 
-    // ✅ Send confirmation email
+    // 💳 Déduire le crédit fidélité utilisé
+    if ($user && $cashbackUsed > 0) {
+        $user->decrement('fidelity_credit', $cashbackUsed);
+    }
+
+    // 📧 Envoi de l’email de confirmation
     Mail::to($commande->email)->send(new OrderConfirmation($commande));
 
+    // 🧹 Vider le panier
     session()->forget('cart');
 
     return redirect()->route('merci')
@@ -105,5 +127,6 @@ class CheckoutController extends Controller
         ->with('order_number', $orderNumber)
         ->with('order_email', $validated['email']);
 }
+
 
 }

@@ -612,46 +612,32 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td data-label="Commande"><a href="#" class="order-number">#RB-2023-0042</a></td>
-                                <td data-label="Date">15 mars 2023</td>
-                                <td data-label="Montant">189,50 €</td>
-                                <td data-label="Crédit gagné">+18,95 €</td>
-                                <td data-label="Statut"><span class="order-status status-delivered">Livrée</span></td>
-                                <td><button class="view-btn" title="Voir la commande"><i class="fas fa-eye"></i></button></td>
-                            </tr>
-                            <tr>
-                                <td data-label="Commande"><a href="#" class="order-number">#RB-2023-0040</a></td>
-                                <td data-label="Date">10 mars 2023</td>
-                                <td data-label="Montant">75,20 €</td>
-                                <td data-label="Crédit gagné">+7,52 €</td>
-                                <td data-label="Statut"><span class="order-status status-shipped">Expédiée</span></td>
-                                <td><button class="view-btn" title="Voir la commande"><i class="fas fa-eye"></i></button></td>
-                            </tr>
-                            <tr>
-                                <td data-label="Commande"><a href="#" class="order-number">#RB-2023-0038</a></td>
-                                <td data-label="Date">2 mars 2023</td>
-                                <td data-label="Montant">245,00 €</td>
-                                <td data-label="Crédit gagné">+24,50 €</td>
-                                <td data-label="Statut"><span class="order-status status-delivered">Livrée</span></td>
-                                <td><button class="view-btn" title="Voir la commande"><i class="fas fa-eye"></i></button></td>
-                            </tr>
-                            <tr>
-                                <td data-label="Commande"><a href="#" class="order-number">#RB-2023-0035</a></td>
-                                <td data-label="Date">22 février 2023</td>
-                                <td data-label="Montant">127,80 €</td>
-                                <td data-label="Crédit gagné">+12,78 €</td>
-                                <td data-label="Statut"><span class="order-status status-delivered">Livrée</span></td>
-                                <td><button class="view-btn" title="Voir la commande"><i class="fas fa-eye"></i></button></td>
-                            </tr>
-                            <tr>
-                                <td data-label="Commande"><a href="#" class="order-number">#RB-2023-0030</a></td>
-                                <td data-label="Date">15 février 2023</td>
-                                <td data-label="Montant">89,90 €</td>
-                                <td data-label="Crédit gagné">+8,99 €</td>
-                                <td data-label="Statut"><span class="order-status status-cancelled">Annulée</span></td>
-                                <td><button class="view-btn" title="Voir la commande"><i class="fas fa-eye"></i></button></td>
-                            </tr>
+                            @forelse ($commandes as $commande)
+                                <tr>
+                                    <td data-label="Commande">
+                                        <a href="#" class="order-number">#{{ $commande->order_number }}</a>
+                                    </td>
+                                    <td data-label="Date">{{ $commande->created_at->translatedFormat('d F Y') }}</td>
+                                    <td data-label="Montant">{{ number_format($commande->total, 2, ',', ' ') }} Dhs</td>
+                                    <td data-label="Crédit gagné">
+                                        +{{ number_format($order->fidelity_earned, 2, ',', ' ') }} Dhs
+                                    </td>
+                                    <td data-label="Statut">
+                                        <span class="order-status status-{{ $commande->status }}">
+                                            {{ ucfirst(str_replace('-', ' ', $commande->status)) }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <a href="{{ route('account.commandes.show', $commande->id) }}" class="view-btn" title="Voir la commande">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="6">Aucune commande trouvée.</td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
                     
@@ -659,7 +645,6 @@
                         <button class="pagination-btn"><i class="fas fa-chevron-left"></i></button>
                         <button class="pagination-btn active">1</button>
                         <button class="pagination-btn">2</button>
-                        <button class="pagination-btn">3</button>
                         <button class="pagination-btn"><i class="fas fa-chevron-right"></i></button>
                     </div>
                 </main>

@@ -500,7 +500,9 @@
                     <div class="loyalty-card">
                         <h3><i class="fas fa-percentage"></i> Votre crédit fidélité</h3>
                         <div class="loyalty-points">
-                            <span class="points-count">85,50 €</span>
+                            <span class="points-count">
+                                {{ number_format(Auth::user()->fidelity_credit, 2, ',', ' ') }} Dhs
+                            </span>
                             <span class="points-label">crédit disponible</span>
                         </div>
                         
@@ -509,14 +511,14 @@
                             <div class="example-box">
                                 <div class="example-item">
                                     <span class="example-label">Vous dépensez</span>
-                                    <span class="example-amount">100 €</span>
+                                    <span class="example-amount">100 Dhs</span>
                                 </div>
                                 <div class="example-arrow">
                                     <i class="fas fa-arrow-down"></i>
                                 </div>
                                 <div class="example-item">
                                     <span class="example-label">Vous gagnez</span>
-                                    <span class="example-amount">10 €</span>
+                                    <span class="example-amount">10 Dhs</span>
                                 </div>
                             </div>
                         </div>
@@ -533,7 +535,7 @@
                         </div>
                         
                         <div class="next-order-info">
-                            <i class="fas fa-info-circle"></i> Votre prochaine commande sera éligible à une réduction de <strong>85,50 €</strong>
+                            <i class="fas fa-info-circle"></i> Votre prochaine commande sera éligible à une réduction de <strong>{{ number_format(Auth::user()->fidelity_credit, 2, ',', ' ') }} Dhs</strong>
                         </div>
                     </div>
                 </main>
