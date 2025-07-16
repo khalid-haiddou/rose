@@ -11,25 +11,30 @@ class AccountController extends Controller
     {
         $user = Auth::user();
 
-        $recentOrders = Commande::where('email', $user->email)
+        $recentOrders = Commande::with('products') // eager load products
+            ->where('user_id', $user->id)          // filter by user_id
             ->orderByDesc('created_at')
             ->take(3)
             ->get();
 
         return view('account.account', compact('user', 'recentOrders'));
     }
+
     public function fidelisation()
     {
         return view('account.fidelisation');
     }
 
     public function mesCommandes()
-    {
-        $user = Auth::user();
-        $commandes = Commande::where('email', $user->email)
-            ->orderByDesc('created_at')
-            ->get();
+{
+    $user = Auth::user();
+    
+    $commandes = Commande::with('products') // 👈 eager load products
+        ->where('email', $user->email)
+        ->orderByDesc('created_at')
+        ->get();
 
-        return view('account.mes-commandes', compact('commandes'));
-    }
+    return view('account.mes-commandes', compact('commandes'));
+}
+
 }

@@ -507,15 +507,22 @@
         </div>
         
         <ul class="sidebar-menu">
-            <li><a href="#"><i class="fas fa-tachometer-alt"></i> Tableau de Bord</a></li>
-            <li><a href="#"><i class="fas fa-tags"></i> Gestion des Catégories</a></li>
-            <li><a href="#"><i class="fas fa-wine-bottle"></i> Gestion des Produits</a></li>
-            <li><a href="#"><i class="fas fa-boxes"></i> Gestion des Stocks</a></li>
-            <li><a href="#"><i class="fas fa-chart-bar"></i> Statistiques</a></li>
-            <li><a href="#" class="active"><i class="fas fa-shopping-basket"></i> Gestion des Commandes</a></li>
-            <li><a href="#"><i class="fas fa-truck"></i> Gestion des Livraisons</a></li>
+            <li><a href="/dashboard"><i class="fas fa-tachometer-alt"></i> Tableau de Bord</a></li>
+            <li><a href="/dashboard/categories" ><i class="fas fa-tags"></i> Gestion des Catégories</a></li>
+            <li><a href="/dashboard/produits"><i class="fas fa-wine-bottle"></i> Gestion des Produits</a></li>
+            <li><a href="/dashboard/stock"><i class="fas fa-boxes"></i> Gestion des Stocks</a></li>
+            <li><a href="/dashboard/statistics"><i class="fas fa-chart-bar"></i> Statistiques</a></li>
+            <li><a href="/dashboard/commandes" class="active"><i class="fas fa-shopping-basket"></i> Gestion des Commandes</a></li>
+            <li><a href="/dashboard/livraisons"><i class="fas fa-truck"></i> Gestion des Livraisons</a></li>
             <li><a href="#"><i class="fas fa-cog"></i> Paramètres</a></li>
-            <li><a href="#"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
+            <li>
+                <form method="POST" action="{{ route('logout') }}" style="display: inline;">
+                    @csrf
+                    <button type="submit" style="background: none; border: none; padding: 0; margin: 0; cursor: pointer; color: inherit; font: inherit;">
+                        <i class="fas fa-sign-out-alt"></i> Déconnexion
+                    </button>
+                </form>
+            </li>
         </ul>
     </div>
 
@@ -617,109 +624,109 @@
 
         <!-- Order Details Modal -->
         @foreach($commandes as $commande)
-        <div class="modal" id="orderModal-{{ $commande->id }}">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h3>Détails de la Commande <span>{{ $commande->order_number }}</span></h3>
-                            <button class="close-modal" onclick="closeModal('orderModal-{{ $commande->id }}')">&times;</button>
-                        </div>
-                        
-                        <div class="order-section">
-                            <h4>Produits</h4>
-                            <table class="order-products">
-                                <thead>
-                                    <tr>
-                                        <th>Image</th>
-                                        <th>Produit</th>
-                                        <th>Prix unitaire</th>
-                                        <th>Quantité</th>
-                                        <th>Total</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @forelse($commande->products as $product)
+            <div class="modal" id="orderModal-{{ $commande->id }}">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3>Détails de la Commande <span>{{ $commande->order_number }}</span></h3>
+                                <button class="close-modal" onclick="closeModal('orderModal-{{ $commande->id }}')">&times;</button>
+                            </div>
+                            
+                            <div class="order-section">
+                                <h4>Produits</h4>
+                                <table class="order-products">
+                                    <thead>
                                         <tr>
-                                            <td>
-                                                @if ($product->image)
-                                                    <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->nom }}" style="width: 60px; height: auto;">
-                                                @else
-                                                    <span>—</span>
-                                                @endif
-                                            </td>
-                                            <td>{{ $product->nom ?? 'N/A' }}</td>
-                                            <td>{{ number_format($product->pivot->price_ttc ?? 0, 2, ',', ' ') }} Dhs</td>
-                                            <td>{{ $product->pivot->quantity ?? 0 }}</td>
-                                            <td>{{ number_format(($product->pivot->price_ttc ?? 0) * ($product->pivot->quantity ?? 0), 2, ',', ' ') }} Dhs</td>
+                                            <th>Image</th>
+                                            <th>Produit</th>
+                                            <th>Prix unitaire</th>
+                                            <th>Quantité</th>
+                                            <th>Total</th>
                                         </tr>
-                                    @empty
-                                        <tr><td colspan="5">Aucun produit trouvé pour cette commande</td></tr>
-                                    @endforelse
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        @forelse($commande->products as $product)
+                                            <tr>
+                                                <td>
+                                                    @if ($product->image)
+                                                        <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->nom }}" style="width: 60px; height: auto;">
+                                                    @else
+                                                        <span>—</span>
+                                                    @endif
+                                                </td>
+                                                <td>{{ $product->nom ?? 'N/A' }}</td>
+                                                <td>{{ number_format($product->pivot->price_ttc ?? 0, 2, ',', ' ') }} Dhs</td>
+                                                <td>{{ $product->pivot->quantity ?? 0 }}</td>
+                                                <td>{{ number_format(($product->pivot->price_ttc ?? 0) * ($product->pivot->quantity ?? 0), 2, ',', ' ') }} Dhs</td>
+                                            </tr>
+                                        @empty
+                                            <tr><td colspan="5">Aucun produit trouvé pour cette commande</td></tr>
+                                        @endforelse
+                                    </tbody>
+                                </table>
 
-                        </div>
-                
-                <div class="order-details">
-                    <div>
-                        <div class="order-section">
-                            <h4>Informations Client</h4>
-                            <p><strong>Nom:</strong> {{ $commande->firstname }} {{ $commande->lastname }}</p>
-                            <p><strong>Email:</strong> {{ $commande->email }}</p>
-                            <p><strong>Téléphone:</strong> {{ $commande->phone }}</p>
-                        </div>
-                        
-                        <div class="order-section">
-                            <h4>Adresse de Livraison</h4>
-                            <p>{{ $commande->address }}, {{ $commande->city }} {{ $commande->postcode }}</p>
-                        </div>
-                    </div>
+                            </div>
                     
-                    <div>
-                        <div class="order-section">
-                            <h4>Résumé de la Commande</h4>
-                            <div class="order-summary">
-                                <div class="summary-row">
-                                    <span>Sous-total:</span>
-                                    <span>{{ number_format($commande->total - $commande->shipping_price, 2, ',', ' ') }} Dhs</span>
-                                </div>
-                                <div class="summary-row">
-                                    <span>Livraison:</span>
-                                    <span>{{ number_format($commande->shipping_price, 2, ',', ' ') }} Dhs</span>
-                                </div>
-                                <div class="summary-row">
-                                    <span>Remise:</span>
-                                    <span>0.00 Dhs</span>
-                                </div>
-                                <div class="summary-row summary-total">
-                                    <span>Total:</span>
-                                    <span>{{ number_format($commande->total, 2, ',', ' ') }} Dhs</span>
-                                </div>
+                    <div class="order-details">
+                        <div>
+                            <div class="order-section">
+                                <h4>Informations Client</h4>
+                                <p><strong>Nom:</strong> {{ $commande->firstname }} {{ $commande->lastname }}</p>
+                                <p><strong>Email:</strong> {{ $commande->email }}</p>
+                                <p><strong>Téléphone:</strong> {{ $commande->phone }}</p>
+                            </div>
+                            
+                            <div class="order-section">
+                                <h4>Adresse de Livraison</h4>
+                                <p>{{ $commande->address }}, {{ $commande->city }} {{ $commande->postcode }}</p>
                             </div>
                         </div>
                         
-                        <div class="order-section">
-                            <h4>Statut de la Commande</h4>
-                            <p><strong>Statut:</strong> 
-                                <span class="status {{ strtolower(str_replace(' ', '-', $commande->status)) }}">
-                                    {{ ucfirst($commande->status) }}
-                                </span>
-                            </p>
-                            <p><strong>Paiement:</strong> {{ $commande->is_payed ? 'Payé' : 'Non payé' }}</p>
-                            <p><strong>Date:</strong> {{ $commande->created_at->format('d/m/Y') }}</p>
+                        <div>
+                            <div class="order-section">
+                                <h4>Résumé de la Commande</h4>
+                                <div class="order-summary">
+                                    <div class="summary-row">
+                                        <span>Sous-total:</span>
+                                        <span>{{ number_format($commande->total - $commande->shipping_price, 2, ',', ' ') }} Dhs</span>
+                                    </div>
+                                    <div class="summary-row">
+                                        <span>Livraison:</span>
+                                        <span>{{ number_format($commande->shipping_price, 2, ',', ' ') }} Dhs</span>
+                                    </div>
+                                    <div class="summary-row">
+                                        <span>Remise:</span>
+                                        <span>{{ number_format($commande->fidelity_used ?? 0, 2, ',', ' ') }} Dhs</span>
+                                    </div>
+                                    <div class="summary-row summary-total">
+                                        <span>Total:</span>
+                                        <span>{{ number_format($commande->total, 2, ',', ' ') }} Dhs</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="order-section">
+                                <h4>Statut de la Commande</h4>
+                                <p><strong>Statut:</strong> 
+                                    <span class="status {{ strtolower(str_replace(' ', '-', $commande->status)) }}">
+                                        {{ ucfirst($commande->status) }}
+                                    </span>
+                                </p>
+                                <p><strong>Paiement:</strong> {{ $commande->is_payed ? 'Payé' : 'Non payé' }}</p>
+                                <p><strong>Date:</strong> {{ $commande->created_at->format('d/m/Y') }}</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                
-                <div class="modal-actions">
-                    <button class="btn btn-edit" onclick="window.print()">
-                        <i class="fas fa-print"></i> Imprimer
-                    </button>
-                    <button class="btn btn-primary" onclick="showStatusOptions('{{ $commande->id }}')">
-                        <i class="fas fa-sync-alt"></i> Mettre à jour le statut
-                    </button>
+                    
+                    <div class="modal-actions">
+                        <button class="btn btn-edit" onclick="window.print()">
+                            <i class="fas fa-print"></i> Imprimer
+                        </button>
+                        <button class="btn btn-primary" onclick="showStatusOptions('{{ $commande->id }}')">
+                            <i class="fas fa-sync-alt"></i> Mettre à jour le statut
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>
         @endforeach
 
     <!-- Status Update Modal -->

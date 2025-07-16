@@ -17,59 +17,58 @@ class CommandeController extends Controller
         return view('dashboard.commande', compact('commandes'));
     }
     public function update(Request $request, $id)
-    {
-        $commande = Commande::with('products')->findOrFail($id);
+{
+    $commande = Commande::with(['products', 'user'])->findOrFail($id);
 
-        $validated = $request->validate([
-            'status'    => 'nullable|string|in:en-attente,confirmee,en-preparation,en-cours-de-livraison,livree,echec-de-la-livraison,retournee,annulee,en-transit',
-            'is_payed'  => 'nullable|boolean',
-            'address'   => 'nullable|string|max:255',
-            'city'      => 'nullable|string|max:255',
-        ]);
+    $validated = $request->validate([
+        'status'    => 'nullable|string|in:en-attente,confirmee,en-preparation,en-cours-de-livraison,livree,echec-de-la-livraison,retournee,annulee,en-transit',
+        'is_payed'  => 'nullable|boolean',
+        'address'   => 'nullable|string|max:255',
+        'city'      => 'nullable|string|max:255',
+    ]);
 
-        $oldStatus = $commande->status;
+    $oldStatus = $commande->status;
 
-        // Ne mettre à jour que les champs non nuls
-        $filtered = array_filter($validated, fn($value) => !is_null($value));
+    // ✅ Update only non-null fields
+    $filtered = array_filter($validated, fn($value) => !is_null($value));
+    $commande->update($filtered);
 
-        $commande->update($filtered);
-
-        // ✅ Restauration du stock si commande annulée ou retournée
-        if (
-            isset($validated['status']) &&
-            in_array($validated['status'], ['annulee', 'retournee']) &&
-            $oldStatus !== $validated['status']
-        ) {
-            foreach ($commande->products as $product) {
-                $product->stock += $product->pivot->quantity;
-                $product->save();
-            }
+    // ✅ Restore stock if order was cancelled or returned
+    if (
+        isset($validated['status']) &&
+        in_array($validated['status'], ['annulee', 'retournee']) &&
+        $oldStatus !== $validated['status']
+    ) {
+        foreach ($commande->products as $product) {
+            $product->stock += $product->pivot->quantity;
+            $product->save();
         }
-
-        // ✅ Ajout du crédit fidélité si commande livrée (et pas encore créditée)
-        if (
-            isset($validated['status']) &&
-            $validated['status'] === 'livree' &&
-            $oldStatus !== 'livree' &&
-            $commande->fidelity_earned == 0
-        ) {
-            $productTotal = $commande->products->sum(function ($product) {
-                return $product->pivot->quantity * $product->pivot->price_ttc;
-            });
-
-            $earned = round($productTotal * 0.10, 2); // 10% du montant des produits
-
-            $commande->fidelity_earned = $earned;
-            $commande->save();
-
-            $user = \App\Models\User::where('email', $commande->email)->first();
-            if ($user) {
-                $user->increment('fidelity_credit', $earned);
-            }
-        }
-
-        return redirect()->route('dashboard.commandes')->with('success', 'Commande mise à jour avec succès.');
     }
+
+    // ✅ Add fidelity credit if order is livree and not already credited (check raw DB value)
+    if (
+        $commande->status === 'livree' &&
+        $commande->getRawOriginal('fidelity_earned') == 0
+    ) {
+        $productTotal = $commande->products->sum(fn($product) =>
+            $product->pivot->quantity * $product->pivot->price_ttc
+        );
+
+        $earned = round($productTotal * 0.10, 2);
+
+        // Save fidelity earned on the order
+        $commande->fidelity_earned = $earned;
+        $commande->save();
+
+        // Add credit to user account if user exists and linked
+        if ($commande->user) {
+            $commande->user->increment('fidelity_credit', $earned);
+        }
+    }
+
+    return redirect()->route('dashboard.commandes')->with('success', 'Commande mise à jour avec succès.');
+}
+
 
     public function destroy($id)
     {

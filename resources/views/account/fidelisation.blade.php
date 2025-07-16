@@ -487,12 +487,19 @@
                 <aside class="account-sidebar">
                     <h3>Mon Profil</h3>
                     <ul class="account-menu">
-                        <li><a href="#"><i class="fas fa-user"></i> Tableau de bord</a></li>
-                        <li><a href="#"><i class="fas fa-box-open"></i> Mes commandes</a></li>
+                        <li><a href="/mon-compte" ><i class="fas fa-user"></i> Tableau de bord</a></li>
+                        <li><a href="/mon-compte/commandes"><i class="fas fa-box-open"></i> Mes commandes</a></li>
                         <li><a href="#"><i class="fas fa-heart"></i> Ma liste de souhaits</a></li>
-                        <li><a href="#" class="active"><i class="fas fa-percentage"></i> Fidélité</a></li>
+                        <li><a href="/mon-compte/fidelisation" class="active"><i class="fas fa-percentage"></i> Fidélité</a></li>
                         <li><a href="#"><i class="fas fa-cog"></i> Paramètres</a></li>
-                        <li><a href="#"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
+                        <li>
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit" style="background: none; border: none; padding: 0; color: inherit; font: inherit; cursor: pointer;">
+                                    <i class="fas fa-sign-out-alt"></i> Déconnexion
+                                </button>
+                            </form>
+                        </li>
                     </ul>
                 </aside>
                 

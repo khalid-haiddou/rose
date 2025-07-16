@@ -349,15 +349,22 @@
         </div>
         
         <ul class="sidebar-menu">
-            <li><a href="#" class="active"><i class="fas fa-tachometer-alt"></i> Tableau de Bord</a></li>
-            <li><a href="#"><i class="fas fa-tags"></i> Gestion des Catégories</a></li>
-            <li><a href="#"><i class="fas fa-wine-bottle"></i> Gestion des Produits</a></li>
-            <li><a href="#"><i class="fas fa-boxes"></i> Gestion des Stocks</a></li>
-            <li><a href="#"><i class="fas fa-chart-bar"></i> Statistiques</a></li>
-            <li><a href="#"><i class="fas fa-shopping-basket"></i> Gestion des Commandes</a></li>
-            <li><a href="#"><i class="fas fa-truck"></i> Gestion des Livraisons</a></li>
+            <li><a href="/dashboard" class="active"><i class="fas fa-tachometer-alt"></i> Tableau de Bord</a></li>
+            <li><a href="/dashboard/categories" ><i class="fas fa-tags"></i> Gestion des Catégories</a></li>
+            <li><a href="/dashboard/produits"><i class="fas fa-wine-bottle"></i> Gestion des Produits</a></li>
+            <li><a href="/dashboard/stock"><i class="fas fa-boxes"></i> Gestion des Stocks</a></li>
+            <li><a href="/dashboard/statistics"><i class="fas fa-chart-bar"></i> Statistiques</a></li>
+            <li><a href="/dashboard/commandes"><i class="fas fa-shopping-basket"></i> Gestion des Commandes</a></li>
+            <li><a href="/dashboard/livraisons"><i class="fas fa-truck"></i> Gestion des Livraisons</a></li>
             <li><a href="#"><i class="fas fa-cog"></i> Paramètres</a></li>
-            <li><a href="#"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
+            <li>
+                <form method="POST" action="{{ route('logout') }}" style="display: inline;">
+                    @csrf
+                    <button type="submit" style="background: none; border: none; padding: 0; margin: 0; cursor: pointer; color: inherit; font: inherit;">
+                        <i class="fas fa-sign-out-alt"></i> Déconnexion
+                    </button>
+                </form>
+            </li>
         </ul>
     </div>
 

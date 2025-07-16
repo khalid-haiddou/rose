@@ -390,182 +390,480 @@
             background-color: #7d0014;
         }
         
-       /* ... [your existing styles before the media queries remain unchanged] ... */
+       /* Enhanced Mobile Responsiveness */
+        @media (max-width: 768px) {
+            body {
+                padding: 12px;
+                background-image: linear-gradient(rgba(254, 254, 250, 0.96), rgba(254, 254, 250, 0.98)), 
+                                  url('https://images.unsplash.com/photo-1510812431401-41e2f9c2c0b4?q=80&w=1200');
+            }
 
-/* Enhanced Mobile Responsiveness */
-@media (max-width: 768px) {
-    body {
-        padding: 12px;
-        background-image: linear-gradient(rgba(254, 254, 250, 0.96), rgba(254, 254, 250, 0.98)), 
-                          url('https://images.unsplash.com/photo-1510812431401-41e2f9c2c0b4?q=80&w=1200');
-    }
+            .account-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                margin: 1.5rem 0;
+            }
 
-    .account-grid {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-        margin: 1.5rem 0;
-    }
+            .account-header {
+                margin-bottom: 1.5rem;
+            }
 
-    .account-header {
-        margin-bottom: 1.5rem;
-    }
+            .account-header h1 {
+                font-size: 2rem;
+            }
 
-    .account-header h1 {
-        font-size: 2rem;
-    }
+            .account-header p {
+                font-size: 0.95rem;
+                padding: 0 10px;
+            }
 
-    .account-header p {
-        font-size: 0.95rem;
-        padding: 0 10px;
-    }
+            .account-section {
+                padding: 1.5rem;
+                margin-bottom: 1.5rem;
+            }
 
-    .account-section {
-        padding: 1.5rem;
-        margin-bottom: 1.5rem;
-    }
+            .account-section h2 {
+                font-size: 1.4rem;
+            }
 
-    .account-section h2 {
-        font-size: 1.4rem;
-    }
+            .account-section::after {
+                font-size: 120px;
+                bottom: -15px;
+                right: -15px;
+            }
 
-    .account-section::after {
-        font-size: 120px;
-        bottom: -15px;
-        right: -15px;
-    }
+            .account-sidebar,
+            .account-content {
+                padding: 1.5rem;
+            }
 
-    .account-sidebar,
-    .account-content {
-        padding: 1.5rem;
-    }
+            .account-sidebar {
+                order: 2;
+                margin-top: 1rem;
+            }
 
-    .account-sidebar {
-        order: 2;
-        margin-top: 1rem;
-    }
+            .account-content {
+                order: 1;
+                padding: 0;
+                background: transparent;
+                box-shadow: none;
+                border: none;
+            }
 
-    .account-content {
-        order: 1;
-        padding: 0;
-        background: transparent;
-        box-shadow: none;
-        border: none;
-    }
+            .orders-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+                margin-bottom: 1.5rem;
+                padding: 0 1rem;
+            }
 
-    .orders-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 1rem;
-        margin-bottom: 1.5rem;
-        padding: 0 1rem;
-    }
+            .order-search {
+                width: 100%;
+            }
 
-    .order-search {
-        width: 100%;
-    }
+            .order-search input {
+                width: 100%;
+            }
 
-    .order-search input {
-        width: 100%;
-    }
+            .orders-table {
+                display: block;
+                width: 100%;
+            }
 
-    .orders-table {
-        display: block;
-        width: 100%;
-    }
+            .orders-table thead {
+                display: none;
+            }
 
-    .orders-table thead {
-        display: none;
-    }
+            .orders-table tbody {
+                display: flex;
+                flex-direction: column;
+                gap: 1.5rem;
+                width: 100%;
+            }
 
-    .orders-table tbody {
-        display: flex;
-        flex-direction: column;
-        gap: 1.5rem;
-        width: 100%;
-    }
+            .orders-table tr {
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+                background-color: rgba(255, 255, 255, 0.7);
+                border: 1px solid rgba(150, 0, 24, 0.1);
+                border-radius: 8px;
+                padding: 1rem;
+                box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+            }
 
-    .orders-table tr {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        background-color: rgba(255, 255, 255, 0.7);
-        border: 1px solid rgba(150, 0, 24, 0.1);
-        border-radius: 8px;
-        padding: 1rem;
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
-    }
+            .orders-table td {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 0.75rem 0;
+                border-bottom: 1px solid rgba(150, 0, 24, 0.05);
+                text-align: right;
+                width: 100%;
+            }
 
-    .orders-table td {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 0.75rem 0;
-        border-bottom: 1px solid rgba(150, 0, 24, 0.05);
-        text-align: right;
-        width: 100%;
-    }
+            .orders-table td:before {
+                content: attr(data-label);
+                font-weight: 600;
+                color: var(--navy);
+                margin-right: 1rem;
+                text-align: left;
+            }
 
-    .orders-table td:before {
-        content: attr(data-label);
-        font-weight: 600;
-        color: var(--navy);
-        margin-right: 1rem;
-        text-align: left;
-    }
+            .orders-table td:last-child {
+                border-bottom: none;
+                justify-content: flex-end;
+                padding-right: 0;
+            }
 
-    .orders-table td:last-child {
-        border-bottom: none;
-        justify-content: flex-end;
-        padding-right: 0;
-    }
+            .order-status {
+                min-width: auto;
+                padding: 0.3rem 0.8rem;
+            }
 
-    .order-status {
-        min-width: auto;
-        padding: 0.3rem 0.8rem;
-    }
+            .view-btn {
+                font-size: 1.1rem;
+                margin-left: auto;
+            }
 
-    .view-btn {
-        font-size: 1.1rem;
-        margin-left: auto;
-    }
+            .pagination {
+                flex-wrap: wrap;
+                padding: 0 1rem;
+            }
+        }
 
-    .pagination {
-        flex-wrap: wrap;
-        padding: 0 1rem;
-    }
-}
+        /* Small mobile devices */
+        @media (max-width: 480px) {
+            .account-header h1 {
+                font-size: 1.8rem;
+            }
 
-/* Small mobile devices */
-@media (max-width: 480px) {
-    .account-header h1 {
-        font-size: 1.8rem;
-    }
+            .account-section {
+                padding: 1rem;
+            }
 
-    .account-section {
-        padding: 1rem;
-    }
+            .account-sidebar,
+            .account-content {
+                padding: 1rem;
+            }
 
-    .account-sidebar,
-    .account-content {
-        padding: 1rem;
-    }
+            .account-menu a {
+                font-size: 0.95rem;
+            }
 
-    .account-menu a {
-        font-size: 0.95rem;
-    }
+            .orders-table td {
+                font-size: 0.9rem;
+                padding: 0.6rem 0;
+            }
 
-    .orders-table td {
-        font-size: 0.9rem;
-        padding: 0.6rem 0;
-    }
+            .pagination-btn {
+                width: 36px;
+                height: 36px;
+                font-size: 0.85rem;
+            }
 
-    .pagination-btn {
-        width: 36px;
-        height: 36px;
-        font-size: 0.85rem;
-    }
-}
+            /* Modal Styles */
+            .modal {
+                padding: 10px;
+            }
 
+            .modal-content {
+                padding: 1rem;
+            }
+
+            .modal-header h3 {
+                font-size: 1.2rem;
+            }
+
+            .order-section h4 {
+                font-size: 1.1rem;
+            }
+        }
+
+        /* Modal Styles */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            backdrop-filter: blur(3px);
+        }
+
+        .modal-content {
+            background: var(--ivory);
+            max-width: 900px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 2.5rem;
+            border-radius: 12px;
+            position: relative;
+            box-shadow: 0 10px 50px rgba(0, 0, 0, 0.2);
+            border-top: 4px solid var(--burgundy);
+            animation: modalFadeIn 0.3s ease;
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(150, 0, 24, 0.1);
+        }
+
+        .modal-header h3 {
+            color: var(--navy);
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .modal-header h3 span {
+            color: var(--burgundy);
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            color: var(--dark);
+            cursor: pointer;
+            transition: color 0.3s ease;
+            line-height: 1;
+            padding: 0 0.5rem;
+        }
+
+        .close-modal:hover {
+            color: var(--burgundy);
+        }
+
+        .order-section {
+            margin-bottom: 2.5rem;
+        }
+
+        .order-section h4 {
+            color: var(--navy);
+            font-size: 1.3rem;
+            margin-bottom: 1.2rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(0, 0, 117, 0.1);
+        }
+
+        .order-products {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2rem;
+        }
+
+        .order-products th {
+            background-color: rgba(150, 0, 24, 0.1);
+            color: var(--navy);
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .order-products td {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(150, 0, 24, 0.1);
+            vertical-align: middle;
+        }
+
+        .order-products tr:hover {
+            background-color: rgba(150, 0, 24, 0.03);
+        }
+
+        .order-products img {
+            max-width: 60px;
+            height: auto;
+            border-radius: 4px;
+        }
+
+        .order-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .order-details {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .order-summary {
+            background-color: rgba(255, 255, 255, 0.7);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid rgba(150, 0, 24, 0.1);
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.8rem;
+        }
+
+        .summary-total {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(150, 0, 24, 0.2);
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 480px) {
+            .modal-actions {
+                flex-direction: column;
+            }
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            font-family: inherit;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-edit {
+            background-color: var(--navy);
+            color: white;
+            border: 1px solid var(--navy);
+        }
+
+        .btn-edit:hover {
+            background-color: #00005a;
+        }
+
+        .btn-close {
+            background-color: transparent;
+            color: var(--burgundy);
+            border: 1px solid var(--burgundy);
+        }
+
+        .btn-close:hover {
+            background-color: rgba(150, 0, 24, 0.1);
+        }
+
+        /* Responsive Modal */
+        @media (max-width: 768px) {
+            .modal-content {
+                padding: 1.5rem;
+                max-height: 85vh;
+            }
+
+            .order-products th,
+            .order-products td {
+                padding: 0.75rem;
+                font-size: 0.9rem;
+            }
+
+            .order-products img {
+                max-width: 40px;
+            }
+
+            .modal-header h3 {
+                font-size: 1.4rem;
+            }
+
+            .order-section h4 {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .modal-content {
+                padding: 1.2rem;
+            }
+
+            .order-products {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+
+        /* Mobile table styles */
+        @media (max-width: 480px) {
+            .order-products {
+                display: block;
+                width: 100%;
+            }
+
+            .order-products thead {
+                display: none;
+            }
+
+            .order-products tbody {
+                display: flex;
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            .order-products tr {
+                display: flex;
+                flex-direction: column;
+                border: 1px solid rgba(150, 0, 24, 0.1);
+                border-radius: 8px;
+                padding: 1rem;
+            }
+
+            .order-products td {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 0.5rem 0;
+                border-bottom: 1px solid rgba(150, 0, 24, 0.05);
+            }
+
+            .order-products td:before {
+                content: attr(data-label);
+                font-weight: 600;
+                color: var(--navy);
+                margin-right: 1rem;
+            }
+
+            .order-products td:first-child {
+                justify-content: center;
+                padding-top: 0;
+            }
+
+            .order-products td:last-child {
+                border-bottom: none;
+                padding-bottom: 0;
+            }
+
+            .order-products img {
+                max-width: 80px;
+                margin-bottom: 0.5rem;
+            }
+        }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -582,12 +880,19 @@
                 <aside class="account-sidebar">
                     <h3>Mon Profil</h3>
                     <ul class="account-menu">
-                        <li><a href="#"><i class="fas fa-user"></i> Tableau de bord</a></li>
-                        <li><a href="#" class="active"><i class="fas fa-box-open"></i> Mes commandes</a></li>
+                        <li><a href="/mon-compte" ><i class="fas fa-user"></i> Tableau de bord</a></li>
+                        <li><a href="/mon-compte/commandes" class="active"><i class="fas fa-box-open"></i> Mes commandes</a></li>
                         <li><a href="#"><i class="fas fa-heart"></i> Ma liste de souhaits</a></li>
-                        <li><a href="#"><i class="fas fa-percentage"></i> Fidélité</a></li>
+                        <li><a href="/mon-compte/fidelisation" ><i class="fas fa-percentage"></i> Fidélité</a></li>
                         <li><a href="#"><i class="fas fa-cog"></i> Paramètres</a></li>
-                        <li><a href="#"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
+                        <li>
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit" style="background: none; border: none; padding: 0; color: inherit; font: inherit; cursor: pointer;">
+                                    <i class="fas fa-sign-out-alt"></i> Déconnexion
+                                </button>
+                            </form>
+                        </li>
                     </ul>
                 </aside>
                 
@@ -620,7 +925,7 @@
                                     <td data-label="Date">{{ $commande->created_at->translatedFormat('d F Y') }}</td>
                                     <td data-label="Montant">{{ number_format($commande->total, 2, ',', ' ') }} Dhs</td>
                                     <td data-label="Crédit gagné">
-                                        +{{ number_format($order->fidelity_earned, 2, ',', ' ') }} Dhs
+                                        +{{ number_format($commande->fidelity_earned, 2, ',', ' ') }} Dhs
                                     </td>
                                     <td data-label="Statut">
                                         <span class="order-status status-{{ $commande->status }}">
@@ -628,9 +933,9 @@
                                         </span>
                                     </td>
                                     <td>
-                                        <a href="{{ route('account.commandes.show', $commande->id) }}" class="view-btn" title="Voir la commande">
+                                        <button class="view-btn" title="Voir la commande" onclick="openModal('orderModal-{{ $commande->id }}')">
                                             <i class="fas fa-eye"></i>
-                                        </a>
+                                        </button>
                                     </td>
                                 </tr>
                             @empty
@@ -651,5 +956,141 @@
             </div>
         </section>
     </div>
+
+    @foreach($commandes as $commande)
+    <div class="modal" id="orderModal-{{ $commande->id }}">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Détails de la Commande <span>#{{ $commande->order_number }}</span></h3>
+                <button class="close-modal" onclick="closeModal('orderModal-{{ $commande->id }}')">&times;</button>
+            </div>
+
+            <div class="order-section">
+                <h4>Produits</h4>
+                <table class="order-products">
+                    <thead>
+                        <tr>
+                            <th>Image</th>
+                            <th>Produit</th>
+                            <th>Prix unitaire</th>
+                            <th>Quantité</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($commande->products as $product)
+                            <tr>
+                                <td>
+                                    @if ($product->image)
+                                        <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->nom }}" style="width: 60px; height: auto;">
+                                    @else
+                                        <span>—</span>
+                                    @endif
+                                </td>
+                                <td>{{ $product->nom ?? 'N/A' }}</td>
+                                <td>{{ number_format($product->pivot->price_ttc ?? 0, 2, ',', ' ') }} Dhs</td>
+                                <td>{{ $product->pivot->quantity ?? 0 }}</td>
+                                <td>{{ number_format(($product->pivot->price_ttc ?? 0) * ($product->pivot->quantity ?? 0), 2, ',', ' ') }} Dhs</td>
+                            </tr>
+                        @empty
+                            <tr><td colspan="5">Aucun produit trouvé pour cette commande</td></tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="order-details">
+                <div>
+                    <div class="order-section">
+                        <h4>Informations Client</h4>
+                        <p><strong>Nom:</strong> {{ $commande->firstname }} {{ $commande->lastname }}</p>
+                        <p><strong>Email:</strong> {{ $commande->email }}</p>
+                        <p><strong>Téléphone:</strong> {{ $commande->phone }}</p>
+                    </div>
+
+                    <div class="order-section">
+                        <h4>Adresse de Livraison</h4>
+                        <p>{{ $commande->address }}, {{ $commande->city }} {{ $commande->postcode }}</p>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="order-section">
+                        <h4>Résumé de la Commande</h4>
+                        <div class="order-summary">
+                            <div class="summary-row">
+                                <span>Sous-total:</span>
+                                <span>{{ number_format($commande->total - $commande->shipping_price, 2, ',', ' ') }} Dhs</span>
+                            </div>
+                            <div class="summary-row">
+                                <span>Livraison:</span>
+                                <span>{{ number_format($commande->shipping_price, 2, ',', ' ') }} Dhs</span>
+                            </div>
+                            <div class="summary-row">
+                                <span>Remise:</span>
+                                <span>{{ number_format($commande->fidelity_used ?? 0, 2, ',', ' ') }} Dhs</span>
+                            </div>
+                            <div class="summary-row summary-total">
+                                <span>Total:</span>
+                                <span>{{ number_format($commande->total, 2, ',', ' ') }} Dhs</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="order-section">
+                        <h4>Statut de la Commande</h4>
+                        <p><strong>Statut:</strong> 
+                            <span class="status {{ strtolower(str_replace(' ', '-', $commande->status)) }}">
+                                {{ ucfirst(str_replace('-', ' ', $commande->status)) }}
+                            </span>
+                        </p>
+                        <p><strong>Paiement:</strong> {{ $commande->is_payed ? 'Payé' : 'Non payé' }}</p>
+                        <p><strong>Date:</strong> {{ $commande->created_at->format('d/m/Y') }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn btn-close" onclick="closeModal('orderModal-{{ $commande->id }}')">
+                    Fermer
+                </button>
+            </div>
+        </div>
+    </div>
+    @endforeach
+
+    <script>
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = '';
+            }
+        }
+
+        window.addEventListener('click', function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+                document.body.style.overflow = '';
+            }
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal').forEach(modal => {
+                    modal.style.display = 'none';
+                });
+                document.body.style.overflow = '';
+            }
+        });
+    </script>
 </body>
 </html>

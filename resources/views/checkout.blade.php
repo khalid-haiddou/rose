@@ -583,7 +583,14 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label for="email">Email</label>
-                        <input type="email" id="email" name="email" placeholder="votre@email.com" required>
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="votre@email.com"
+                            value="{{ old('email', Auth::user()->email ?? '') }}"
+                            required
+                        >
                     </div>
                     <div class="form-group">
                         <label for="phone">Téléphone</label>
