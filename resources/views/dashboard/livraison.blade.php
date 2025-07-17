@@ -665,6 +665,7 @@
             <li><a href="/dashboard/statistics"><i class="fas fa-chart-bar"></i> Statistiques</a></li>
             <li><a href="/dashboard/commandes"><i class="fas fa-shopping-basket"></i> Gestion des Commandes</a></li>
             <li><a href="/dashboard/livraisons" class="active"><i class="fas fa-truck"></i> Gestion des Livraisons</a></li>
+            <li><a href="#" ><i class="fas fa-bullhorn"></i> Marketing & Email</a></li>
             <li><a href="#"><i class="fas fa-cog"></i> Paramètres</a></li>
             <li>
                 <form method="POST" action="{{ route('logout') }}" style="display: inline;">

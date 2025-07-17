@@ -500,11 +500,12 @@
         <ul class="sidebar-menu">
             <li><a href="/dashboard" ><i class="fas fa-tachometer-alt"></i> Tableau de Bord</a></li>
             <li><a href="/dashboard/categories" ><i class="fas fa-tags"></i> Gestion des Catégories</a></li>
-            <li><a href="/dashboard/produits" class="active"><i class="fas fa-wine-bottle"></i> Gestion des Produits</a></li>
+            <li><a href="/dashboard/produits" ><i class="fas fa-wine-bottle"></i> Gestion des Produits</a></li>
             <li><a href="/dashboard/stock" class="active"><i class="fas fa-boxes"></i> Gestion des Stocks</a></li>
             <li><a href="/dashboard/statistics"><i class="fas fa-chart-bar"></i> Statistiques</a></li>
             <li><a href="/dashboard/commandes"><i class="fas fa-shopping-basket"></i> Gestion des Commandes</a></li>
             <li><a href="/dashboard/livraisons" ><i class="fas fa-truck"></i> Gestion des Livraisons</a></li>
+            <li><a href="#" ><i class="fas fa-bullhorn"></i> Marketing & Email</a></li>
             <li><a href="#"><i class="fas fa-cog"></i> Paramètres</a></li>
             <li>
                 <form method="POST" action="{{ route('logout') }}" style="display: inline;">
