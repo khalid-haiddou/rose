@@ -645,6 +645,66 @@
             cursor: pointer;
             margin-right: 1rem;
         }
+
+
+        .pagination-container {
+        margin-top: 3rem;
+        display: flex;
+        justify-content: center;
+    }
+
+    .pagination {
+        display: flex;
+        list-style: none;
+        padding: 0;
+        border-radius: 4px;
+        overflow: hidden;
+    }
+
+    .page-item {
+        margin: 0 2px;
+    }
+
+    .page-link {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 40px;
+        height: 40px;
+        padding: 0 12px;
+        color: #000075; /* Navy */
+        background-color: #FEFEFA; /* Ivory */
+        border: 1px solid rgba(150, 0, 24, 0.1); /* Burgundy tint */
+        font-family: 'Cormorant Garamond', serif;
+        font-weight: 500;
+        font-size: 1.1rem;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+    .page-link:hover {
+        color: #960018; /* Burgundy */
+        background-color: rgba(150, 0, 24, 0.05);
+        border-color: rgba(150, 0, 24, 0.2);
+    }
+
+    .page-item.active .page-link {
+        color: white;
+        background: linear-gradient(135deg, #000075, #960018); /* Navy to Burgundy */
+        border-color: transparent;
+        box-shadow: 0 2px 8px rgba(150, 0, 24, 0.2);
+    }
+
+    .page-item.disabled .page-link {
+        color: rgba(18, 18, 18, 0.3); /* Dark with opacity */
+        background-color: rgba(254, 254, 250, 0.5); /* Ivory with opacity */
+        pointer-events: none;
+    }
+
+    .page-link i {
+        font-size: 0.9rem;
+    }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -692,28 +752,28 @@
         </div>
         
         <!-- Search and Filter -->
-        <div class="search-filter">
-            <input type="text" class="search-box" placeholder="Rechercher une livraison...">
-            <select class="filter-select">
+        <form method="GET" action="{{ route('livraisons.index') }}" class="search-filter">
+            <input type="text" name="search" value="{{ request('search') }}" class="search-box" placeholder="Rechercher une livraison...">
+
+            <select name="status" class="filter-select">
                 <option value="">Tous les statuts</option>
-                <option value="en-attente">En attente</option>
-                <option value="confirmee">Confirmée</option>
-                <option value="en-preparation">En préparation</option>
-                <option value="en-cours-de-livraison">En cours de livraison</option>
-                <option value="en-transit">En transit</option>
-                <option value="livree">Livrée</option>
-                <option value="echec-de-la-livraison">Échec de la livraison</option>
-                <option value="retournee">Retournée</option>
-                <option value="annulee">Annulée</option>
+                @foreach ([
+                    'en-attente' => 'En attente',
+                    'confirmee' => 'Confirmée',
+                    'en-preparation' => 'En préparation',
+                    'en-cours-de-livraison' => 'En cours de livraison',
+                    'en-transit' => 'En transit',
+                    'livree' => 'Livrée',
+                    'echec-de-la-livraison' => 'Échec de la livraison',
+                    'retournee' => 'Retournée',
+                    'annulee' => 'Annulée',
+                ] as $value => $label)
+                    <option value="{{ $value }}" {{ request('status') === $value ? 'selected' : '' }}>{{ $label }}</option>
+                @endforeach
             </select>
-            <select class="filter-select">
-                <option value="">Tous les transporteurs</option>
-                <option value="chronopost">Chronopost</option>
-                <option value="colissimo">Colissimo</option>
-                <option value="ups">UPS</option>
-                <option value="dhl">DHL</option>
-            </select>
-        </div>
+
+            <button type="submit" class="btn btn-primary">Filtrer</button>
+        </form>
         
         <!-- Deliveries Table -->
         <div class="delivery-management">
@@ -819,6 +879,55 @@
                 @endforeach
                 </tbody>
             </table>
+        </div>
+        <!--pagination -->
+        <div class="pagination-container">
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    {{-- Previous Page Link --}}
+                    @if ($commandes->onFirstPage())
+                        <li class="page-item disabled" aria-disabled="true">
+                            <span class="page-link">
+                                <i class="fas fa-chevron-left"></i>
+                            </span>
+                        </li>
+                    @else
+                        <li class="page-item">
+                            <a class="page-link" href="{{ $commandes->previousPageUrl() }}" rel="prev">
+                                <i class="fas fa-chevron-left"></i>
+                            </a>
+                        </li>
+                    @endif
+
+                    {{-- Pagination Elements --}}
+                    @foreach ($commandes->getUrlRange(1, $commandes->lastPage()) as $page => $url)
+                        @if ($page == $commandes->currentPage())
+                            <li class="page-item active" aria-current="page">
+                                <span class="page-link">{{ $page }}</span>
+                            </li>
+                        @else
+                            <li class="page-item">
+                                <a class="page-link" href="{{ $url }}">{{ $page }}</a>
+                            </li>
+                        @endif
+                    @endforeach
+
+                    {{-- Next Page Link --}}
+                    @if ($commandes->hasMorePages())
+                        <li class="page-item">
+                            <a class="page-link" href="{{ $commandes->nextPageUrl() }}" rel="next">
+                                <i class="fas fa-chevron-right"></i>
+                            </a>
+                        </li>
+                    @else
+                        <li class="page-item disabled" aria-disabled="true">
+                            <span class="page-link">
+                                <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </li>
+                    @endif
+                </ul>
+            </nav>
         </div>
     </div>
 

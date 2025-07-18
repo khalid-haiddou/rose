@@ -335,6 +335,79 @@
             cursor: pointer;
             margin-right: 1rem;
         }
+
+        
+    .pagination-container {
+        margin-top: 3rem;
+        display: flex;
+        justify-content: center;
+    }
+
+    .pagination {
+        display: flex;
+        list-style: none;
+        padding: 0;
+        border-radius: 4px;
+        overflow: hidden;
+    }
+
+    .page-item {
+        margin: 0 2px;
+    }
+
+    .page-link {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 40px;
+        height: 40px;
+        padding: 0 12px;
+        color: #000075; /* Navy */
+        background-color: #FEFEFA; /* Ivory */
+        border: 1px solid rgba(150, 0, 24, 0.1); /* Burgundy tint */
+        font-family: 'Cormorant Garamond', serif;
+        font-weight: 500;
+        font-size: 1.1rem;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+    .page-link:hover {
+        color: #960018; /* Burgundy */
+        background-color: rgba(150, 0, 24, 0.05);
+        border-color: rgba(150, 0, 24, 0.2);
+    }
+
+    .page-item.active .page-link {
+        color: white;
+        background: linear-gradient(135deg, #000075, #960018); /* Navy to Burgundy */
+        border-color: transparent;
+        box-shadow: 0 2px 8px rgba(150, 0, 24, 0.2);
+    }
+
+    .page-item.disabled .page-link {
+        color: rgba(18, 18, 18, 0.3); /* Dark with opacity */
+        background-color: rgba(254, 254, 250, 0.5); /* Ivory with opacity */
+        pointer-events: none;
+    }
+
+    .page-link i {
+        font-size: 0.9rem;
+    }
+
+    @media (max-width: 576px) {
+        .page-item {
+            margin: 0 1px;
+        }
+        
+        .page-link {
+            min-width: 36px;
+            height: 36px;
+            padding: 0 8px;
+            font-size: 1rem;
+        }
+    }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -476,9 +549,55 @@
             </table>
         </div>
         <!--pagination -->
-        <div class="pagination mt-3">
-            {{ $products->withQueryString()->links() }}
+        <div class="pagination-container">
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    {{-- Previous Page Link --}}
+                    @if ($products->onFirstPage())
+                        <li class="page-item disabled" aria-disabled="true">
+                            <span class="page-link">
+                                <i class="fas fa-chevron-left"></i>
+                            </span>
+                        </li>
+                    @else
+                        <li class="page-item">
+                            <a class="page-link" href="{{ $products->previousPageUrl() }}" rel="prev">
+                                <i class="fas fa-chevron-left"></i>
+                            </a>
+                        </li>
+                    @endif
+
+                    {{-- Pagination Elements --}}
+                    @foreach ($products->getUrlRange(1, $products->lastPage()) as $page => $url)
+                        @if ($page == $products->currentPage())
+                            <li class="page-item active" aria-current="page">
+                                <span class="page-link">{{ $page }}</span>
+                            </li>
+                        @else
+                            <li class="page-item">
+                                <a class="page-link" href="{{ $url }}">{{ $page }}</a>
+                            </li>
+                        @endif
+                    @endforeach
+
+                    {{-- Next Page Link --}}
+                    @if ($products->hasMorePages())
+                        <li class="page-item">
+                            <a class="page-link" href="{{ $products->nextPageUrl() }}" rel="next">
+                                <i class="fas fa-chevron-right"></i>
+                            </a>
+                        </li>
+                    @else
+                        <li class="page-item disabled" aria-disabled="true">
+                            <span class="page-link">
+                                <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </li>
+                    @endif
+                </ul>
+            </nav>
         </div>
+
     <!-- Modal pour store new produit -->
     <div class="modal fade" id="createProductModal" tabindex="-1" aria-labelledby="createProductModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl">
