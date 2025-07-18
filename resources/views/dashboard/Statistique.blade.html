@@ -241,6 +241,7 @@
             border: 1px solid rgba(0, 0, 0, 0.1);
             border-radius: 4px;
             background-color: white;
+            font-family: 'Cormorant Garamond', serif;
         }
         
         .chart-placeholder {
@@ -323,6 +324,39 @@
         .activity-time {
             font-size: 0.8rem;
             color: rgba(18, 18, 18, 0.5);
+        }
+        
+        /* Inventory Status */
+        .inventory-status {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .inventory-item {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            border-left: 3px solid var(--gold);
+        }
+        
+        .inventory-category {
+            font-size: 0.9rem;
+            color: var(--navy);
+            margin-bottom: 0.5rem;
+        }
+        
+        .inventory-count {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .inventory-low {
+            color: var(--burgundy);
+            font-size: 0.8rem;
+            margin-top: 0.3rem;
         }
         
         /* Mobile Responsiveness */
@@ -416,7 +450,7 @@
             <li><a href="#" class="active"><i class="fas fa-chart-bar"></i> Statistiques</a></li>
             <li><a href="#"><i class="fas fa-shopping-basket"></i> Gestion des Commandes</a></li>
             <li><a href="#"><i class="fas fa-truck"></i> Gestion des Livraisons</a></li>
-            <li><a href="#" ><i class="fas fa-bullhorn"></i> Marketing & Email</a></li>
+            <li><a href="#"><i class="fas fa-bullhorn"></i> Marketing & Email</a></li>
             <li><a href="#"><i class="fas fa-cog"></i> Paramètres</a></li>
             <li><a href="#"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
         </ul>
@@ -442,42 +476,42 @@
                     <h3>Chiffre d'affaires</h3>
                     <i class="fas fa-euro-sign"></i>
                 </div>
-                <div class="stat-card-value">3,245€</div>
+                <div class="stat-card-value">8,745€</div>
                 <div class="stat-card-description">
-                    <span class="trend-up"><i class="fas fa-arrow-up"></i> 12.5% ce mois</span> vs mois dernier
+                    <span class="trend-up"><i class="fas fa-arrow-up"></i> 15.2% ce mois</span> vs mois dernier
                 </div>
             </div>
             
             <div class="stat-card">
                 <div class="stat-card-header">
-                    <h3>Commandes</h3>
-                    <i class="fas fa-shopping-basket"></i>
+                    <h3>Ventes totales</h3>
+                    <i class="fas fa-wine-bottle"></i>
                 </div>
-                <div class="stat-card-value">48</div>
+                <div class="stat-card-value">142</div>
                 <div class="stat-card-description">
-                    <span class="trend-up"><i class="fas fa-arrow-up"></i> 8.3% ce mois</span> vs mois dernier
-                </div>
-            </div>
-            
-            <div class="stat-card">
-                <div class="stat-card-header">
-                    <h3>Clients</h3>
-                    <i class="fas fa-users"></i>
-                </div>
-                <div class="stat-card-value">126</div>
-                <div class="stat-card-description">
-                    <span class="trend-up"><i class="fas fa-arrow-up"></i> 5.2% ce mois</span> vs mois dernier
+                    <span class="trend-up"><i class="fas fa-arrow-up"></i> 9.8% ce mois</span> vs mois dernier
                 </div>
             </div>
             
             <div class="stat-card">
                 <div class="stat-card-header">
                     <h3>Panier moyen</h3>
-                    <i class="fas fa-cart-plus"></i>
+                    <i class="fas fa-shopping-basket"></i>
                 </div>
-                <div class="stat-card-value">67.60€</div>
+                <div class="stat-card-value">61.58€</div>
                 <div class="stat-card-description">
-                    <span class="trend-down"><i class="fas fa-arrow-down"></i> 3.1% ce mois</span> vs mois dernier
+                    <span class="trend-up"><i class="fas fa-arrow-up"></i> 4.9% ce mois</span> vs mois dernier
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-card-header">
+                    <h3>Clients fidèles</h3>
+                    <i class="fas fa-crown"></i>
+                </div>
+                <div class="stat-card-value">28</div>
+                <div class="stat-card-description">
+                    <span class="trend-up"><i class="fas fa-arrow-up"></i> 3.2% ce mois</span> vs mois dernier
                 </div>
             </div>
         </div>
@@ -486,7 +520,7 @@
         <div class="charts-section">
             <div class="chart-container">
                 <div class="chart-header">
-                    <h3>Ventes mensuelles</h3>
+                    <h3>Performance des ventes</h3>
                     <select>
                         <option>12 derniers mois</option>
                         <option>6 derniers mois</option>
@@ -494,13 +528,35 @@
                     </select>
                 </div>
                 <div class="chart-placeholder">
-                    Graphique des ventes mensuelles
+                    Graphique des performances mensuelles
+                </div>
+                
+                <div class="inventory-status">
+                    <div class="inventory-item">
+                        <div class="inventory-category">Vins rouges</div>
+                        <div class="inventory-count">78 bouteilles</div>
+                        <div class="inventory-low">5 bouteilles en rupture</div>
+                    </div>
+                    <div class="inventory-item">
+                        <div class="inventory-category">Vins blancs</div>
+                        <div class="inventory-count">64 bouteilles</div>
+                        <div class="inventory-low">2 bouteilles en rupture</div>
+                    </div>
+                    <div class="inventory-item">
+                        <div class="inventory-category">Champagnes</div>
+                        <div class="inventory-count">32 bouteilles</div>
+                    </div>
+                    <div class="inventory-item">
+                        <div class="inventory-category">Accessoires</div>
+                        <div class="inventory-count">45 produits</div>
+                        <div class="inventory-low">3 produits en rupture</div>
+                    </div>
                 </div>
             </div>
             
             <div class="chart-container">
                 <div class="chart-header">
-                    <h3>Top catégories</h3>
+                    <h3>Répartition des ventes</h3>
                     <select>
                         <option>Ce mois</option>
                         <option>Mois dernier</option>
@@ -508,7 +564,18 @@
                     </select>
                 </div>
                 <div class="chart-placeholder">
-                    Graphique des top catégories
+                    Graphique des catégories par revenus
+                </div>
+                
+                <div class="chart-header" style="margin-top: 1.5rem;">
+                    <h3>Top produits</h3>
+                    <select>
+                        <option>Ce mois</option>
+                        <option>Mois dernier</option>
+                    </select>
+                </div>
+                <div class="chart-placeholder" style="height: 150px;">
+                    Liste des meilleurs vendeurs
                 </div>
             </div>
         </div>
@@ -525,42 +592,9 @@
                     <i class="fas fa-shopping-basket"></i>
                 </div>
                 <div class="activity-content">
-                    <div class="activity-title">Nouvelle commande #1287</div>
-                    <div class="activity-description">Commande de 145€ par Jean Dupont</div>
-                    <div class="activity-time">Il y a 15 minutes</div>
-                </div>
-            </div>
-            
-            <div class="activity-item">
-                <div class="activity-icon">
-                    <i class="fas fa-box"></i>
-                </div>
-                <div class="activity-content">
-                    <div class="activity-title">Stock mis à jour</div>
-                    <div class="activity-description">Thermomètre à vin - Stock: 5 → 3</div>
-                    <div class="activity-time">Il y a 2 heures</div>
-                </div>
-            </div>
-            
-            <div class="activity-item">
-                <div class="activity-icon">
-                    <i class="fas fa-truck"></i>
-                </div>
-                <div class="activity-content">
-                    <div class="activity-title">Commande expédiée #1283</div>
-                    <div class="activity-description">Commande de 89€ à Marie Lambert</div>
-                    <div class="activity-time">Il y a 5 heures</div>
-                </div>
-            </div>
-            
-            <div class="activity-item">
-                <div class="activity-icon">
-                    <i class="fas fa-user-plus"></i>
-                </div>
-                <div class="activity-content">
-                    <div class="activity-title">Nouveau client</div>
-                    <div class="activity-description">Sophie Martin s'est inscrite</div>
-                    <div class="activity-time">Il y a 1 jour</div>
+                    <div class="activity-title">Commande premium #1291</div>
+                    <div class="activity-description">Château Margaux 2015 (2 bouteilles) + coffret dégustation</div>
+                    <div class="activity-time">Il y a 32 minutes</div>
                 </div>
             </div>
             
@@ -569,9 +603,42 @@
                     <i class="fas fa-wine-bottle"></i>
                 </div>
                 <div class="activity-content">
-                    <div class="activity-title">Nouveau produit ajouté</div>
-                    <div class="activity-description">"Verre à vin prestige" ajouté au catalogue</div>
-                    <div class="activity-time">Il y a 2 jours</div>
+                    <div class="activity-title">Nouvel arrivage</div>
+                    <div class="activity-description">12 bouteilles de Château Lafite Rothschild 2018 ajoutées</div>
+                    <div class="activity-time">Il y a 1 heure</div>
+                </div>
+            </div>
+            
+            <div class="activity-item">
+                <div class="activity-icon">
+                    <i class="fas fa-user-check"></i>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">Nouveau client fidèle</div>
+                    <div class="activity-description">Pierre Lambert a atteint le niveau Or (10+ commandes)</div>
+                    <div class="activity-time">Il y a 3 heures</div>
+                </div>
+            </div>
+            
+            <div class="activity-item">
+                <div class="activity-icon">
+                    <i class="fas fa-truck"></i>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">Livraison expédiée #1289</div>
+                    <div class="activity-description">Commande de 6 bouteilles vers Lyon</div>
+                    <div class="activity-time">Il y a 5 heures</div>
+                </div>
+            </div>
+            
+            <div class="activity-item">
+                <div class="activity-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">Stock critique</div>
+                    <div class="activity-description">Dom Pérignon 2012 - Seulement 2 bouteilles restantes</div>
+                    <div class="activity-time">Il y a 1 jour</div>
                 </div>
             </div>
         </div>
