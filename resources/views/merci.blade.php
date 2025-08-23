@@ -42,6 +42,6 @@
     </div>
    @include('layouts.footer') 
 
-    <!-- Include your footer here -->
+
 </body>
 </html>

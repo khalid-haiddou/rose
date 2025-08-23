@@ -146,24 +146,20 @@
             </main>
         </div>
         
-        <!-- Pagination -->
         @if ($products->lastPage() > 1)
             <ul class="pagination">
-                {{-- Previous Page --}}
                 <li class="page-item {{ $products->onFirstPage() ? 'disabled' : '' }}">
                     <a href="{{ $products->previousPageUrl() ?? '#' }}" class="page-link">
                         <i class="fas fa-chevron-left"></i>
                     </a>
                 </li>
 
-                {{-- Page Numbers --}}
+
                 @for ($i = 1; $i <= $products->lastPage(); $i++)
                     <li class="page-item {{ $products->currentPage() == $i ? 'active' : '' }}">
                         <a href="{{ $products->url($i) }}" class="page-link">{{ $i }}</a>
                     </li>
                 @endfor
-
-                {{-- Next Page --}}
                 <li class="page-item {{ !$products->hasMorePages() ? 'disabled' : '' }}">
                     <a href="{{ $products->nextPageUrl() ?? '#' }}" class="page-link">
                         <i class="fas fa-chevron-right"></i>

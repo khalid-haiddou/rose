@@ -19,8 +19,6 @@
         
         <form class="checkout-form" action="{{ route('checkout.store') }}" method="POST">
             @csrf
-
-            {{-- Informations personnelles --}}
             <section class="form-section">
                 <h2>Informations personnelles</h2>
                 <div class="form-row">
@@ -52,7 +50,6 @@
                 </div>
             </section>
 
-            {{-- Adresse de livraison --}}
             <section class="form-section">
                 <h2>Adresse de livraison</h2>
                 <div class="form-group">
@@ -71,7 +68,6 @@
                 </div>
             </section>
 
-            {{-- Méthode de livraison --}}
             <section class="form-section">
                 <h2>Méthode de livraison</h2>
                 <div class="shipping-methods">
@@ -85,8 +81,6 @@
                     </label>
                 </div>
             </section>
-
-            {{-- Méthode de paiement --}}
             <section class="form-section">
                 <h2>Méthode de paiement</h2>
                 <div class="payment-methods">
@@ -107,7 +101,7 @@
                 </div>
             </section>
 
-            {{-- Résumé de commande --}}
+
             <aside class="order-summary">
                 <h2>Votre commande</h2>
 

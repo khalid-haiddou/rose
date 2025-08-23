@@ -53,33 +53,25 @@ class Commande extends Model
     }
 
 
-    /**
-     * Check if the payment is successful
-     */
+    
     public function isPaymentSuccessful(): bool
     {
         return $this->payment_status === 'paid' && $this->is_payed;
     }
 
-    /**
-     * Check if the payment is pending
-     */
+    
     public function isPaymentPending(): bool
     {
         return $this->payment_status === 'pending';
     }
 
-    /**
-     * Check if the payment failed
-     */
+    
     public function isPaymentFailed(): bool
     {
         return $this->payment_status === 'failed';
     }
 
-    /**
-     * Get formatted payment status for display
-     */
+   
     public function getPaymentStatusDisplayAttribute(): string
     {
         return match($this->payment_status) {

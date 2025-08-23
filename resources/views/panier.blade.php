@@ -446,9 +446,6 @@
         }
 
 
-
-        
-        /* Animation for subtle interactivity */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
@@ -513,7 +510,6 @@
                                 <form action="{{ route('cart.remove', $item['product']->id) }}" method="POST">
                                     @csrf
                                     <button class="remove-btn" type="submit">
-                                        <!-- Icon -->
                                         Supprimer
                                     </button>
                                 </form>
@@ -584,7 +580,6 @@
             let debounceTimer = null;
 
             const updateQuantity = (newQty) => {
-                // Update the input value immediately for better UX
                 input.value = newQty;
 
                 fetch(`{{ url('/panier/ajax-update') }}/${productId}`, {
@@ -602,14 +597,13 @@
                 })
                 .then(data => {
                     if (data.status === 'success') {
-                        // Update summary totals
                         document.querySelector('.summary-value.subtotal').textContent = data.subtotal + ' Dhs';
                         document.querySelector('.summary-value.shipping').textContent = 
                             data.shipping === 'Gratuite' ? 'Gratuite' : data.shipping + ' Dhs';
                         document.querySelector('.summary-value.total').textContent = data.total + ' Dhs';
                     } else {
                         alert(data.message);
-                        input.value = input.dataset.oldValue; // revert if error
+                        input.value = input.dataset.oldValue; 
                     }
                 })
                 .catch(err => {
@@ -618,7 +612,7 @@
                 });
             };
 
-            // Store the initial value
+ 
             input.dataset.oldValue = input.value;
 
             minusBtn.addEventListener('click', function () {
@@ -656,7 +650,7 @@
 </script>
 
 
-        @include('layouts.footer') 
+@include('layouts.footer') 
 
 
 </body>

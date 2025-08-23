@@ -13,7 +13,7 @@
    
     @include('layouts.header') 
 
-    <!-- Image Modal -->
+
     <div id="imageModal" class="image-modal">
         <div class="modal-content">
             <button class="close-modal" onclick="closeImageModal()">&times;</button>
@@ -198,7 +198,7 @@
     </div>
 
     <script>
-        // Image Modal Functions
+
         function openImageModal(imageElement) {
             const modal = document.getElementById('imageModal');
             const modalImage = document.getElementById('modalImage');
@@ -207,7 +207,7 @@
             modalImage.alt = imageElement.alt;
             modal.classList.add('show');
             
-            // Prevent body scroll when modal is open
+
             document.body.style.overflow = 'hidden';
         }
 
@@ -215,36 +215,33 @@
             const modal = document.getElementById('imageModal');
             modal.classList.remove('show');
             
-            // Restore body scroll
+
             document.body.style.overflow = 'auto';
         }
 
-        // Close modal when clicking outside the image
+
         document.getElementById('imageModal').addEventListener('click', function(e) {
             if (e.target === this) {
                 closeImageModal();
             }
         });
 
-        // Close modal with Escape key
+
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 closeImageModal();
             }
         });
 
-        // Change main image when thumbnail is clicked (updated to also make thumbnails clickable for modal)
+
         function changeImage(element) {
             const mainImage = document.getElementById('mainImage');
             mainImage.src = element.src;
-            
-            // Also add click functionality to the new main image
             mainImage.onclick = function() {
                 openImageModal(this);
             };
         }
         
-        // Quantity selector functionality
         function incrementQuantity() {
             const quantityInput = document.getElementById('quantity');
             quantityInput.value = parseInt(quantityInput.value) + 1;

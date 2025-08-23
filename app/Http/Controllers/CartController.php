@@ -13,13 +13,12 @@ class CartController extends Controller
     {
         $cart = session()->get('cart', []);
 
-        // Fix: Use prix_ttc if available, otherwise use prix_ht
         $subtotal = collect($cart)->sum(function($item) {
             $price = $item['product']->prix_ttc ?? $item['product']->prix_ht;
             return $price * $item['quantity'];
         });
 
-        // Free shipping if subtotal >= 499
+
         $shipping = $subtotal >= 499 ? 0 : 40;
 
         $total = $subtotal + $shipping;
@@ -85,7 +84,6 @@ class CartController extends Controller
             $cart[$id]['quantity'] = $request->quantity;
             session()->put('cart', $cart);
 
-            // Fix: Use prix_ttc if available, otherwise use prix_ht
             $subtotal = collect($cart)->sum(function($item) {
                 $price = $item['product']->prix_ttc ?? $item['product']->prix_ht;
                 return $price * $item['quantity'];
@@ -94,7 +92,6 @@ class CartController extends Controller
             $shipping = $subtotal >= 499 ? 0 : 40;
             $total = $subtotal + $shipping;
 
-            // Fix: Use the same price logic for item_total
             $itemPrice = $cart[$id]['product']->prix_ttc ?? $cart[$id]['product']->prix_ht;
 
             return response()->json([

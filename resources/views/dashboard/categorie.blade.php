@@ -134,7 +134,6 @@
             document.querySelector('.sidebar').classList.toggle('active');
         });
 
-        // Toggle subcategories visibility
         document.querySelectorAll('.toggle-subcategories').forEach(button => {
             button.addEventListener('click', function() {
                 const targetId = this.getAttribute('data-target');

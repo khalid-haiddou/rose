@@ -8,17 +8,13 @@ use Illuminate\Support\Facades\Hash;
 
 class ForgotPasswordController extends Controller
 {
-    /**
-     * Show the reset password request form (GET /forgot-password)
-     */
+    
     public function showRequestForm()
     {
-        return view('reset-password'); // blade form to submit email
+        return view('reset-password'); 
     }
 
-    /**
-     * Handle sending the reset link to the email (POST /forgot-password)
-     */
+    
     public function sendResetLink(Request $request)
     {
         $request->validate([
@@ -34,18 +30,12 @@ class ForgotPasswordController extends Controller
             : back()->withErrors(['email' => __($status)]);
     }
 
-    /**
-     * Show the actual password reset form (GET /reset-password/{token})
-     */
     public function showResetForm($token)
     {
         $email = request('email');
         return view('reset-password-form', compact('token', 'email'));
     }
 
-    /**
-     * Handle updating the password (POST /reset-password)
-     */
     public function reset(Request $request)
     {
         $request->validate([

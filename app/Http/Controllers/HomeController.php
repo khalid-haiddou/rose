@@ -11,7 +11,7 @@ class HomeController extends Controller
 {
     public function home()
     {
-        // Best sellers
+
         $bestSellers = DB::table('commande_product')
             ->select('product_id', DB::raw('SUM(quantity) as total_sold'))
             ->groupBy('product_id')
@@ -21,7 +21,7 @@ class HomeController extends Controller
 
         $products = Product::with('category')->whereIn('id', $bestSellers)->get();
 
-        // Promotions & Packs
+
         $promotionsAndPacks = $this->getPromotionsPacksProducts();
 
         return view('home', [

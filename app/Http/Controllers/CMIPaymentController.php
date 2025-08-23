@@ -18,10 +18,8 @@ class CMIPaymentController extends Controller
     public function redirectToGateway(Commande $commande)
     {
         try {
-            // Store the order ID in session for tracking
             session(['current_order_id' => $commande->id]);
 
-            // Use your existing service to create checkout session
             return $this->cmiPaymentService->createCheckoutSession($commande);
 
         } catch (\Exception $e) {
@@ -36,11 +34,8 @@ class CMIPaymentController extends Controller
      */
     public function paymentSuccess(Request $request)
     {
-        // Clear any stored checkout data since payment was successful
+        
         session()->forget(['checkout_data', 'current_order_id']);
-
- 
-        // Get the order from session or URL parameter
         $orderId = session('current_order_id') ?? $request->get('oid');
         $order = null;
 

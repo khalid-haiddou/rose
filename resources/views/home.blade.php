@@ -11,9 +11,9 @@
 <body>
 
    @include('layouts.header') 
-    <!-- Hero Section -->
+
 <section class="wine-hero">
-    <!-- Slider d'arrière-plan animé -->
+
     <div class="hero-slider">
         <div class="slide active" style="background-image: url('{{ asset('assets/images/chiringuito.png') }}')">
             <div class="slide-overlay"></div>
@@ -26,7 +26,7 @@
         </div>
     </div>
 
-    <!-- Contenu central -->
+
     <div class="hero-content">
         <div class="french-motif left"></div>
 
@@ -82,7 +82,6 @@
         </div>
         
         <div class="row">
-             <!-- Category 1 -->
             <div class="col-md-3 col-sm-6 animate delay-1">
                 <div class="category-card">
                   <a href="/boutique?categories%5B%5D=1" class="category-img-link">
@@ -96,7 +95,7 @@
                 </div>
             </div>
             
-            <!-- Category 2 -->
+
             <div class="col-md-3 col-sm-6 animate delay-1">
                 <div class="category-card">
                      <a href="/boutique?categories%5B%5D=2" class="category-img-link">
@@ -110,7 +109,6 @@
                 </div>
             </div>
             
-            <!-- Category 3 -->
             <div class="col-md-3 col-sm-6 animate delay-1">
                 <div class="category-card">                    
                      <a href="/boutique?categories%5B%5D=10" class="category-img-link">
@@ -124,7 +122,6 @@
                 </div>
             </div>
             
-            <!-- Category 4 -->
             <div class="col-md-3 col-sm-6 animate delay-1">
                 <div class="category-card">
                      <a href="/boutique?categories%5B%5D=11" class="category-img-link">
@@ -138,21 +135,19 @@
                 </div>
             </div>
             
-<!-- Category 5 -->
-<div class="col-md-3 col-sm-6 animate delay-2">
-    <div class="category-card">
-        <a href="/boutique?categories%5B%5D=12" class="category-img-link">
-            <div class="category-img">
-                <img src="{{ asset('assets/images/Mini-réfrigérateurs-frigos.png') }}" alt="Thermomètres">
-                <div class="category-overlay">
-                    <h3>Mini-Réfrigérateurs et Frigos</h3>
+            <div class="col-md-3 col-sm-6 animate delay-2">
+                <div class="category-card">
+                    <a href="/boutique?categories%5B%5D=12" class="category-img-link">
+                        <div class="category-img">
+                            <img src="{{ asset('assets/images/Mini-réfrigérateurs-frigos.png') }}" alt="Thermomètres">
+                            <div class="category-overlay">
+                                <h3>Mini-Réfrigérateurs et Frigos</h3>
+                            </div>
+                        </div>
+                    </a>
                 </div>
             </div>
-        </a>
-    </div>
-</div>
             
-            <!-- Category 6 -->
             <div class="col-md-3 col-sm-6 animate delay-2">
                 <div class="category-card">
                      <a href="/boutique?categories%5B%5D=13" class="category-img-link">
@@ -166,7 +161,6 @@
                 </div>
             </div>
             
-            <!-- Category 7 -->
             <div class="col-md-3 col-sm-6 animate delay-2">
                 <div class="category-card">
                     <a href="/boutique?categories%5B%5D=14" class="category-img-link">
@@ -180,7 +174,6 @@
                 </div>
             </div>
             
-            <!-- Category 8 -->
             <div class="col-md-3 col-sm-6 animate delay-2">
                 <div class="category-card">
                      <a href="/boutique?categories%5B%5D=15" class="category-img-link">
@@ -215,255 +208,252 @@
     </section>
 
     <!-- Featured Products -->
-<section class="luxury-slider-section">
-    <div class="luxury-container">
-        <!-- En-tête avec navigation intégrée -->
-        <div class="luxury-header">
-            <div class="title-wrapper">
-               <h2 class="section-title">Best <span class="accent">Sellers</span></h2>
-                <div class="slider-progress">
-                    <div class="progress-bar"></div>
+    <section class="luxury-slider-section">
+        <div class="luxury-container">
+            <!-- En-tête avec navigation intégrée -->
+            <div class="luxury-header">
+                <div class="title-wrapper">
+                <h2 class="section-title">Best <span class="accent">Sellers</span></h2>
+                    <div class="slider-progress">
+                        <div class="progress-bar"></div>
+                    </div>
+                </div>
+                
+                <div class="slider-nav">
+                    <button class="nav-btn prev-btn" aria-label="Précédent">
+                        <div class="circle-bg"></div>
+                        <svg class="arrow-icon" viewBox="0 0 24 24">
+                            <path class="arrow-stroke" d="M15 18l-6-6 6-6"/>
+                        </svg>
+                    </button>
+                    <button class="nav-btn next-btn" aria-label="Suivant">
+                        <div class="circle-bg"></div>
+                        <svg class="arrow-icon" viewBox="0 0 24 24">
+                            <path class="arrow-stroke" d="M9 6l6 6-6 6"/>
+                        </svg>
+                    </button>
                 </div>
             </div>
-            
-            <div class="slider-nav">
-                <button class="nav-btn prev-btn" aria-label="Précédent">
-                    <div class="circle-bg"></div>
-                    <svg class="arrow-icon" viewBox="0 0 24 24">
-                        <path class="arrow-stroke" d="M15 18l-6-6 6-6"/>
-                    </svg>
-                </button>
-                <button class="nav-btn next-btn" aria-label="Suivant">
-                    <div class="circle-bg"></div>
-                    <svg class="arrow-icon" viewBox="0 0 24 24">
-                        <path class="arrow-stroke" d="M9 6l6 6-6 6"/>
-                    </svg>
-                </button>
+
+            <!-- Slider Container -->
+
+            <div class="slider-wrapper">
+                <div class="luxury-slider">
+                    @foreach($bestSellers as $product)
+                    <a href="{{ route('products.show', $product->slug) }}" >
+                    <article class="product-card">
+                        <div class="card-inner">
+                            <div class="product-media">
+                                <img class="product-image"
+                                    src="{{ asset('storage/' . $product->image) }}"
+                                    alt="{{ $product->nom }}"
+                                    loading="lazy">
+                                
+                                <div class="product-badge">
+                                    <span class="badge-text">Best-seller</span>
+                                </div>
+                            </div>
+
+                            <div class="product-info">
+                                <span class="product-category wine-category">{{ $product->category->nom ?? 'Catégorie' }}</span>
+                                <h3 class="product-title">{{ $product->nom }}</h3>
+                                
+                                <div class="product-meta">
+                                    @if($product->rating && $product->reviews_count > 0)
+                                        {{-- Product has reviews --}}
+                                        <div class="rating-display" data-rating="{{ $product->rating }}">
+                                            <div class="stars-wrapper">
+                                                <div class="stars-container" style="position: relative; display: inline-block;">
+                                                    {{-- Empty stars background --}}
+                                                    <div class="stars-empty" style="color: #ddd;">★★★★★</div>
+                                                    {{-- Filled stars overlay --}}
+                                                    <div class="stars-fill" style="position: absolute; top: 0; left: 0; width: {{ ($product->rating / 5) * 100 }}%; overflow: hidden; color: #ffc107;">★★★★★</div>
+                                                </div>
+                                            </div>
+                                            <span class="rating-count" style="margin-left: 8px; color: #666; font-size: 14px;">
+                                                ({{ $product->reviews_count }} {{ $product->reviews_count == 1 ? 'avis' : 'avis' }})
+                                            </span>
+                                            <span class="rating-value" style="margin-left: 4px; font-weight: 600; color: #333;">
+                                                {{ $product->rating }}/5
+                                            </span>
+                                        </div>
+                                    @elseif($product->reviews_count == 0)
+                                        {{-- No reviews yet --}}
+                                        <div class="no-rating-display">
+                                            <div class="stars-wrapper">
+                                                <div class="stars-container" style="position: relative; display: inline-block;">
+                                                    <div class="stars-empty" style="color: #ddd;">★★★★★</div>
+                                                </div>
+                                            </div>
+                                            <span class="no-rating-text" style="margin-left: 8px; color: #999; font-size: 14px; font-style: italic;">
+                                                Aucun avis
+                                            </span>
+                                            @if($product->is_new)
+                                                <span class="new-badge" style="background: #28a745; color: white; padding: 2px 6px; border-radius: 4px; font-size: 11px; margin-left: 8px;">
+                                                    NOUVEAU
+                                                </span>
+                                            @endif
+                                        </div>
+                                    @endif
+                                    
+                                    <div class="price-wrapper">
+                                        @if($product->remise && $product->remise > 0)
+                                            @php
+                                                $discountedPrice = $product->prix_ttc * (1 - $product->remise / 100);
+                                            @endphp
+                                            <span class="original-price" style="text-decoration: line-through; color: #999; margin-right: 8px;">
+                                                {{ number_format($product->prix_ttc, 2, ',', ' ') }} Dhs
+                                            </span>
+                                            <span class="current-price wine-price">{{ number_format($discountedPrice, 2, ',', ' ') }} Dhs</span>
+                                            <span class="discount-badge" style="background: #e74c3c; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; margin-left: 8px;">
+                                                -{{ $product->remise }}%
+                                            </span>
+                                        @else
+                                            <span class="current-price wine-price">{{ number_format($product->prix_ttc, 2, ',', ' ') }} Dhs</span>
+                                        @endif
+                                    </div>
+                                    
+                                    @if($product->sold_percentage > 0)
+                                        <div class="sold-progress" style="margin-top: 8px;">
+                                            <div class="progress-bar" style="background: #f0f0f0; border-radius: 10px; height: 4px; overflow: hidden;">
+                                                <div class="progress-fill" style="background: #e74c3c; height: 100%; width: {{ $product->sold_percentage }}%; transition: width 0.3s ease;"></div>
+                                            </div>
+                                            <span class="sold-text" style="font-size: 12px; color: #666; margin-top: 4px; display: block;">
+                                                {{ $product->sold_percentage }}% vendu
+                                            </span>
+                                        </div>
+                                    @endif
+                                </div>
+                                
+                                <button class="view-product-btn" onclick="window.location.href='{{ route('products.show', $product->slug) }}'">
+                                    Voir le produit
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+                    @endforeach
+                </div>
             </div>
+
         </div>
+    </section>
 
-        <!-- Slider Container -->
 
-        <div class="slider-wrapper">
-            <div class="luxury-slider">
-                @foreach($bestSellers as $product)
+    <section class="limited-offers">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Offres <span class="accent">Exclusives</span></h2>
+            </div>
+
+            <div class="offer-slider">
+                @forelse($promotionsAndPacks as $product)
                 <a href="{{ route('products.show', $product->slug) }}" >
-                <article class="product-card">
-                    <div class="card-inner">
-                        <div class="product-media">
-                            <img class="product-image"
-                                src="{{ asset('storage/' . $product->image) }}"
-                                alt="{{ $product->nom }}"
-                                loading="lazy">
-                            
-                            <div class="product-badge">
-                                <span class="badge-text">Best-seller</span>
+                    <article class="product-card">
+                        <div class="card-inner">
+                            <div class="product-media">
+                                <img class="product-image"
+                                    src="{{ asset('storage/' . $product->image) }}"
+                                    alt="{{ $product->nom }}"
+                                    loading="lazy">
+                                
+                                <div class="product-badge">
+                                    @if($product->sold_percentage >= 80)
+                                        <span class="badge-text">Presque épuisé</span>
+                                    @elseif($product->sold_percentage >= 50)
+                                        <span class="badge-text">Populaire</span>
+                                    @else
+                                        <span class="badge-text">Promotion</span>
+                                    @endif
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="product-info">
-                            <span class="product-category wine-category">{{ $product->category->nom ?? 'Catégorie' }}</span>
-                            <h3 class="product-title">{{ $product->nom }}</h3>
-                            
-                            <div class="product-meta">
-                                @if($product->rating && $product->reviews_count > 0)
-                                    {{-- Product has reviews --}}
-                                    <div class="rating-display" data-rating="{{ $product->rating }}">
-                                        <div class="stars-wrapper">
-                                            <div class="stars-container" style="position: relative; display: inline-block;">
-                                                {{-- Empty stars background --}}
-                                                <div class="stars-empty" style="color: #ddd;">★★★★★</div>
-                                                {{-- Filled stars overlay --}}
-                                                <div class="stars-fill" style="position: absolute; top: 0; left: 0; width: {{ ($product->rating / 5) * 100 }}%; overflow: hidden; color: #ffc107;">★★★★★</div>
+                            <div class="product-info">
+                                <span class="product-category wine-category">{{ $product->category->nom ?? 'Promotions et Packs' }}</span>
+                                <h3 class="product-title">{{ $product->nom }}</h3>
+                                
+                                <div class="product-meta">
+                                    @if($product->rating && $product->reviews_count > 0)
+                                        {{-- Product has reviews --}}
+                                        <div class="rating-display" data-rating="{{ $product->rating }}">
+                                            <div class="stars-wrapper">
+                                                <div class="stars-container" style="position: relative; display: inline-block;">
+                                                    {{-- Empty stars background --}}
+                                                    <div class="stars-empty" style="color: #ddd;">★★★★★</div>
+                                                    {{-- Filled stars overlay --}}
+                                                    <div class="stars-fill" style="position: absolute; top: 0; left: 0; width: {{ ($product->rating / 5) * 100 }}%; overflow: hidden; color: #ffc107;">★★★★★</div>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <span class="rating-count" style="margin-left: 8px; color: #666; font-size: 14px;">
-                                            ({{ $product->reviews_count }} {{ $product->reviews_count == 1 ? 'avis' : 'avis' }})
-                                        </span>
-                                        <span class="rating-value" style="margin-left: 4px; font-weight: 600; color: #333;">
-                                            {{ $product->rating }}/5
-                                        </span>
-                                    </div>
-                                @elseif($product->reviews_count == 0)
-                                    {{-- No reviews yet --}}
-                                    <div class="no-rating-display">
-                                        <div class="stars-wrapper">
-                                            <div class="stars-container" style="position: relative; display: inline-block;">
-                                                <div class="stars-empty" style="color: #ddd;">★★★★★</div>
-                                            </div>
-                                        </div>
-                                        <span class="no-rating-text" style="margin-left: 8px; color: #999; font-size: 14px; font-style: italic;">
-                                            Aucun avis
-                                        </span>
-                                        @if($product->is_new)
-                                            <span class="new-badge" style="background: #28a745; color: white; padding: 2px 6px; border-radius: 4px; font-size: 11px; margin-left: 8px;">
-                                                NOUVEAU
+                                            <span class="rating-count" style="margin-left: 8px; color: #666; font-size: 14px;">
+                                                ({{ $product->reviews_count }} {{ $product->reviews_count == 1 ? 'avis' : 'avis' }})
                                             </span>
+                                            <span class="rating-value" style="margin-left: 4px; font-weight: 600; color: #333;">
+                                                {{ $product->rating }}/5
+                                            </span>
+                                        </div>
+                                    @elseif($product->reviews_count == 0)
+                                        {{-- No reviews yet --}}
+                                        <div class="no-rating-display">
+                                            <div class="stars-wrapper">
+                                                <div class="stars-container" style="position: relative; display: inline-block;">
+                                                    <div class="stars-empty" style="color: #ddd;">★★★★★</div>
+                                                </div>
+                                            </div>
+                                            <span class="no-rating-text" style="margin-left: 8px; color: #999; font-size: 14px; font-style: italic;">
+                                                Aucun avis
+                                            </span>
+                                            @if($product->is_new)
+                                                <span class="new-badge" style="background: #28a745; color: white; padding: 2px 6px; border-radius: 4px; font-size: 11px; margin-left: 8px;">
+                                                    NOUVEAU
+                                                </span>
+                                            @endif
+                                        </div>
+                                    @endif
+                                    
+                                    <div class="price-wrapper">
+                                        @if($product->remise && $product->remise > 0)
+                                            @php
+                                                $discountedPrice = $product->prix_ttc * (1 - $product->remise / 100);
+                                            @endphp
+                                            <span class="original-price" style="text-decoration: line-through; color: #999; margin-right: 8px;">
+                                                {{ number_format($product->prix_ttc, 2, ',', ' ') }} Dhs
+                                            </span>
+                                            <span class="current-price wine-price">{{ number_format($discountedPrice, 2, ',', ' ') }} Dhs</span>
+                                            <span class="discount-badge" style="background: #e74c3c; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; margin-left: 8px;">
+                                                -{{ $product->remise }}%
+                                            </span>
+                                        @else
+                                            <span class="current-price wine-price">{{ number_format($product->prix_ttc ?? $product->prix_ht, 2, ',', ' ') }} Dhs</span>
                                         @endif
                                     </div>
-                                @endif
-                                
-                                <div class="price-wrapper">
-                                    @if($product->remise && $product->remise > 0)
-                                        @php
-                                            $discountedPrice = $product->prix_ttc * (1 - $product->remise / 100);
-                                        @endphp
-                                        <span class="original-price" style="text-decoration: line-through; color: #999; margin-right: 8px;">
-                                            {{ number_format($product->prix_ttc, 2, ',', ' ') }} Dhs
-                                        </span>
-                                        <span class="current-price wine-price">{{ number_format($discountedPrice, 2, ',', ' ') }} Dhs</span>
-                                        <span class="discount-badge" style="background: #e74c3c; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; margin-left: 8px;">
-                                            -{{ $product->remise }}%
-                                        </span>
-                                    @else
-                                        <span class="current-price wine-price">{{ number_format($product->prix_ttc, 2, ',', ' ') }} Dhs</span>
+                                    
+                                    @if($product->sold_percentage > 0)
+                                        <div class="sold-progress" style="margin-top: 8px;">
+                                            <div class="progress-bar" style="background: #f0f0f0; border-radius: 10px; height: 4px; overflow: hidden;">
+                                                <div class="progress-fill" style="background: #e74c3c; height: 100%; width: {{ $product->sold_percentage }}%; transition: width 0.3s ease;"></div>
+                                            </div>
+                                            <span class="sold-text" style="font-size: 12px; color: #666; margin-top: 4px; display: block;">
+                                                {{ $product->sold_percentage }}% vendu
+                                            </span>
+                                        </div>
                                     @endif
                                 </div>
                                 
-                                @if($product->sold_percentage > 0)
-                                    <div class="sold-progress" style="margin-top: 8px;">
-                                        <div class="progress-bar" style="background: #f0f0f0; border-radius: 10px; height: 4px; overflow: hidden;">
-                                            <div class="progress-fill" style="background: #e74c3c; height: 100%; width: {{ $product->sold_percentage }}%; transition: width 0.3s ease;"></div>
-                                        </div>
-                                        <span class="sold-text" style="font-size: 12px; color: #666; margin-top: 4px; display: block;">
-                                            {{ $product->sold_percentage }}% vendu
-                                        </span>
-                                    </div>
-                                @endif
+                                <button class="view-product-btn" onclick="window.location.href='{{ route('products.show', $product->slug) }}'">
+                                    Voir le produit
+                                </button>
                             </div>
-                            
-                            <button class="view-product-btn" onclick="window.location.href='{{ route('products.show', $product->slug) }}'">
-                                Voir le produit
-                            </button>
                         </div>
-                    </div>
-                </article>
-                @endforeach
+                    </article>
+                @empty
+            <div class="no-products-message" style="text-align: center; padding: 40px; color: #666;">
+                <p>Aucune promotion disponible pour le moment.</p>
             </div>
-        </div>
-
+        @endforelse
+    </div>
     </div>
 </section>
 
-<!----offre---->
 
-<section class="limited-offers">
-    <div class="container">
-        <div class="section-header">
-            <h2 class="section-title">Offres <span class="accent">Exclusives</span></h2>
-        </div>
-
-        <div class="offer-slider">
-            @forelse($promotionsAndPacks as $product)
-            <a href="{{ route('products.show', $product->slug) }}" >
-                <article class="product-card">
-                    <div class="card-inner">
-                        <div class="product-media">
-                            <img class="product-image"
-                                src="{{ asset('storage/' . $product->image) }}"
-                                alt="{{ $product->nom }}"
-                                loading="lazy">
-                            
-                            <div class="product-badge">
-                                @if($product->sold_percentage >= 80)
-                                    <span class="badge-text">Presque épuisé</span>
-                                @elseif($product->sold_percentage >= 50)
-                                    <span class="badge-text">Populaire</span>
-                                @else
-                                    <span class="badge-text">Promotion</span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="product-info">
-                            <span class="product-category wine-category">{{ $product->category->nom ?? 'Promotions et Packs' }}</span>
-                            <h3 class="product-title">{{ $product->nom }}</h3>
-                            
-                            <div class="product-meta">
-                                @if($product->rating && $product->reviews_count > 0)
-                                    {{-- Product has reviews --}}
-                                    <div class="rating-display" data-rating="{{ $product->rating }}">
-                                        <div class="stars-wrapper">
-                                            <div class="stars-container" style="position: relative; display: inline-block;">
-                                                {{-- Empty stars background --}}
-                                                <div class="stars-empty" style="color: #ddd;">★★★★★</div>
-                                                {{-- Filled stars overlay --}}
-                                                <div class="stars-fill" style="position: absolute; top: 0; left: 0; width: {{ ($product->rating / 5) * 100 }}%; overflow: hidden; color: #ffc107;">★★★★★</div>
-                                            </div>
-                                        </div>
-                                        <span class="rating-count" style="margin-left: 8px; color: #666; font-size: 14px;">
-                                            ({{ $product->reviews_count }} {{ $product->reviews_count == 1 ? 'avis' : 'avis' }})
-                                        </span>
-                                        <span class="rating-value" style="margin-left: 4px; font-weight: 600; color: #333;">
-                                            {{ $product->rating }}/5
-                                        </span>
-                                    </div>
-                                @elseif($product->reviews_count == 0)
-                                    {{-- No reviews yet --}}
-                                    <div class="no-rating-display">
-                                        <div class="stars-wrapper">
-                                            <div class="stars-container" style="position: relative; display: inline-block;">
-                                                <div class="stars-empty" style="color: #ddd;">★★★★★</div>
-                                            </div>
-                                        </div>
-                                        <span class="no-rating-text" style="margin-left: 8px; color: #999; font-size: 14px; font-style: italic;">
-                                            Aucun avis
-                                        </span>
-                                        @if($product->is_new)
-                                            <span class="new-badge" style="background: #28a745; color: white; padding: 2px 6px; border-radius: 4px; font-size: 11px; margin-left: 8px;">
-                                                NOUVEAU
-                                            </span>
-                                        @endif
-                                    </div>
-                                @endif
-                                
-                                <div class="price-wrapper">
-                                    @if($product->remise && $product->remise > 0)
-                                        @php
-                                            $discountedPrice = $product->prix_ttc * (1 - $product->remise / 100);
-                                        @endphp
-                                        <span class="original-price" style="text-decoration: line-through; color: #999; margin-right: 8px;">
-                                            {{ number_format($product->prix_ttc, 2, ',', ' ') }} Dhs
-                                        </span>
-                                        <span class="current-price wine-price">{{ number_format($discountedPrice, 2, ',', ' ') }} Dhs</span>
-                                        <span class="discount-badge" style="background: #e74c3c; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; margin-left: 8px;">
-                                            -{{ $product->remise }}%
-                                        </span>
-                                    @else
-                                        <span class="current-price wine-price">{{ number_format($product->prix_ttc ?? $product->prix_ht, 2, ',', ' ') }} Dhs</span>
-                                    @endif
-                                </div>
-                                
-                                @if($product->sold_percentage > 0)
-                                    <div class="sold-progress" style="margin-top: 8px;">
-                                        <div class="progress-bar" style="background: #f0f0f0; border-radius: 10px; height: 4px; overflow: hidden;">
-                                            <div class="progress-fill" style="background: #e74c3c; height: 100%; width: {{ $product->sold_percentage }}%; transition: width 0.3s ease;"></div>
-                                        </div>
-                                        <span class="sold-text" style="font-size: 12px; color: #666; margin-top: 4px; display: block;">
-                                            {{ $product->sold_percentage }}% vendu
-                                        </span>
-                                    </div>
-                                @endif
-                            </div>
-                            
-                            <button class="view-product-btn" onclick="window.location.href='{{ route('products.show', $product->slug) }}'">
-                                Voir le produit
-                            </button>
-                        </div>
-                    </div>
-                </article>
-            @empty
-        <div class="no-products-message" style="text-align: center; padding: 40px; color: #666;">
-            <p>Aucune promotion disponible pour le moment.</p>
-        </div>
-    @endforelse
-</div>
-    </div>
-</section>
-
-<!--- offre----->
-
-    <!-- Section Témoignages -->
 <section class="testimonials-section">
   <div class="container">
     <div class="section-header">
@@ -473,7 +463,6 @@
 
     <div class="testimonials-container">
       <div class="testimonials-grid" id="testimonialsSlider">
-        <!-- Témoignage 1 -->
         <div class="testimonial-card">
           <div class="rating">★★★★★</div>
           <p class="testimonial-text">Très bon service reçu rapidement. Excellent service même par téléphone très disponible. Je le recommande sans hésiter.</p>
@@ -482,7 +471,7 @@
           </div>
         </div>
 
-        <!-- Témoignage 2 -->
+
         <div class="testimonial-card">
           <div class="rating">★★★★★</div>
           <p class="testimonial-text">Tres facile à personnaliser, livraison rapide. Produit de qualité supérieure avec un packaging soigné.</p>
@@ -491,7 +480,7 @@
           </div>
         </div>
 
-        <!-- Témoignage 3 -->
+
         <div class="testimonial-card">
           <div class="rating">★★★★★</div>
           <p class="testimonial-text">Parfait et service rapide. Produit toujours aussi beau et toujours aussi rapide pour l'avoir.</p>
@@ -500,7 +489,7 @@
           </div>
         </div>
 
-        <!-- Témoignage 4 -->
+
         <div class="testimonial-card">
           <div class="rating">★★★★★</div>
           <p class="testimonial-text">Commande reçue dans les délais, emballage parfait. Je recommande ce site pour la qualité de ses produits.</p>
@@ -526,7 +515,7 @@
   </div>
 </section>
 
-    <!-- Blog Section -->
+
     <section class="blog-section">
         <div class="container">
             <div class="section-title animate">
@@ -535,7 +524,6 @@
             </div>
             
             <div class="row">
-                <!-- Blog 1 -->
                 <div class="col-lg-4 col-md-6 animate delay-1">
                     <div class="blog-card">
                         <div class="blog-img">
@@ -550,7 +538,7 @@
                     </div>
                 </div>
                 
-                <!-- Blog 2 -->
+
                 <div class="col-lg-4 col-md-6 animate delay-2">
                     <div class="blog-card">
                         <div class="blog-img">
@@ -565,7 +553,7 @@
                     </div>
                 </div>
                 
-                <!-- Blog 3 -->
+
                 <div class="col-lg-4 col-md-6 animate delay-3">
                     <div class="blog-card">
                         <div class="blog-img">
@@ -587,12 +575,12 @@
         </div>
     </section>
     
-<!--bonde icon ---->
+
 
 <section class="features-section">
     <div class="container">
         <div class="features-grid">
-            <!-- Feature 1 - SAV -->
+
             <div class="feature-card" style="--accent: var(--burgundy);">
                 <div class="feature-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -604,7 +592,7 @@
                 <div class="feature-hover"></div>
             </div>
 
-            <!-- Feature 2 - Normes -->
+
             <div class="feature-card" style="--accent: var(--navy);">
                 <div class="feature-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -616,7 +604,7 @@
                 <div class="feature-hover"></div>
             </div>
 
-            <!-- Feature 3 - Livraison -->
+
             <div class="feature-card" style="--accent: var(--gold);">
                 <div class="feature-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -628,7 +616,7 @@
                 <div class="feature-hover"></div>
             </div>
 
-            <!-- Feature 4 - Qualité -->
+
             <div class="feature-card" style="--accent: var(--burgundy);">
                 <div class="feature-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -642,10 +630,10 @@
         </div>
     </div>
 </section>
-<!--bonde icon ---->
+
    @include('layouts.footer') 
 
-    <!-- Scripts -->
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <script src="{{ asset('assets/js/home.js') }}"></script>

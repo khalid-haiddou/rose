@@ -27,7 +27,7 @@ class EventController extends Controller
     }
     public function index()
 {
-    $participations = EventParticipant::latest()->get(); // <- Correction ici
+    $participations = EventParticipant::latest()->get(); 
     return view('dashboard.events', compact('participations'));
 }
 
@@ -37,7 +37,7 @@ public function updateStatus(Request $request, $id)
         'status' => 'required|in:en-attente,confirmee,annulee'
     ]);
 
-    $participation = EventParticipant::findOrFail($id); // <- Correction ici
+    $participation = EventParticipant::findOrFail($id); 
     $participation->status = $request->status;
     $participation->save();
 
@@ -46,7 +46,7 @@ public function updateStatus(Request $request, $id)
 
 public function destroy($id)
 {
-    EventParticipant::findOrFail($id)->delete(); // <- Correction ici
+    EventParticipant::findOrFail($id)->delete(); 
     return back();
 }
 

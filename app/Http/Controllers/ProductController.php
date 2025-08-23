@@ -12,9 +12,7 @@ use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
-    /**
-     * Show all products.
-     */
+    
     public function index(Request $request)
     {
         $query = Product::with('category', 'subcategory', 'characteristics');

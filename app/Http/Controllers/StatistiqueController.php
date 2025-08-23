@@ -58,7 +58,7 @@ class StatistiqueController extends Controller
         $bestSellerId = collect($productCounts)->sortDesc()->keys()->first();
         $bestSeller = $bestSellerId ? Product::find($bestSellerId)?->nom : 'Aucun';
 
-        // Monthly Sales Chart - Fixed query
+        
         $monthlySalesRaw = Commande::select(
                 DB::raw("DATE_FORMAT(created_at, '%b %Y') as month"),
                 DB::raw("DATE_FORMAT(created_at, '%Y-%m-01') as month_date"),
@@ -66,14 +66,13 @@ class StatistiqueController extends Controller
             )
             ->whereNotIn('status', $excludedStatuses)
             ->whereBetween('created_at', [Carbon::now()->subMonths(11)->startOfMonth(), Carbon::now()])
-            ->groupBy('month_date', 'month') // Include both in GROUP BY
+            ->groupBy('month_date', 'month') 
             ->orderBy('month_date')
             ->get();
 
         $monthlyLabels = $monthlySalesRaw->pluck('month');
         $monthlyValues = $monthlySalesRaw->pluck('total');
 
-        // Top Categories - Fixed query
         $topCategoriesRaw = DB::table('commande_product')
             ->join('products', 'commande_product.product_id', '=', 'products.id')
             ->join('categories', 'products.category_id', '=', 'categories.id')
@@ -81,7 +80,7 @@ class StatistiqueController extends Controller
             ->whereNotIn('commandes.status', $excludedStatuses)
             ->whereBetween('commandes.created_at', [$startDate, $endDate])
             ->select('categories.id', 'categories.nom', DB::raw('SUM(commande_product.quantity) as total'))
-            ->groupBy('categories.id', 'categories.nom') // Include primary key in GROUP BY
+            ->groupBy('categories.id', 'categories.nom') 
             ->orderByDesc('total')
             ->limit(5)
             ->get();

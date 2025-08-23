@@ -7,20 +7,14 @@ use App\Models\ContactMessage;
 
 class ContactController extends Controller
 {
-    /**
-     * Affiche la page de contact
-     */
+    
     public function showForm()
     {
         return view('contact');
     }
 
-    /**
-     * Traite l'envoi du formulaire de contact
-     */
     public function submitForm(Request $request)
     {
-        // Validation des champs
         $request->validate([
             'name'    => 'required|string|max:255',
             'email'   => 'required|email|max:255',
@@ -28,7 +22,6 @@ class ContactController extends Controller
             'message' => 'required|string',
         ]);
 
-        // Enregistrement dans la base de données
         ContactMessage::create([
             'name'    => $request->name,
             'email'   => $request->email,
@@ -36,7 +29,6 @@ class ContactController extends Controller
             'message' => $request->message,
         ]);
 
-        // Redirection avec message de succès
         return back()->with('success', 'Votre message a été envoyé avec succès.');
     }
 
@@ -46,7 +38,7 @@ class ContactController extends Controller
         return view('dashboard.contact', compact('messages'));
     }
 
-    // Supprime un message
+
     public function destroy($id)
     {
         $message = ContactMessage::findOrFail($id);

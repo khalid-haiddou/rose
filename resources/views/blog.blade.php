@@ -8,8 +8,6 @@
 </head>
 <body>
         @include('layouts.header') 
-
-    <!-- Loading Overlay -->
     <div class="loading-overlay" id="loadingOverlay">
         <div class="wine-loader">
             <div class="tasting-glass">

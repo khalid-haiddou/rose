@@ -45,7 +45,7 @@ class MarketingController extends Controller
 
         return view('dashboard.marketing', [
             'categories' => $categories,
-            'clients' => array_values($clients), // reset index
+            'clients' => array_values($clients), 
         ]);
     }
 

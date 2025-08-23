@@ -127,8 +127,6 @@
                 question.addEventListener('click', () => {
                     const answer = question.nextElementSibling;
                     const isActive = question.classList.contains('active');
-                    
-                    // Close all other open answers
                     document.querySelectorAll('.faq-question.active').forEach(activeQuestion => {
                         if (activeQuestion !== question) {
                             activeQuestion.classList.remove('active');
@@ -136,7 +134,6 @@
                         }
                     });
                     
-                    // Toggle current question
                     question.classList.toggle('active');
                     answer.classList.toggle('active');
                 });

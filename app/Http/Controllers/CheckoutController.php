@@ -28,7 +28,6 @@ class CheckoutController extends Controller
             return redirect()->route('cart.index')->withErrors($errors);
         }
 
-        // Fix: Use prix_ttc if available, otherwise use prix_ht
         $subtotal = collect($cart)->sum(function($item) {
             $price = $item['product']->prix_ttc ?? $item['product']->prix_ht;
             return $price * $item['quantity'];

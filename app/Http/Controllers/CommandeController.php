@@ -16,7 +16,6 @@ class CommandeController extends Controller
     {
         $query = Commande::with(['products' => fn($q) => $q->withPivot('quantity', 'price_ttc')]);
 
-        // 🔍 Search by name or order number
         if ($request->filled('search')) {
             $search = $request->input('search');
             $query->where(function ($q) use ($search) {
@@ -26,12 +25,12 @@ class CommandeController extends Controller
             });
         }
 
-        // 📦 Filter by status
+        //Filter by status
         if ($request->filled('status')) {
             $query->where('status', $request->input('status'));
         }
 
-        // 🗓️ Filter by date
+        // Filter by date
         if ($request->filled('date_filter')) {
             $filter = $request->input('date_filter');
             switch ($filter) {
@@ -71,12 +70,8 @@ class CommandeController extends Controller
         ]);
 
         $oldStatus = $commande->status;
-
-        // ✅ Update only non-null fields
         $filtered = array_filter($validated, fn($value) => !is_null($value));
         $commande->update($filtered);
-
-        // ✅ Restore stock if order was cancelled or returned
         if (
             isset($validated['status']) &&
             in_array($validated['status'], ['annulee', 'retournee']) &&
@@ -88,7 +83,6 @@ class CommandeController extends Controller
             }
         }
 
-        // ✅ Add fidelity credit if order is livree and not already credited (check raw DB value)
         if (
             $commande->status === 'livree' &&
             $commande->getRawOriginal('fidelity_earned') == 0
@@ -98,12 +92,9 @@ class CommandeController extends Controller
             );
 
             $earned = round($productTotal * 0.10, 2);
-
-            // Save fidelity earned on the order
             $commande->fidelity_earned = $earned;
             $commande->save();
 
-            // Add credit to user account if user exists and linked
             if ($commande->user) {
                 $commande->user->increment('fidelity_credit', $earned);
             }
@@ -129,8 +120,6 @@ class CommandeController extends Controller
         $outOfStock = \App\Models\Product::where('stock', '=', 0)->count();
         $deliveriesInProgress = Commande::whereIn('status', ['en-preparation', 'en-cours-de-livraison', 'en-transit'])->count();
         $deliveriesDone = Commande::where('status', 'livree')->count();
-
-        // ✅ Fetch 10 latest commandes
         $recentCommandes = Commande::latest()->take(10)->get();
 
         return view('dashboard.dashboard', compact(

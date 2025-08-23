@@ -317,7 +317,7 @@ body {
     letter-spacing: 0.3px;
 }
 
-/* Account Promotion Styles */
+
 .account-promotion {
     background: linear-gradient(135deg, var(--light-gold), rgba(196, 162, 103, 0.05));
     border: 2px solid var(--gold);

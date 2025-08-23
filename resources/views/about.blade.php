@@ -71,7 +71,6 @@
     </div>
        @include('layouts.footer') 
 <script>
-    // Animation des cartes au scroll
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
