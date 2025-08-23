@@ -35,15 +35,14 @@ class AuthController extends Controller
             'role' => 'user',
         ]);
 
-        // Do not log in user here
-        // auth()->login($user);
+        
 
         return redirect('/login')->with('success', 'Inscription réussie. Veuillez vous connecter.');
     }
     //login
     public function showLoginForm()
     {
-        return view('login'); // Blade view to create
+        return view('login'); 
     }
 
     public function login(Request $request)

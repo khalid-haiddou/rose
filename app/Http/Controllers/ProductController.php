@@ -12,9 +12,7 @@ use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
-    /**
-     * Show all products.
-     */
+    
     public function index(Request $request)
     {
         $query = Product::with('category', 'subcategory', 'characteristics');
@@ -254,7 +252,7 @@ class ProductController extends Controller
                     }
                 });
             })
-            ->paginate(10);
+            ->paginate(12);
 
         return view('boutique', compact('categories', 'products'));
     }
@@ -272,6 +270,16 @@ class ProductController extends Controller
         return view('single-product', compact('product', 'relatedProducts'));
     }
 
+    public function ajaxSearch(Request $request)
+    {
+        $query = $request->get('q');
 
+        $products = \App\Models\Product::where('nom', 'like', '%' . $query . '%')
+            ->select('nom', 'slug')
+            ->limit(5)
+            ->get();
+
+        return response()->json($products);
+    }
 
 }

@@ -15,17 +15,13 @@ class Category extends Model
         'parent_id',
     ];
 
-    /**
-     * Parent category (if this is a subcategory).
-     */
+    
     public function parent()
     {
         return $this->belongsTo(Category::class, 'parent_id');
     }
 
-    /**
-     * Child categories (subcategories).
-     */
+    
     public function children()
     {
         return $this->hasMany(Category::class, 'parent_id');
@@ -33,6 +29,6 @@ class Category extends Model
     
     public function subcategories()
     {
-        return $this->children(); // alias for better readability
+        return $this->children(); 
     }
 }

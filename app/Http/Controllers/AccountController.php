@@ -11,8 +11,8 @@ class AccountController extends Controller
     {
         $user = Auth::user();
 
-        $recentOrders = Commande::with('products') // eager load products
-            ->where('user_id', $user->id)          // filter by user_id
+        $recentOrders = Commande::with('products') 
+            ->where('user_id', $user->id)
             ->orderByDesc('created_at')
             ->take(3)
             ->get();
@@ -29,7 +29,7 @@ class AccountController extends Controller
 {
     $user = Auth::user();
     
-    $commandes = Commande::with('products') // 👈 eager load products
+    $commandes = Commande::with('products') 
         ->where('email', $user->email)
         ->orderByDesc('created_at')
         ->get();

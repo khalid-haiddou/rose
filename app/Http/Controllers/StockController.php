@@ -10,7 +10,7 @@ class StockController extends Controller
 {
     $query = Product::with(['category', 'subcategory']);
 
-    // Filter by category_id
+    
     if ($request->filled('category_id')) {
         $query->where(function ($q) use ($request) {
             $q->where('category_id', $request->category_id)
@@ -18,7 +18,6 @@ class StockController extends Controller
         });
     }
 
-    // Filter by stock status
     if ($request->filled('stock_status')) {
         if ($request->stock_status === 'in-stock') {
             $query->where('stock', '>', 5);
@@ -29,7 +28,7 @@ class StockController extends Controller
         }
     }
 
-    $products = $query->paginate(12)->withQueryString(); // retain filters during pagination
+    $products = $query->paginate(12)->withQueryString(); 
 
     $categories = \App\Models\Category::with('children')->get();
 

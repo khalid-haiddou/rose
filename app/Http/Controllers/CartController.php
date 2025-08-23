@@ -10,23 +10,26 @@ use Illuminate\Http\JsonResponse;
 class CartController extends Controller
 {
     public function index()
-{
-    $cart = session()->get('cart', []);
+    {
+        $cart = session()->get('cart', []);
 
-    $subtotal = collect($cart)->sum(fn($item) => $item['product']->prix_ttc * $item['quantity']);
+        $subtotal = collect($cart)->sum(function($item) {
+            $price = $item['product']->prix_ttc ?? $item['product']->prix_ht;
+            return $price * $item['quantity'];
+        });
 
-    // Free shipping if subtotal >= 499
-    $shipping = $subtotal >= 499 ? 0 : 40;
 
-    $total = $subtotal + $shipping;
+        $shipping = $subtotal >= 499 ? 0 : 40;
 
-    return view('panier', [
-        'cart' => $cart,
-        'subtotal' => $subtotal,
-        'shipping' => $shipping,
-        'total' => $total
-    ]);
-}
+        $total = $subtotal + $shipping;
+
+        return view('panier', [
+            'cart' => $cart,
+            'subtotal' => $subtotal,
+            'shipping' => $shipping,
+            'total' => $total
+        ]);
+    }
 
     public function add(Request $request, Product $product)
     {
@@ -68,6 +71,7 @@ class CartController extends Controller
 
         return redirect()->route('cart.index')->with('success', 'Produit supprimé du panier.');
     }
+    
     public function ajaxUpdate(Request $request, $id): JsonResponse
     {
         $request->validate([
@@ -80,14 +84,20 @@ class CartController extends Controller
             $cart[$id]['quantity'] = $request->quantity;
             session()->put('cart', $cart);
 
-            $subtotal = collect($cart)->sum(fn($item) => $item['product']->prix_ttc * $item['quantity']);
+            $subtotal = collect($cart)->sum(function($item) {
+                $price = $item['product']->prix_ttc ?? $item['product']->prix_ht;
+                return $price * $item['quantity'];
+            });
+            
             $shipping = $subtotal >= 499 ? 0 : 40;
             $total = $subtotal + $shipping;
+
+            $itemPrice = $cart[$id]['product']->prix_ttc ?? $cart[$id]['product']->prix_ht;
 
             return response()->json([
                 'status' => 'success',
                 'message' => 'Quantité mise à jour.',
-                'item_total' => number_format($cart[$id]['product']->prix_ttc * $request->quantity, 2, ',', ' '),
+                'item_total' => number_format($itemPrice * $request->quantity, 2, ',', ' '),
                 'subtotal' => number_format($subtotal, 2, ',', ' '),
                 'shipping' => $shipping == 0 ? 'Gratuite' : number_format($shipping, 2, ',', ' '),
                 'total' => number_format($total, 2, ',', ' ')
@@ -96,6 +106,4 @@ class CartController extends Controller
 
         return response()->json(['status' => 'error', 'message' => 'Produit non trouvé.'], 404);
     }
-
-
 }

@@ -25,33 +25,25 @@ class Product extends Model
         'subcategory_id',
     ];
 
-    /**
-     * Main category of the product.
-     */
+    
     public function category()
     {
         return $this->belongsTo(Category::class, 'category_id');
     }
 
-    /**
-     * Subcategory of the product.
-     */
+    
     public function subcategory()
     {
         return $this->belongsTo(Category::class, 'subcategory_id');
     }
 
-    /**
-     * Product image gallery.
-     */
+    
     public function images()
     {
         return $this->hasMany(ProductImage::class);
     }
 
-    /**
-     * Product characteristics (specs).
-     */
+    
     public function characteristics()
     {
         return $this->hasMany(ProductCharacteristic::class);

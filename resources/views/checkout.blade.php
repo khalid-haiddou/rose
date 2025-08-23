@@ -4,560 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Commande - Rose & Bouchon</title>
-    <style>
-        :root {
-            --navy: #000075;
-            --burgundy: #960018;
-            --dark: #121212;
-            --ivory: #FEFEFA;
-            --gold: #C4A267;
-        }
-        
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        
-        body {
-            font-family: 'Cormorant Garamond', serif;
-            background-color: var(--ivory);
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            background-image: linear-gradient(rgba(254, 254, 250, 0.92), rgba(254, 254, 250, 0.94)), 
-                              url('https://images.unsplash.com/photo-1510812431401-41e2f9c2c0b4?q=80&w=2000');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            padding: 20px;
-            color: var(--dark);
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            width: 100%;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 2rem;
-        }
-        
-        .checkout-header {
-            width: 100%;
-            text-align: center;
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid rgba(150, 0, 24, 0.1);
-        }
-        
-        .checkout-header h1 {
-            color: var(--navy);
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            font-size: 2.2rem;
-            margin-bottom: 0.5rem;
-            font-variant: small-caps;
-        }
-        
-        .checkout-header p {
-            color: var(--burgundy);
-            font-style: italic;
-            font-size: 1.05rem;
-            letter-spacing: 0.3px;
-        }
-        
-        .checkout-form {
-            flex: 1;
-            min-width: 300px;
-            background-color: var(--ivory);
-            padding: 2rem 1.5rem;
-            border-radius: 12px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-            border-top: 4px solid var(--burgundy);
-            position: relative;
-            overflow: hidden;
-            backdrop-filter: blur(4px);
-            border: 1px solid rgba(150, 0, 24, 0.1);
-        }
-        
-        .checkout-form::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, var(--navy), var(--burgundy));
-            z-index: 2;
-        }
-        
-        .checkout-form::after {
-            content: '🍷';
-            position: absolute;
-            bottom: -30px;
-            right: -30px;
-            font-size: 180px;
-            opacity: 0.03;
-            z-index: 0;
-            transform: rotate(15deg);
-        }
-        
-        .form-section {
-            margin-bottom: 2.5rem;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .form-section h2 {
-            color: var(--navy);
-            font-size: 1.4rem;
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 1px solid rgba(0, 0, 117, 0.1);
-            font-weight: 600;
-            letter-spacing: 0.3px;
-        }
-        
-        .form-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-        
-        .form-group {
-            flex: 1;
-            min-width: 200px;
-            margin-bottom: 0;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 0.75rem;
-            color: var(--dark);
-            font-size: 0.95rem;
-            font-weight: 500;
-        }
-        
-        .form-group input, .form-group select {
-            width: 100%;
-            padding: 15px 18px;
-            border: 1px solid rgba(0, 0, 117, 0.15);
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            background-color: rgba(255, 255, 255, 0.7);
-            font-family: 'Cormorant Garamond', serif;
-        }
-        
-        .form-group input:focus, .form-group select:focus {
-            border-color: var(--navy);
-            outline: none;
-            box-shadow: 0 0 0 2px rgba(0, 0, 117, 0.1);
-            background-color: white;
-        }
-        
-        .form-group input::placeholder {
-            color: rgba(18, 18, 18, 0.4);
-            font-style: italic;
-        }
-        
-        .shipping-methods, .payment-methods {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-        
-        .method {
-            display: flex;
-            align-items: center;
-            padding: 1rem;
-            border: 1px solid rgba(0, 0, 117, 0.1);
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            background-color: rgba(255, 255, 255, 0.7);
-        }
-        
-        .method:hover {
-            border-color: var(--navy);
-            background-color: white;
-        }
-        
-        .method.active {
-            border-color: var(--burgundy);
-            background-color: rgba(150, 0, 24, 0.03);
-        }
-        
-        .method input {
-            margin-right: 1rem;
-            accent-color: var(--burgundy);
-        }
-        
-        .method-content {
-            flex: 1;
-        }
-        
-        .method-title {
-            font-weight: 500;
-            color: var(--navy);
-            margin-bottom: 0.25rem;
-        }
-        
-        .method-description {
-            font-size: 0.9rem;
-            color: var(--dark);
-            opacity: 0.8;
-        }
-        
-        .method-price {
-            font-weight: 500;
-            color: var(--burgundy);
-            margin-left: 1rem;
-        }
-        
-        .terms-checkbox {
-            display: flex;
-            align-items: flex-start;
-            margin: 1.5rem 0;
-        }
-        
-        .terms-checkbox input {
-            margin-right: 1rem;
-            margin-top: 0.3rem;
-            accent-color: var(--burgundy);
-        }
-        
-        .terms-checkbox label {
-            font-size: 0.9rem;
-            line-height: 1.5;
-        }
-        
-        .terms-checkbox a {
-            color: var(--burgundy);
-            text-decoration: none;
-            border-bottom: 1px dotted var(--burgundy);
-        }
-        
-        .btn {
-            width: 100%;
-            padding: 16px;
-            background-color: var(--burgundy);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 1.05rem;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            letter-spacing: 0.5px;
-            font-weight: 500;
-            font-family: 'Cormorant Garamond', serif;
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
-        }
-        
-        .btn::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-            z-index: -1;
-        }
-        
-        .btn:hover {
-            background-color: #7a0014;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(150, 0, 24, 0.2);
-        }
-        
-        .btn:active {
-            transform: translateY(0);
-        }
-        
-        .order-summary {
-            flex: 0 0 350px;
-            background-color: var(--ivory);
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-            border-top: 4px solid var(--navy);
-            position: relative;
-            overflow: hidden;
-            backdrop-filter: blur(4px);
-            border: 1px solid rgba(0, 0, 117, 0.1);
-            height: fit-content;
-        }
-        
-        .order-summary::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, var(--burgundy), var(--navy));
-            z-index: 2;
-        }
-        
-        .order-summary h2 {
-            color: var(--navy);
-            font-size: 1.4rem;
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 1px solid rgba(0, 0, 117, 0.1);
-            font-weight: 600;
-            letter-spacing: 0.3px;
-        }
-        
-        .order-items {
-            margin-bottom: 1.5rem;
-        }
-        
-        .order-item {
-            display: flex;
-            margin-bottom: 1rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px dashed rgba(0, 0, 117, 0.1);
-        }
-        
-        .order-item:last-child {
-            border-bottom: none;
-        }
-        
-        .item-image {
-            width: 70px;
-            height: 70px;
-            border-radius: 6px;
-            overflow: hidden;
-            margin-right: 1rem;
-            background-color: #f5f5f5;
-        }
-        
-        .item-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .item-details {
-            flex: 1;
-        }
-        
-        .item-name {
-            font-weight: 500;
-            color: var(--navy);
-            margin-bottom: 0.25rem;
-        }
-        
-        .item-variant {
-            font-size: 0.85rem;
-            color: var(--dark);
-            opacity: 0.7;
-            margin-bottom: 0.25rem;
-        }
-        
-        .item-price {
-            font-weight: 500;
-            color: var(--burgundy);
-        }
-        
-        .order-totals {
-            border-top: 1px solid rgba(0, 0, 117, 0.1);
-            padding-top: 1.5rem;
-        }
-        
-        .total-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 0.75rem;
-        }
-        
-        .total-row:last-child {
-            margin-top: 1rem;
-            font-weight: 600;
-            font-size: 1.1rem;
-            border-top: 1px solid rgba(0, 0, 117, 0.1);
-            padding-top: 0.75rem;
-        }
-        
-        .total-label {
-            color: var(--dark);
-        }
-        
-        .total-value {
-            color: var(--burgundy);
-        }
-        
-        .grand-total .total-label {
-            color: var(--navy);
-        }
-        
-        .grand-total .total-value {
-            color: var(--burgundy);
-            font-weight: 600;
-        }
-
-        .wallet-notice {
-            background-color: rgba(196, 162, 103, 0.1);
-            border-left: 3px solid var(--gold);
-            padding: 1rem;
-            margin-bottom: 1.5rem;
-            font-size: 0.9rem;
-            border-radius: 0 4px 4px 0;
-        }
-
-        .wallet-notice strong {
-            color: var(--gold);
-        }
-
-        .cashback-apply {
-            display: flex;
-            gap: 0.5rem;
-            margin-bottom: 1.5rem;
-            align-items: stretch;
-        }
-
-        .cashback-input {
-            flex: 1;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .cashback-input input {
-            width: 100%;
-            padding: 15px 18px;
-            border: 1px solid rgba(0, 0, 117, 0.15);
-            border-radius: 8px;
-            font-size: 1rem;
-            background-color: rgba(255, 255, 255, 0.7);
-            font-family: 'Cormorant Garamond', serif;
-            height: 100%;
-            box-sizing: border-box;
-        }
-
-        .cashback-input input:focus {
-            border-color: var(--navy);
-            outline: none;
-            box-shadow: 0 0 0 2px rgba(0, 0, 117, 0.1);
-            background-color: white;
-        }
-
-        .apply-btn {
-            padding: 0 1.5rem;
-            background-color: var(--gold);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: 'Cormorant Garamond', serif;
-            font-weight: 500;
-            white-space: nowrap;
-            height: auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .apply-btn:hover {
-            background-color: #b38c4a;
-        }
-
-        .cashback-available {
-            font-size: 0.9rem;
-            color: var(--gold);
-            margin-top: 0.5rem;
-            text-align: right;
-            font-style: italic;
-        }
-        
-        /* Mobile-specific enhancements */
-        @media (max-width: 768px) {
-            body {
-                padding: 15px;
-                background-image: linear-gradient(rgba(254, 254, 250, 0.96), rgba(254, 254, 250, 0.98)), 
-                                  url('https://images.unsplash.com/photo-1510812431401-41e2f9c2c0b4?q=80&w=1200');
-            }
-            
-            .checkout-form, .order-summary {
-                padding: 1.75rem 1.25rem;
-                border-radius: 10px;
-            }
-            
-            .checkout-header h1 {
-                font-size: 1.8rem;
-            }
-            
-            .form-group input, .form-group select {
-                padding: 14px 16px;
-            }
-            
-            .btn {
-                padding: 15px;
-            }
-            
-            .checkout-form::after, .order-summary::after {
-                font-size: 140px;
-                bottom: -20px;
-                right: -20px;
-            }
-            
-            .form-group {
-                min-width: 100%;
-            }
-            
-            .order-summary {
-                flex: 1;
-                min-width: 100%;
-            }
-
-            .cashback-apply {
-                flex-direction: column;
-            }
-
-            .cashback-input input {
-                padding: 14px 16px;
-            }
-            
-            .apply-btn {
-                padding: 14px;
-                width: 100%;
-                font-size: 0.95rem;
-            }
-        }
-        
-        /* Animation for subtle interactivity */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .checkout-form, .order-summary {
-            animation: fadeIn 0.6s ease-out forwards;
-        }
-        
-        .form-section, .order-items, .order-totals, .btn {
-            opacity: 0;
-            animation: fadeIn 0.6s ease-out forwards;
-        }
-        
-        .form-section:nth-child(1) { animation-delay: 0.1s; }
-        .form-section:nth-child(2) { animation-delay: 0.2s; }
-        .form-section:nth-child(3) { animation-delay: 0.3s; }
-        .order-items { animation-delay: 0.1s; }
-        .order-totals { animation-delay: 0.2s; }
-        .btn { animation-delay: 0.4s; }
-    </style>
+    <link rel="stylesheet" href="{{ asset('assets/css/checkout.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
+
+    @include('layouts.header') 
+
     <div class="container">
         <header class="checkout-header">
             <h1>Finalisez votre commande</h1>
@@ -566,8 +19,6 @@
         
         <form class="checkout-form" action="{{ route('checkout.store') }}" method="POST">
             @csrf
-
-            {{-- Informations personnelles --}}
             <section class="form-section">
                 <h2>Informations personnelles</h2>
                 <div class="form-row">
@@ -599,7 +50,6 @@
                 </div>
             </section>
 
-            {{-- Adresse de livraison --}}
             <section class="form-section">
                 <h2>Adresse de livraison</h2>
                 <div class="form-group">
@@ -618,7 +68,6 @@
                 </div>
             </section>
 
-            {{-- Méthode de livraison --}}
             <section class="form-section">
                 <h2>Méthode de livraison</h2>
                 <div class="shipping-methods">
@@ -632,8 +81,6 @@
                     </label>
                 </div>
             </section>
-
-            {{-- Méthode de paiement --}}
             <section class="form-section">
                 <h2>Méthode de paiement</h2>
                 <div class="payment-methods">
@@ -654,21 +101,89 @@
                 </div>
             </section>
 
-            {{-- Résumé de commande --}}
+
             <aside class="order-summary">
                 <h2>Votre commande</h2>
 
-                @if(auth()->check() && $fidelityCredit > 0)
-                <div class="cashback-apply">
-                    <div class="cashback-input">
-                        <label for="cashback">Utiliser mon crédit fidélité</label>
-                        <div style="display: flex; gap: 10px; align-items: center;">
-                            <input type="number" min="0" step="0.01" id="cashback" name="cashback" placeholder="0.00" value="0" style="max-width: 120px;">
-                            <button type="button" class="apply-btn">Appliquer</button>
+                {{-- Section pour utilisateurs non connectés --}}
+                @if(!auth()->check())
+                <div class="account-promotion">
+                    <div class="promotion-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2L13.09 8.26L20 9L13.09 9.74L12 16L10.91 9.74L4 9L10.91 8.26L12 2Z" fill="currentColor"/>
+                            <path d="M12 22L13.09 15.74L20 15L13.09 14.26L12 8L10.91 14.26L4 15L10.91 15.74L12 22Z" fill="currentColor" opacity="0.6"/>
+                        </svg>
+                    </div>
+                    <div class="promotion-content">
+                        <h3>Gagnez du crédit fidélité !</h3>
+                        <p>Créez votre compte maintenant et obtenez <strong>50 Dhs</strong> de crédit fidélité à utiliser sur vos prochaines commandes.</p>
+                        <div class="promotion-benefits">
+                            <div class="benefit">
+                                <span class="benefit-icon">💰</span>
+                                <span>Crédit fidélité sur chaque achat</span>
+                            </div>
+                            <div class="benefit">
+                                <span class="benefit-icon">🎁</span>
+                                <span>Offres exclusives membres</span>
+                            </div>
+                            <div class="benefit">
+                                <span class="benefit-icon">📦</span>
+                                <span>Suivi de vos commandes</span>
+                            </div>
                         </div>
-                        <small class="cashback-available">Solde disponible : {{ number_format($fidelityCredit, 2, ',', ' ') }} Dhs</small>
+                        <div class="promotion-actions">
+                            <a href="{{ route('register') }}" class="btn-primary">Créer mon compte</a>
+                            <a href="{{ route('login') }}" class="btn-secondary">Se connecter</a>
+                        </div>
                     </div>
                 </div>
+                @endif
+
+                {{-- Section crédit fidélité pour utilisateurs connectés --}}
+                @if(auth()->check())
+                    @if($fidelityCredit > 0)
+                    <div class="fidelity-section">
+                        <div class="fidelity-header">
+                            <div class="fidelity-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 2L13.09 8.26L20 9L13.09 9.74L12 16L10.91 9.74L4 9L10.91 8.26L12 2Z" fill="currentColor"/>
+                                </svg>
+                            </div>
+                            <h3>Crédit fidélité disponible</h3>
+                        </div>
+                        <div class="fidelity-balance">
+                            <span class="balance-amount">{{ number_format($fidelityCredit, 2, ',', ' ') }} Dhs</span>
+                            <span class="balance-label">disponible</span>
+                        </div>
+                        <div class="fidelity-apply">
+                            <div class="apply-input-group">
+                                <input type="number" 
+                                       min="0" 
+                                       step="0.01" 
+                                       id="cashback" 
+                                       name="cashback" 
+                                       placeholder="0,00" 
+                                       value="0">
+                                <span class="input-suffix">Dhs</span>
+                            </div>
+                            <button type="button" class="apply-btn">Appliquer</button>
+                        </div>
+                        <div class="fidelity-note">
+                            <small>Vous pouvez utiliser jusqu'à {{ number_format(min($fidelityCredit, $subtotal), 2, ',', ' ') }} Dhs sur cette commande</small>
+                        </div>
+                    </div>
+                    @else
+                    <div class="fidelity-empty">
+                        <div class="empty-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/>
+                                <path d="M8 12h8" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                        </div>
+                        <h4>Aucun crédit fidélité disponible</h4>
+                        <p>Gagnez du crédit fidélité sur vos prochains achats !</p>
+                    </div>
+                    @endif
                 @endif
 
                 <div class="order-items">
@@ -695,10 +210,12 @@
                         <span class="total-label">Livraison</span>
                         <span class="total-value" id="shipping">{{ $shipping > 0 ? number_format($shipping, 2, ',', ' ') . ' Dhs' : 'Gratuite' }}</span>
                     </div>
-                    <div class="total-row">
+                    @if(auth()->check())
+                    <div class="total-row fidelity-discount">
                         <span class="total-label">Remise fidélité</span>
                         <span class="total-value" id="cashback-discount">-0,00 Dhs</span>
                     </div>
+                    @endif
                     <div class="total-row grand-total">
                         <span class="total-label">Total</span>
                         <span class="total-value" id="grand-total">{{ number_format($total, 2, ',', ' ') }} Dhs</span>
@@ -710,11 +227,9 @@
                     <label for="terms">J'accepte les <a href="#">conditions générales de vente</a> et la <a href="#">politique de confidentialité</a>.</label>
                 </div>
 
-                <button type="submit" class="btn">Passer la commande</button>
+                <button type="submit" class="btn checkout-btn">Passer la commande</button>
             </aside>
         </form>
-
-
     </div>
 
     <script>
@@ -754,7 +269,9 @@
                 document.getElementById('grand-total').textContent = total.toFixed(2).replace('.', ',') + ' Dhs';
             });
         });
-    </script>
+</script>
+    
+    @include('layouts.footer') 
 
 </body>
 </html>

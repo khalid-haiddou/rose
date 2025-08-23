@@ -251,7 +251,6 @@
             margin-left: 1.5rem;
         }
         
-        /* Mobile-specific enhancements */
         @media (max-width: 480px) {
             body {
                 padding: 15px;
@@ -293,7 +292,6 @@
             }
         }
         
-        /* Animation for subtle interactivity */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
@@ -357,7 +355,7 @@
             <div class="divider">Déjà membre ?</div>
             <div class="links">
                 <a href="/login">Se connecter</a>
-                <a href="/reset-password">Mot de passe oublié ?</a>
+                <a href="/forgot-password">Mot de passe oublié ?</a>
             </div>
         </form>
     </div>
