@@ -35,4 +35,15 @@ return [
         ],
     ],
 
+    'cmi' => [
+        'tpe' => env('CMI_TPE'),
+        'secret' => env('CMI_SECRET_KEY'),
+        'return_url' => env('CMI_RETURN_URL'),
+        'success_url' => env('CMI_SUCCESS_URL'),
+        'failure_url' => env('CMI_FAILURE_URL'),
+        'gateway_url' => env('CMI_GATEWAY_URL'),
+        'currency_code' => '504',
+        'auto_redirect' => env('CMI_AUTO_REDIRECTION', true),
+        'session_timeout' => 1800,
+    ],
 ];

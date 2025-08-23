@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Commande;
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Services\CMI\CmiPaymentService;
 use App\Mail\OrderConfirmation;
 use Illuminate\Support\Facades\Mail;
 
@@ -27,7 +28,12 @@ class CheckoutController extends Controller
             return redirect()->route('cart.index')->withErrors($errors);
         }
 
-        $subtotal = collect($cart)->sum(fn($item) => $item['product']->prix_ttc * $item['quantity']);
+        // Fix: Use prix_ttc if available, otherwise use prix_ht
+        $subtotal = collect($cart)->sum(function($item) {
+            $price = $item['product']->prix_ttc ?? $item['product']->prix_ht;
+            return $price * $item['quantity'];
+        });
+        
         $shipping = $subtotal >= 499 ? 0 : 40;
         $total = $subtotal + $shipping;
 
@@ -72,7 +78,12 @@ class CheckoutController extends Controller
         $requestedCashback = (float) $request->input('cashback', 0);
         $cashbackUsed = min($requestedCashback, $availableCredit);
 
-        $subtotal = collect($cart)->sum(fn($item) => $item['product']->prix_ttc * $item['quantity']);
+        // Fix: Use prix_ttc if available, otherwise use prix_ht
+        $subtotal = collect($cart)->sum(function($item) {
+            $price = $item['product']->prix_ttc ?? $item['product']->prix_ht;
+            return $price * $item['quantity'];
+        });
+        
         $shipping = $subtotal >= 499 ? 0 : 40;
         $total = $subtotal + $shipping - min($cashbackUsed, $subtotal);
 
@@ -97,7 +108,7 @@ class CheckoutController extends Controller
             'payment_method'   => $validated['payment_method'],
             'shipping_price'   => $shipping,
             'total'            => $total,
-            'is_payed'         => $validated['payment_method'] === 'CMI',
+            'is_payed'         => false,
             'fidelity_used'    => $cashbackUsed,
             'fidelity_earned'  => 0, // Will be updated after delivery
         ]);
@@ -106,9 +117,12 @@ class CheckoutController extends Controller
             $product = Product::find($item['product']->id);
             $quantity = $item['quantity'];
 
+            // Fix: Use the same price logic when saving order items
+            $priceToUse = $product->prix_ttc ?? $product->prix_ht;
+
             $commande->products()->attach($product->id, [
                 'quantity'  => $quantity,
-                'price_ttc' => $product->prix_ttc,
+                'price_ttc' => $priceToUse, // Use the consistent price logic
             ]);
 
             $product->decrement('stock', $quantity);
@@ -116,6 +130,12 @@ class CheckoutController extends Controller
 
         if ($user && $cashbackUsed > 0) {
             $user->decrement('fidelity_credit', $cashbackUsed);
+        }
+
+        if ($validated['payment_method'] === 'CMI') {
+            $cmiPaymentService = new CmiPaymentService();
+            $cmiPaymentService->createCheckoutSession($commande);
+            exit();
         }
 
         Mail::to($commande->email)->send(new OrderConfirmation($commande));
@@ -126,5 +146,4 @@ class CheckoutController extends Controller
             ->with('order_number', $orderNumber)
             ->with('order_email', $commande->email);
     }
-
 }

@@ -254,7 +254,7 @@ class ProductController extends Controller
                     }
                 });
             })
-            ->paginate(10);
+            ->paginate(12);
 
         return view('boutique', compact('categories', 'products'));
     }
@@ -272,6 +272,16 @@ class ProductController extends Controller
         return view('single-product', compact('product', 'relatedProducts'));
     }
 
+    public function ajaxSearch(Request $request)
+    {
+        $query = $request->get('q');
 
+        $products = \App\Models\Product::where('nom', 'like', '%' . $query . '%')
+            ->select('nom', 'slug')
+            ->limit(5)
+            ->get();
+
+        return response()->json($products);
+    }
 
 }

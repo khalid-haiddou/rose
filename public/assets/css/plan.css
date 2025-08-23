@@ -1,0 +1,123 @@
+        :root {
+            --navy: #000075;
+            --burgundy: #960018;
+            --dark: #121212;
+            --ivory: #FEFEFA;
+            --gold: #C4A267;
+        }
+        
+        body {
+            font-family: 'Cormorant Garamond', serif;
+            background-color: var(--ivory);
+            color: var(--dark);
+            line-height: 1.5;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+           /* max-width: 1200px;
+            margin: 0 auto;*/
+            padding: 1.5rem;
+        }
+        
+        h1 {
+            color: var(--navy);
+            text-align: center;
+            margin: 0 0 1.5rem 0;
+            font-size: 2.2rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 1px solid rgba(150, 0, 24, 0.2);
+        }
+        
+        .sitemap-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .sitemap-section {
+            background-color: white;
+            padding: 1.2rem;
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border-top: 3px solid var(--burgundy);
+        }
+        
+        h2 {
+            color: var(--burgundy);
+            margin: 0 0 1rem 0;
+            font-size: 1.3rem;
+            font-weight: 600;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        
+        h2:after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 2px;
+            background: var(--gold);
+        }
+        
+        .sitemap-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            gap: 0.6rem;
+        }
+        
+        .sitemap-list li {
+            margin: 0;
+            padding: 0;
+        }
+        
+        .sitemap-list a {
+            color: var(--navy);
+            text-decoration: none;
+            font-size: 0.95rem;
+            display: block;
+            padding: 0.4rem 0;
+            transition: all 0.2s;
+            border-bottom: 1px dashed rgba(0, 0, 117, 0.1);
+        }
+        
+        .sitemap-list a:hover {
+            color: var(--burgundy);
+            padding-left: 5px;
+            border-bottom-color: var(--burgundy);
+        }
+        
+        .sub-list {
+            list-style-type: none;
+            padding-left: 0.8rem;
+            margin: 0.5rem 0 0 0;
+            border-left: 2px solid rgba(150, 0, 24, 0.1);
+        }
+        
+        .sub-list a {
+            font-size: 0.9rem;
+            color: var(--dark);
+            opacity: 0.9;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+                margin-bottom: 1.2rem;
+            }
+            
+            .sitemap-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+        }

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panier - Rose & Bouchon</title>
     <style>
-        :root {
+           :root {
             --navy: #000075;
             --burgundy: #960018;
             --dark: #121212;
@@ -22,21 +22,18 @@
         body {
             font-family: 'Cormorant Garamond', serif;
             background-color: var(--ivory);
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
             background-image: linear-gradient(rgba(254, 254, 250, 0.92), rgba(254, 254, 250, 0.94)), 
                               url('https://images.unsplash.com/photo-1510812431401-41e2f9c2c0b4?q=80&w=2000');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
-            padding: 20px;
             color: var(--dark);
+            line-height: 1.6;
         }
         
         .container {
             max-width: 1200px;
-            margin: 0 auto;
+            margin: 5rem auto;
             width: 100%;
         }
         
@@ -387,14 +384,14 @@
         /* Mobile-specific enhancements */
         @media (max-width: 768px) {
             body {
-                padding: 15px;
                 background-image: linear-gradient(rgba(254, 254, 250, 0.96), rgba(254, 254, 250, 0.98)), 
                                   url('https://images.unsplash.com/photo-1510812431401-41e2f9c2c0b4?q=80&w=1200');
             }
             
-            .cart-items, .cart-summary {
+            .cart-items  {
                 padding: 1.75rem 1.25rem;
                 border-radius: 10px;
+                 margin: 1rem;
             }
             
             .cart-header h1 {
@@ -403,6 +400,10 @@
             
             .cart-item {
                 flex-direction: column;
+            }
+            .cart-container {
+                gap: 0rem;
+    
             }
             
             .item-image {
@@ -415,7 +416,37 @@
             .quantity-selector {
                 margin-right: 1rem;
             }
+            
+    .cart-summary {
+        flex: 1 1 100%;
+        padding: 2rem 1.5rem;
+        margin: 1rem;
+    }
+    
+    .cart-summary h2 {
+        font-size: 1.4rem;
+    }
+    
+    .summary-label {
+        font-size: 1rem;
+    }
+    
+    .summary-value {
+        font-size: 1.05rem;
+    }
+    
+    .grand-total .summary-value {
+        font-size: 1.2rem;
+    }
+    
+    .btn-checkout {
+        padding: 16px;
+        font-size: 1.05rem;
+    }
         }
+
+
+
         
         /* Animation for subtle interactivity */
         @keyframes fadeIn {
@@ -437,11 +468,14 @@
         .summary-row:nth-child(1) { animation-delay: 0.3s; }
         .summary-row:nth-child(2) { animation-delay: 0.4s; }
         .btn { animation-delay: 0.5s; }
+
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 </head>
 <body>
+        @include('layouts.header') 
+
     <div class="container">
         <header class="cart-header">
             <h1>Votre Panier</h1>
@@ -550,46 +584,54 @@
             let debounceTimer = null;
 
             const updateQuantity = (newQty) => {
-                fetch(`/cart/ajax-update/${productId}`, {
+                // Update the input value immediately for better UX
+                input.value = newQty;
+
+                fetch(`{{ url('/panier/ajax-update') }}/${productId}`, {
                     method: 'POST',
                     headers: {
                         'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
                     },
                     body: JSON.stringify({ quantity: newQty })
                 })
-                .then(res => res.json())
+                .then(res => {
+                    if (!res.ok) throw new Error('Erreur réseau.');
+                    return res.json();
+                })
                 .then(data => {
                     if (data.status === 'success') {
-                        input.value = newQty;
-
-                        // Optional: update individual item total if shown somewhere
-                        const itemRow = selector.closest('.cart-item');
-                        const priceElement = itemRow.querySelector('.item-price');
-                        if (priceElement) {
-                            priceElement.textContent = data.item_total + ' Dhs';
-                        }
-
                         // Update summary totals
                         document.querySelector('.summary-value.subtotal').textContent = data.subtotal + ' Dhs';
-                        document.querySelector('.summary-value.shipping').textContent = data.shipping + (data.shipping === 'Gratuite' ? '' : ' Dhs');
+                        document.querySelector('.summary-value.shipping').textContent = 
+                            data.shipping === 'Gratuite' ? 'Gratuite' : data.shipping + ' Dhs';
                         document.querySelector('.summary-value.total').textContent = data.total + ' Dhs';
                     } else {
                         alert(data.message);
+                        input.value = input.dataset.oldValue; // revert if error
                     }
                 })
-                .catch(err => console.error('Erreur:', err));
+                .catch(err => {
+                    console.error('Erreur:', err);
+                    input.value = input.dataset.oldValue;
+                });
             };
+
+            // Store the initial value
+            input.dataset.oldValue = input.value;
 
             minusBtn.addEventListener('click', function () {
                 let current = parseInt(input.value);
                 if (current > 1) {
+                    input.dataset.oldValue = input.value;
                     updateQuantity(current - 1);
                 }
             });
 
             plusBtn.addEventListener('click', function () {
                 let current = parseInt(input.value);
+                input.dataset.oldValue = input.value;
                 updateQuantity(current + 1);
             });
 
@@ -598,16 +640,23 @@
                 debounceTimer = setTimeout(() => {
                     let val = parseInt(input.value);
                     if (!isNaN(val) && val >= 1) {
+                        input.dataset.oldValue = input.value;
                         updateQuantity(val);
+                        input.blur();
+                        input.focus();
+                        document.activeElement.blur();
+                        window.getSelection().removeAllRanges();
                     } else {
-                        input.value = 1;
-                        updateQuantity(1);
+                        input.value = input.dataset.oldValue;
                     }
                 }, 500);
             });
         });
     });
 </script>
+
+
+        @include('layouts.footer') 
 
 
 </body>
