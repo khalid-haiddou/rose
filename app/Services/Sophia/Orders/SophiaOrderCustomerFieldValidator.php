@@ -51,7 +51,7 @@ class SophiaOrderCustomerFieldValidator
     /**
      * Whole-message chat fillers that must never be stored as a street address.
      */
-    private const ADDRESS_CHAT_FILLERS = [
+    private const ADDRESS_STOPWORDS = [
         'bonjour',
         'bonsoir',
         'salut',
@@ -241,10 +241,10 @@ class SophiaOrderCustomerFieldValidator
     ];
 
     /** @var array<string, true> */
-    private array $addressChatFillers = [];
+    private array $addressStopwords = [];
 
     /** @var array<string, true> */
-    private array $addressChatFillersCompact = [];
+    private array $addressStopwordsCompact = [];
 
     /** @var array<string, true> */
     private array $nameStopwords = [];
@@ -257,10 +257,10 @@ class SophiaOrderCustomerFieldValidator
 
     public function __construct()
     {
-        foreach (self::ADDRESS_CHAT_FILLERS as $filler) {
+        foreach (self::ADDRESS_STOPWORDS as $filler) {
             $normalized = $this->normalizeForComparison($filler);
-            $this->addressChatFillers[$normalized] = true;
-            $this->addressChatFillersCompact[$this->compact($normalized)] = true;
+            $this->addressStopwords[$normalized] = true;
+            $this->addressStopwordsCompact[$this->compact($normalized)] = true;
         }
 
         foreach (self::NAME_STOPWORDS as $stopword) {
@@ -287,7 +287,7 @@ class SophiaOrderCustomerFieldValidator
             return false;
         }
 
-        if ($this->isGreetingOrChatFiller($address)) {
+        if ($this->isGreetingOnly($address)) {
             return false;
         }
 
@@ -317,7 +317,7 @@ class SophiaOrderCustomerFieldValidator
             return false;
         }
 
-        if ($this->isGreetingOrChatFiller($city)) {
+        if ($this->isGreetingOnly($city)) {
             return false;
         }
 
@@ -335,7 +335,7 @@ class SophiaOrderCustomerFieldValidator
             return false;
         }
 
-        if ($this->isGreetingOrChatFiller($name) || isset($this->nameStopwords[$normalized])) {
+        if ($this->isGreetingOnly($name) || isset($this->nameStopwords[$normalized])) {
             return false;
         }
 
@@ -371,7 +371,7 @@ class SophiaOrderCustomerFieldValidator
         return $normalized !== '' && isset($this->cities[$normalized]);
     }
 
-    public function isGreetingOrChatFiller(?string $value): bool
+    public function isGreetingOnly(?string $value): bool
     {
         if ($value === null) {
             return false;
@@ -382,11 +382,11 @@ class SophiaOrderCustomerFieldValidator
             return false;
         }
 
-        if (isset($this->addressChatFillers[$normalized])) {
+        if (isset($this->addressStopwords[$normalized])) {
             return true;
         }
 
-        if (isset($this->addressChatFillersCompact[$this->compact($normalized)])) {
+        if (isset($this->addressStopwordsCompact[$this->compact($normalized)])) {
             return true;
         }
 
@@ -411,17 +411,25 @@ class SophiaOrderCustomerFieldValidator
         return $sawFiller;
     }
 
-    public function normalizeForComparison(string $value): string
+    /**
+     * Drop trailing punctuation so "Bonjour." and "Bonjour!" compare as "Bonjour".
+     */
+    private function stripTrailingPunctuation(string $value): string
     {
         $value = str_replace(['’', '‘', 'ʼ', '`'], "'", trim($value));
 
         do {
             $previous = $value;
             $value = trim($value);
-            $value = preg_replace('/^[\p{P}\p{S}]+|[\p{P}\p{S}]+$/u', '', $value) ?? $value;
+            $value = preg_replace('/[\p{P}\p{S}]+$/u', '', $value) ?? $value;
         } while ($value !== $previous);
 
-        $value = mb_strtolower(trim($value));
+        return $value;
+    }
+
+    public function normalizeForComparison(string $value): string
+    {
+        $value = mb_strtolower($this->stripTrailingPunctuation($value));
         $value = strtr($value, [
             'à' => 'a', 'á' => 'a', 'â' => 'a', 'ä' => 'a', 'ã' => 'a',
             'é' => 'e', 'è' => 'e', 'ê' => 'e', 'ë' => 'e',
@@ -460,8 +468,8 @@ class SophiaOrderCustomerFieldValidator
 
     private function isFillerToken(string $token): bool
     {
-        return isset($this->addressChatFillers[$token])
-            || isset($this->addressChatFillersCompact[$this->compact($token)]);
+        return isset($this->addressStopwords[$token])
+            || isset($this->addressStopwordsCompact[$this->compact($token)]);
     }
 
     /**

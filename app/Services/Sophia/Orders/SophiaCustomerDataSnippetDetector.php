@@ -24,8 +24,18 @@ class SophiaCustomerDataSnippetDetector
             return false;
         }
 
+        return $this->hasValidParsedCustomerField($parsed);
+    }
+
+    /**
+     * A parsed greeting such as address="Bonjour." is not a customer-data snippet.
+     *
+     * @param  array<string, mixed>  $parsed
+     */
+    private function hasValidParsedCustomerField(array $parsed): bool
+    {
         foreach ($parsed as $field => $value) {
-            if (! is_string($value)) {
+            if (! is_string($field) || ! is_string($value)) {
                 continue;
             }
 

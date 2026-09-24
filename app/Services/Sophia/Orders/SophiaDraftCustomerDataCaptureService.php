@@ -21,7 +21,7 @@ class SophiaDraftCustomerDataCaptureService
 
     public function shouldSkipMandatoryCapture(string $message): bool
     {
-        return $this->customerFieldValidator->isGreetingOrChatFiller($message);
+        return $this->customerFieldValidator->isGreetingOnly($message);
     }
 
     public function captureMandatoryCustomerData(string $message): void

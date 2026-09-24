@@ -30,6 +30,31 @@ class SophiaGreetingAddressCaptureTest extends TestCase
         $this->detector = new SophiaCustomerDataSnippetDetector($this->parser, $this->validator);
     }
 
+    public function test_rejects_greeting_as_address(): void
+    {
+        $this->assertFalse($this->validator->isValidAddress('Bonjour.'));
+        $this->assertFalse($this->validator->isValidAddress('Bonjour'));
+        $this->assertTrue($this->validator->isGreetingOnly('Bonjour.'));
+        $this->assertTrue($this->validator->isGreetingOnly('Bonjour!'));
+        $this->assertFalse($this->validator->isGreetingOnly('Quartier Maarif, Rue 12'));
+        $this->assertTrue($this->validator->isValidAddress('Quartier Maarif, Rue 12'));
+        $this->assertTrue($this->validator->isValidAddress('Hay Mohammadi, rue 5'));
+
+        $this->assertFalse($this->detector->detectsCustomerDataSnippet('Bonjour.'));
+        $this->assertTrue($this->detector->detectsCustomerDataSnippet('12 Rue Allal Ben Abdellah, Quartier Gauthier'));
+
+        $writer = new RecordingOrderCustomerInfoWriter;
+        $service = $this->captureService($writer);
+        $this->assertTrue($service->shouldSkipMandatoryCapture('Bonjour.'));
+        $this->assertTrue($service->shouldSkipMandatoryCapture('Bonjour'));
+        $service->captureMandatoryCustomerData('Bonjour.');
+        $this->assertSame([], $writer->calls);
+
+        $service->captureMandatoryCustomerData('Quartier Maarif, Rue 12, Casablanca');
+        $this->assertSame('Quartier Maarif, Rue 12', $writer->calls[0]['address'] ?? null);
+        $this->assertNotSame('Bonjour.', $writer->calls[0]['address'] ?? null);
+    }
+
     public function test_bonjour_with_trailing_period_is_not_a_valid_address(): void
     {
         $this->assertFalse($this->validator->isValidAddress('Bonjour.'));
